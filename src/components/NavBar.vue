@@ -27,6 +27,11 @@
             </div>
           </div>
         </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="relative ml-3">
+            <Profile/>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -34,6 +39,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import Profile from './Profile.vue';
 
 export type IUrl = {
   path: string
