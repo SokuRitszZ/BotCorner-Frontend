@@ -21,15 +21,15 @@
             <img class="hidden lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
               alt="Your Company">
           </div>
-          <div class="hidden sm:ml-6 sm:block">
+          <div class="hidden lg:ml-6 lg:block">
             <div class="flex space-x-4">
               <RouterLink v-for="url in urls" :to="url.path" class="nav-link">{{ url.name }}</RouterLink>
             </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <div class="relative ml-3">
-            <Profile/>
+          <div class="relative ml-3 hidden lg:block">
+            <Profile />
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@ const props = defineProps({
         left-0 
         flex 
         items-center  
-        sm:hidden;
+        lg:hidden;
         
         .menu-button {
           @apply 

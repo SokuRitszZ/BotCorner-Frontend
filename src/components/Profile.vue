@@ -4,9 +4,9 @@
       <!-- Input -->
       <div key="not" v-if="userStore.status === 'not logged in'">
         <form @submit.prevent="handleSubmitLogin">
-          <input v-model="username" name="username" class="mx-2 px-2 rounded-md w-40" type="text">
-          <input v-model="password"  name="password" class="mx-2 px-2 rounded-md w-40" type="password">
-          <button @click="() => hasLogin = false" class="bg-purple-500 rounded-md text-white px-2">登录</button>
+          <input placeholder="用户名" v-model="username" name="username" class="mx-2 px-2 rounded-md w-40" type="text">
+          <input placeholder="密码" v-model="password"  name="password" class="mx-2 px-2 rounded-md w-40" type="password">
+          <button @click="() => hasLogin = false" class="bg-purple-500 rounded-md text-white px-2 hover:bg-purple-600 active:bg-purple-700 font-semibold">登录</button>
         </form>
       </div>
       <!-- Loading -->
@@ -53,7 +53,6 @@ const handleSubmitLogin = (e: Event): void => {
 </script>
 
 <style scoped lang="scss">
-
 .user-menu-enter-active {
   @apply transition ease-out duration-100
 }
