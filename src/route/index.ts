@@ -16,6 +16,15 @@ const routes: RouteRecordRaw[] = [
     name: "game",
     component: () => import("@/pages/Game.vue"),
   },
+  {
+    path: "/404",
+    name: "notfound",
+    component: () => import("@/pages/NotFound.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)",
+    redirect: "/404"
+  },
 ];
 
 const router: Router = createRouter({
