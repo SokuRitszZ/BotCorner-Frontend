@@ -76,9 +76,23 @@ const submit = () => {
   };
 
   submitStatus.value = "submitting";
-  setTimeout(() => {
-    submitStatus.value = "to submit";
-  }, 2000);
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // resolve(undefined);
+      reject();
+    }, 2000);
+  })
+    .then(() => {
+      submitStatus.value = "to submit";
+      window._alert("success", "添加成功", 2000);
+    })
+    .catch(() => {
+      submitStatus.value = "to submit";
+      window._alert("danger", "添加失败", 2000);
+    })
+    .finally(() => {
+      submitStatus.value = "to submit";
+    })
   
   console.log(data);
 };

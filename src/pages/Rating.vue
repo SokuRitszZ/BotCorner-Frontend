@@ -42,6 +42,7 @@ const ratings = ref<IRating[]>([]);
 const selectedGame = ref<string>();
 
 const setSelectedGame = (game: string) => {
+  if (selectedGame.value === game) return ;
   /// 
   selectedGame.value = game;
   ratings.value = getRating(game);

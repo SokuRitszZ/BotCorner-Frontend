@@ -11,7 +11,7 @@
         </div>
       </div>
       <!-- Loading -->
-      <div key="ing" class="text-white mt-1" v-else-if="userStore.status === 'logging in'">
+      <div key="ing" class="text-white mt-1 flex flex-row-reverse" v-else-if="userStore.status === 'logging in'">
         登录中...
       </div>
       <!-- Profile -->
@@ -51,9 +51,15 @@ const password = ref<String>();
 
 const login = throttle((e: Event) => {
   userStore.status = "logging in";
-  setTimeout(() => {
-    userStore.status = "logged in";
-  }, 2000);
+  userStore.getInfo()
+    .then(() => {
+      window._alert("success", "登陆成功 欢迎回来", 3000);
+      userStore.status = "logged in";
+    })
+    .catch(() => {
+      window._alert("danger", "登陆失败 请重试", 3000);
+      userStore.status = "not logged in";
+    });
   console.log(username.value, password.value);
 }, 1000);
 

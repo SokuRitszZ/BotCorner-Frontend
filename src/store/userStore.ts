@@ -1,3 +1,4 @@
+import alert from "@/utils/alert";
 import { defineStore } from "pinia";
 
 type IUserStore = {
@@ -14,30 +15,33 @@ const useUserStore = defineStore("UserStore", {
     username: "",
     headIcon: "",
     token: "",
-    status: "not logged in"
+    status: "not logged in",
   }),
   actions: {
     /**
      * 获取Token
-     * @param username 
-     * @param password 
+     * @param username
+     * @param password
      */
-    async getToken(username: String, password: String) {
-      
-    },
+    async getToken(username: String, password: String) {},
     /**
      * 获取信息
      */
-    async getInfo() {
-      
+    getInfo() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(undefined);
+        }, 2000);
+      });
     },
     /**
      * 退出登录
      */
     async logout() {
       this.status = "not logged in";
+      window._alert("success", "成功退出登录", 1000);
     },
-  }
+  },
 });
 
 export default useUserStore;

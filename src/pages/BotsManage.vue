@@ -11,7 +11,9 @@
       </div>
       <div class="pt-10">
         <button @click="toAddBot"
-          class="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 active:ring-2 focus:ring-2 text-white w-full p-2 rounded-lg font-thin">添加新的Bot</button>
+          class="flex justify-center gap-3 items-center bg-purple-600 hover:bg-purple-700 active:bg-purple-800 active:ring-2 focus:ring-2 text-white w-full p-2 rounded-lg font-thin">
+          <Icon type="plus"/>
+          添加新的Bot</button>
       </div>
       <div class="pt-10">
         <p class="text-gray-400 flex items-center gap-2">
@@ -108,6 +110,7 @@ import { ref } from 'vue';
 import BotDetail from './BotDetail.vue';
 import { throttle } from 'lodash';
 import AddBot from './AddBot.vue';
+import Icon from '@/components/Icon.vue';
 
 export type IBot = {
   id: number 
@@ -144,7 +147,6 @@ const comparors: Array<string> = [ "语言", "游戏", "时间", "名称" ];
 const changeComparor = (comparor: String) => {
   switch (comparor) {
     case "语言":
-      
   }
 };
 
@@ -155,23 +157,40 @@ const selectBot = throttle((bot: IBot) => {
   if (bot === selectedBot.value && showing.value === "detail") {
     selectedBot.value = null;
     showing.value = "empty";
-  } else {
+  } else if (showing.value === "empty") {
     selectedBot.value = bot;
     showing.value = "detail";
+  } else {
+    selectedBot.value = bot;
+    showing.value = "empty";
+    setTimeout(() => showing.value = "detail", 500);
   }
-}, 500);
+}, 1000);
 
 const deleteBot = () => {
-  // success 
-  showing.value = "empty";
-  bots.value = bots.value.filter(bot => bot !== selectedBot.value);
-  
-  // fail
+  new Promise((resolve, reject) => {
+    reject(undefined);
+  })
+    .then(() => {
+      // success 
+      showing.value = "empty";
+      bots.value = bots.value.filter(bot => bot !== selectedBot.value);
+      window._alert("success", "删除成功", 2000);
+    })
+    .catch(() => {
+      // fail
+      window._alert("danger", "删除失败", 2000);
+    });
+
 };
 
 const toAddBot = () => {
   if (showing.value === "new") showing.value = "empty";
-  else showing.value = "new";
+  else if (showing.value === "empty") showing.value = "new";
+  else {
+    showing.value = "empty";
+    setTimeout(() => showing.value = "new", 500);
+  }
 }
 
 </script>

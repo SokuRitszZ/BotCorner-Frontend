@@ -95,6 +95,7 @@ const uploadStatus = ref<"to upload" | "uploading">("to upload");
 const upload = () => {
   uploadStatus.value = "uploading";
   setTimeout(() => {
+    window._alert("success", "上传修改成功", 2000);
     console.log($editor.value.getContent());
     uploadStatus.value = "to upload";
   }, 2000);
@@ -124,6 +125,7 @@ const toDelete = (bot: IBot) => {
     } else {
       // fail
       isDeleting.value = false;
+      window._alert("danger", "删除失败 输入名称不一致", 2000);
     }
   }
 };
