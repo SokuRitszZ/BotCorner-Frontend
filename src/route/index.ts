@@ -22,6 +22,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/BotsManage.vue"),
   },
   {
+    path: "/rating",
+    name: "rating",
+    component: () => import("@/pages/Rating.vue"),
+  },
+  {
     path: "/404",
     name: "notfound",
     component: () => import("@/pages/NotFound.vue"),
