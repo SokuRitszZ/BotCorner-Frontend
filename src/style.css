@@ -4,6 +4,7 @@
 
 * {
   scrollbar-width: none;  
+  font-family: "Noto Sans CJK SC";
 }
 
 *::-webkit-scrollbar {
