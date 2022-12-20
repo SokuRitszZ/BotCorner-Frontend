@@ -3,7 +3,7 @@
     <!-- nav -->
     <nav class="flex justify-center gap-2 px-2 py-2 text-xl text-gray-50 opacity-80 bg-gray-800 m-auto w-fit rounded-full">
       <div @click="setSelectedGame(game)" :class="{ 'bg-purple-600': selectedGame === game }"
-        class="rounded-full cursor-pointer px-2 py-1 hover:bg-purple-500" v-for="game in games">{{ game }}</div>
+        class="rounded-full cursor-pointer px-2 py-1 hover:bg-purple-500" v-for="game in games" :key="game.title">{{ game.name }}</div>
     </nav>
     <div class="m-auto w-fit">
       <div v-for="(rating, index) in ratings" :class="{
@@ -32,16 +32,24 @@
 
 <script setup lang="ts">
 
+import useCacheStore from '@/store/cache';
 import { faker } from '@faker-js/faker';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { IGame } from './Game.vue';
 
-const games = ref<string[]>(new Array(10).fill(0).map(x => faker.word.noun()));
+const games = ref<IGame[]>([]);
+const cacheStore = useCacheStore();
+
+onMounted(() => {
+  cacheStore.getGames()
+    .then(list => games.value = list);
+})
 
 const ratings = ref<IRating[]>([]);
 
-const selectedGame = ref<string>();
+const selectedGame = ref<IGame>();
 
-const setSelectedGame = (game: string) => {
+const setSelectedGame = (game: IGame) => {
   if (selectedGame.value === game) return ;
   /// 
   selectedGame.value = game;
@@ -59,8 +67,7 @@ type IRating = {
   rating: number
 };
 
-const getRating: (game: string) => IRating[] = (game: string) => {
-  console.log(game);
+const getRating: (game: IGame) => IRating[] = (game: IGame) => {
   return new Array(10).fill(0).map(x => {
     return ({
       user: {

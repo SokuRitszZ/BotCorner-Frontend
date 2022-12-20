@@ -12,10 +12,11 @@
     </div>
     <!-- card container -->
     <div class="grid lg:grid-cols-3 grid-cols-1">
-      <div v-for="game in games" class="w-96 h-[120px] text-2xl mt-4 p-4 bg-gray-100 rounded-3xl m-auto shadow-2xl shrink-0 hover:translate-x-3 cursor-pointer transition select-none">
-        <h1 class="font-semibold text-purple-500">{{game.title}}</h1>
+      <div v-for="game in games"
+        class="w-96 h-[120px] text-2xl mt-4 p-4 bg-gray-100 rounded-3xl m-auto shadow-2xl shrink-0 hover:translate-x-3 cursor-pointer transition select-none">
+        <h1 class="font-semibold text-purple-500">{{ game.name }}</h1>
         <div class="h-14 overflow-scroll">
-          <p>{{game.description}}</p>
+          <p>{{ game.description }}</p>
         </div>
       </div>
     </div>
@@ -23,21 +24,17 @@
 </template>
 
 <script setup lang="ts">
-import {faker} from "@faker-js/faker";
+import useCacheStore, { IGame } from '@/store/cache';
+import { onMounted, ref } from 'vue';
 
-export type IGame = {
-  name: string 
-  title: string 
-  description: string
-};
+const games = ref<IGame[]>([]);
+const cacheStore = useCacheStore();
 
-const games: Array<IGame> = new Array(10).fill(0).map(x => {
-  return {
-    name: faker.word.noun(),
-    title: faker.word.noun(),
-    description: faker.lorem.paragraph()
-  }
+onMounted(() => {
+  cacheStore.getGames()
+    .then(list => games.value = list);
 });
+
 </script>
 
 <style scoped lang="scss">

@@ -33,7 +33,6 @@ const useUserStore = defineStore("UserStore", {
      */
     async getToken(username: string, password: string) {
       this.status = "logging in";
-      const token = localStorage.getItem("token");
 
       type InfoType = {
         token: string

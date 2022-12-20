@@ -51,7 +51,6 @@ const password = ref<string>("");
 
 const login = throttle((e: Event) => {
   userStore.getToken(username.value, password.value);
-  // console.log(username.value, password.value);
 }, 1000);
 
 onMounted(() => {
