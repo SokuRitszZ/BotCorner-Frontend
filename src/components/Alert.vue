@@ -2,7 +2,7 @@
   <div class="fixed w-80 h-fit z-50 left-0 top-0 pt-24 pl-4">
     <TransitionGroup>
       <div :key="alert.id" class="overflow-visible mb-2" v-for="alert in alerts">
-        <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex justify-between items-center"
+        <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex justify-between items-center gap-3"
           :class="{
             'bg-blue-500': alert.type === 'primary',
             'bg-red-600': alert.type === 'danger',

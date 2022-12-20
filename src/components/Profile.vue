@@ -21,7 +21,7 @@
         class="flex rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
         aria-expanded="false" aria-haspopup="true">
         <span class="sr-only"> User Profile </span>
-        <img class="w-8 h-8 rounded-full" src="https://sdfsdf.dev/100x100.png,ffffff,000000" alt="">
+        <img class="w-8 h-8 rounded-full" :src="(userStore.headIcon as string)" alt="">
       </button>
     </div>
     </Transition>
@@ -42,26 +42,22 @@
 <script setup lang="ts">
 import useUserStore from '@/store/userStore';
 import { throttle } from 'lodash';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const isShownUserMenu = ref<boolean>(false);
 const userStore = useUserStore();
-const username = ref<String>();
-const password = ref<String>();
+const username = ref<string>("");
+const password = ref<string>("");
 
 const login = throttle((e: Event) => {
-  userStore.status = "logging in";
-  userStore.getInfo()
-    .then(() => {
-      window._alert("success", "登陆成功 欢迎回来", 3000);
-      userStore.status = "logged in";
-    })
-    .catch(() => {
-      window._alert("danger", "登陆失败 请重试", 3000);
-      userStore.status = "not logged in";
-    });
-  console.log(username.value, password.value);
+  userStore.getToken(username.value, password.value);
+  // console.log(username.value, password.value);
 }, 1000);
+
+onMounted(() => {
+  userStore.loadToken();
+  userStore.getInfo();
+});
 
 </script>
 
