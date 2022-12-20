@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import useUserStore from '@/store/userStore';
+import { throttle } from 'lodash';
 import { ref } from 'vue';
 
 const isShownUserMenu = ref<boolean>(false);
@@ -48,13 +49,13 @@ const userStore = useUserStore();
 const username = ref<String>();
 const password = ref<String>();
 
-const login = (e: Event): void => {
+const login = throttle((e: Event) => {
   userStore.status = "logging in";
   setTimeout(() => {
     userStore.status = "logged in";
   }, 2000);
   console.log(username.value, password.value);
-};
+}, 1000);
 
 </script>
 

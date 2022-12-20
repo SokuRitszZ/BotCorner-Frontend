@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBar, { IUrl } from '@/components/NavBar.vue';
+import Alert from './components/Alert.vue';
 
 const urls: IUrl[] = [
   { path: "/", name: "首页", },
@@ -11,6 +12,7 @@ const urls: IUrl[] = [
 </script>
 
 <template>
+  <Alert />
   <NavBar :urls="urls" />
   <div class="w-screen h-screen">
     <router-view />
