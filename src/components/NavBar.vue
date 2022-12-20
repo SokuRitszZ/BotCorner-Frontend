@@ -27,10 +27,8 @@
             </div>
           </div>
         </div>
-        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <div class="relative ml-3 hidden lg:block">
-            <Profile />
-          </div>
+        <div class="absolute right-0 top-4 pr-2">
+          <Profile />
         </div>
       </div>
     </div>

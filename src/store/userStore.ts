@@ -35,7 +35,7 @@ const useUserStore = defineStore("UserStore", {
      * 退出登录
      */
     async logout() {
-      
+      this.status = "not logged in";
     },
   }
 });
