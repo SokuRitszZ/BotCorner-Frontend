@@ -1,5 +1,6 @@
 import { getInfoApi, getTokenApi } from "@/api/account";
 import { defineStore } from "pinia";
+import useCacheStore from "./cache";
 
 type IUserStore = {
   id: number
@@ -70,6 +71,7 @@ const useUserStore = defineStore("UserStore", {
      */
     logout() {
       this.$patch({ ...initState });
+      useCacheStore().emptyBots();
       localStorage.removeItem("token");
       window._alert("success", "成功退出登录", 1000);
     },

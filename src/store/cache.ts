@@ -1,3 +1,4 @@
+import { getBotsApi } from "@/api/bots";
 import { getGamesApi, getLangsApi } from "@/api/cache";
 import { defineStore } from "pinia";
 
@@ -14,14 +15,28 @@ export type IGame = {
   name: string;
 };
 
+export type IBot = {
+  id: number;
+  title: string;
+  description: string;
+  userId: number;
+  createTime: Date;
+  modifyTime: Date;
+  gameId: number;
+  langId: number;
+  code?: string;
+};
+
 type ICacheStore = {
   langs: ILang[];
   games: IGame[];
+  bots: IBot[];
 };
 
 const initState: ICacheStore = {
   langs: [],
   games: [],
+  bots: [],
 };
 
 const useCacheStore = defineStore("CacheStore", {
@@ -50,6 +65,27 @@ const useCacheStore = defineStore("CacheStore", {
       } else {
         return Promise.resolve(this.games);
       }
+    },
+    getBots() {
+      if (!this.bots.length) {
+        return getBotsApi().then((info: any) => {
+          return info.bots;
+        }).then(bots => {
+          this.bots.push(...bots);
+          return this.bots;
+        });
+      } else {
+        return Promise.resolve(this.bots);
+      }
+    },
+    emptyBots() {
+      this.bots = [];
+    },
+    getLang(langId: number) {
+      return this.langs.find(lang => lang.id === langId)!.lang;
+    },
+    getGame(gameId: number) {
+      return this.games.find(game => game.id === gameId)!.name;
     },
   },
 });

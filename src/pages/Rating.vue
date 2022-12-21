@@ -32,10 +32,9 @@
 
 <script setup lang="ts">
 
-import useCacheStore from '@/store/cache';
+import useCacheStore, { IGame } from '@/store/cache';
 import { faker } from '@faker-js/faker';
 import { onMounted, ref } from 'vue';
-import { IGame } from './Game.vue';
 
 const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();

@@ -31,7 +31,8 @@ onMounted(() => {
     value: "",
     language: "text",
     automaticLayout: true,
-    theme: 'vs'
+    theme: 'vs',
+    fontFamily: "Consolas",
   });
 });
 

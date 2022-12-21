@@ -3,10 +3,10 @@
     <!-- left -->
     <div class="py-24 px-16 col-span-1 h-screen border-r-[1px] border-gray-300">
       <div class="flex gap-4">
-        <img class="rounded-full w-[50px] h-[50px]" :src="faker.image.animals()" alt="avatar">
+        <img class="rounded-full w-[50px] h-[50px]" :src="(userStore.headIcon as string)" alt="avatar">
         <div>
-          <p class="font-semibold text-purple-500">{{ faker.name.fullName() }}</p>
-          <p class="font-thin text-gray-400">#{{ faker.name.fullName() }}</p>
+          <p class="font-semibold text-purple-500">{{ userStore.username }}</p>
+          <p class="font-thin text-gray-400">#{{ leftpad(7, userStore.id) }}</p>
         </div>
       </div>
       <div class="pt-10">
@@ -24,7 +24,7 @@
             <path
               d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911l-1.318.016z" />
           </svg>
-          Manager
+          正式用户
         </p>
       </div>
     </div>
@@ -55,7 +55,7 @@
             {{ bot.title }}
           </div>
           <div class="text-gray-400 rounded-full text-sm h-fit p-1 font-bold">
-            {{ bot.lang }}
+            {{ toWord(cacheStore.getLang(bot.langId)) }}
             <svg v-if="!bot.isMarked" @click.stop="toggle(bot.id, true)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-star inline"
               viewBox="0 0 16 16">
               <path
@@ -73,15 +73,15 @@
         <div class="flex justify-between">
           <div class="text-gray-400">
             <span class="font-bold text-black">#</span>
-            {{ bot.id }}
+            {{ leftpad(8, bot.id) }}
           </div>
           <div class="text-gray-400">
           </div>
           <div>
             <span class="text-gray-400">
-              Last Modified: {{bot.modifiedTime}} ago ·
+              Last Modified: {{bot.modifyTime}} ·
             </span>
-            {{ bot.game }}
+            {{ cacheStore.getGame(bot.gameId) }}
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-controller inline"
               viewBox="0 0 16 16">
               <path
@@ -97,46 +97,40 @@
     <div class="col-span-2 h-screen">
       <Transition>
         <BotDetail @delete="deleteBot" v-if="showing === 'detail'" :bot="selectedBot!" />
-        <AddBot v-else-if="showing === 'new'" />
+        <AddBot @add-bot="addBot" v-else-if="showing === 'new'" />
       </Transition>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { faker } from '@faker-js/faker';
 import Options from '@/components/Options/Options.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import BotDetail from './BotDetail.vue';
 import { throttle } from 'lodash';
 import AddBot from './AddBot.vue';
 import Icon from '@/components/Icon.vue';
+import useUserStore from '@/store/userStore';
 
-export type IBot = {
-  id: number 
-  title: string 
-  code: string 
-  lang: string 
-  game: string
-  description: string
-  modifiedTime: Date | string
-  isMarked: boolean
-};
+import leftpad from "@/utils/leftpad";
+import useCacheStore, { IBot } from '@/store/cache';
+import toWord from '@/utils/toWord';
+import { deleteBotApi } from '@/api/bots';
 
-const bots = ref<Array<IBot>>(new Array(10).fill(0).map(x => {
-  return {
-    id: Math.floor(Math.random() * 100000000),
-    title: faker.word.noun(),
-    code: faker.lorem.paragraph(),
-    lang: faker.word.adjective(),
-    game: faker.word.noun(),
-    description: faker.lorem.paragraph(),
-    modifiedTime: faker.date.month(),
-    isMarked: Math.random() > 0.5,
-  }
-}).sort((a: IBot, b: IBot) => {
-  return +b.isMarked - +a.isMarked;
-}));
+const userStore = useUserStore();
+const cacheStore = useCacheStore();
+
+const bots = ref<(IBot & { isMarked: boolean })[]>([]);
+
+onMounted(() => {
+  cacheStore.getLangs();
+  cacheStore.getGames();
+  cacheStore.getBots()
+    .then(list => {
+      (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
+      bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
+    });
+});
 
 const toggle = (id: number, isMarked: boolean) => {
   bots.value.forEach(bot => bot.id === id && (bot.isMarked = isMarked));
@@ -168,9 +162,7 @@ const selectBot = throttle((bot: IBot) => {
 }, 1000);
 
 const deleteBot = () => {
-  new Promise((resolve, reject) => {
-    reject(undefined);
-  })
+  deleteBotApi(selectedBot.value!.id)
     .then(() => {
       // success 
       showing.value = "empty";
@@ -181,8 +173,12 @@ const deleteBot = () => {
       // fail
       window._alert("danger", "删除失败", 2000);
     });
-
 };
+
+const addBot = (bot: IBot) =>  {
+  bots.value.unshift({...bot, isMarked: false});
+  showing.value = "empty";
+}
 
 const toAddBot = () => {
   if (showing.value === "new") showing.value = "empty";
@@ -191,7 +187,7 @@ const toAddBot = () => {
     showing.value = "empty";
     setTimeout(() => showing.value = "new", 500);
   }
-}
+};
 
 </script>
 

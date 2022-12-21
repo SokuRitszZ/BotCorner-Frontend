@@ -3,7 +3,8 @@
     <h1 class="text-4xl font-bold relative items-center">
       添加Bot
       <div class="block absolute right-0 top-0 text-xl font-normal">
-        <button :disabled="submitStatus === 'submitting'" @click="submit" class="bg-green-700 disabled:bg-green-500 hover:bg-green-800 active:bg-green-900 text-white px-3 py-2 rounded-lg">提交</button>
+        <button :disabled="submitStatus === 'submitting'" @click="submit"
+          class="bg-green-700 disabled:bg-green-500 hover:bg-green-800 active:bg-green-900 text-white px-3 py-2 rounded-lg">提交</button>
       </div>
     </h1>
     <hr class="p-3 mt-5">
@@ -11,27 +12,28 @@
       <p class="font-semibold text-xl">
         名称
       </p>
-      <input v-model="title" class="mt-1 w-full p-1 border-[1px] rounded-lg" type="text">
+      <input v-model="title" class="mt-1 w-full p-1 border-[1px] rounded-lg px-2" type="text">
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">描述</p>
-      <textarea v-model="description" name="description" id="description" class="resize-none w-full h-52 mt-1 border-[1px] rounded-lg p-2"> </textarea>
+      <textarea v-model="description" name="description" id="description"
+        class="resize-none w-full h-52 mt-1 border-[1px] rounded-lg p-2"> </textarea>
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">游戏</p>
       <div class="flex flex-wrap mt-2 gap-2">
-        <div class="mt-2" v-for="game in games">
-          <input v-model="selectedGame" :value="game" class="hidden" :id="(game as string)" name="game" type="radio">
-          <label class="border-[1px] p-2 transition" :for="(game as string)">{{ game }}</label>
+        <div class="mt-2" v-for="game in games" :key="game.id">
+          <input v-model="selectedGame" :value="game.id" class="hidden" :id="game.title" name="game" type="radio">
+          <label class="cursor-pointer border-[1px] p-2 transition rounded-md" :for="game.title">{{ toWord(game.title) }}</label>
         </div>
       </div>
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">语言</p>
       <div class="flex flex-wrap mt-2 gap-2">
-        <div class="mt-2" v-for="lang in langs">
-          <input @change="changeLang" v-model="selectedLang" :value="lang" class="hidden" :id="(lang as string)" name="lang" type="radio">
-          <label class="border-[1px] p-2 transition" :for="(lang as string)">{{ lang }}</label>
+        <div class="mt-2" v-for="lang in langs" :key="lang.id">
+          <input @change="changeLang" v-model="selectedLang" :value="lang.id" class="hidden" :id="lang.suffix" name="lang" type="radio">
+          <label class="cursor-pointer border-[1px] p-2 transition rounded-md" :for="lang.suffix">{{ toWord(lang.lang) }}</label>
         </div>
       </div>
     </div>
@@ -47,54 +49,58 @@
 </template>
 
 <script setup lang="ts">
+import { addBotApi } from '@/api/bots';
 import MonacoEditor from '@/components/MonacoEditor.vue';
-import { faker } from '@faker-js/faker';
+import useCacheStore, { IGame, ILang } from '@/store/cache';
+import toWord from '@/utils/toWord';
 import { ref } from 'vue';
 
-const games = ref<string[]>(new Array(10).fill(0).map(x => faker.word.noun()));
+const cacheStore = useCacheStore();
 
-const langs = ref<string[]>(new Array(10).fill(0).map(x => faker.word.adjective()));
+const games = ref<IGame[]>(cacheStore.games);
+const langs = ref<ILang[]>(cacheStore.langs);
 
 const title = ref<string>();
 const description = ref<string>();
-const selectedGame = ref<string>();
-const selectedLang = ref<string>();
+const selectedGame = ref<number>();
+const selectedLang = ref<number>();
 const $editor = ref();
 const submitStatus = ref<"to submit" | "submitting">("to submit");
 
 const changeLang = () => {
-  $editor.value.setLang(selectedLang.value);
+  $editor.value.setLang(cacheStore.getLang(selectedLang.value!));
 };
 
-const submit = () => {
-  const data = {
-    title: title.value,
-    description: description.value,
-    game: selectedGame.value,
-    lang: selectedLang.value,
-    code: $editor.value.getContent(),
-  };
+const emit = defineEmits(['addBot']);
 
+const submit = () => {
+  const data: {
+    title: string,
+    description: string,
+    gameId: number,
+    langId: number,
+    code: string
+  } = {
+    title: title.value?.trim() || "",
+    description: description.value?.trim() || "",
+    gameId: selectedGame.value || 0,
+    langId: selectedLang.value || 0,
+    code: $editor.value.getContent().trim(),
+  };
+  
   submitStatus.value = "submitting";
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      // resolve(undefined);
-      reject();
-    }, 2000);
-  })
-    .then(() => {
-      submitStatus.value = "to submit";
-      window._alert("success", "添加成功", 2000);
+  addBotApi(data)
+    .then((returnData: any) => {
+      const newBot = { ...data, ...returnData };
+      window._alert("success", `添加${data.title}成功`);
+      emit("addBot", newBot);
     })
-    .catch(() => {
-      submitStatus.value = "to submit";
-      window._alert("danger", "添加失败", 2000);
+    .catch(error => {
+      window._alert("danger", `添加失败：${error}`);
     })
     .finally(() => {
       submitStatus.value = "to submit";
-    })
-  
-  console.log(data);
+    });
 };
 
 </script>

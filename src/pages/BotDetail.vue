@@ -14,34 +14,34 @@
       <p class="font-semibold text-xl">
         名称
       </p>
-      <input @change="e => changeTitle(e, bot!)" class="mt-1 w-full p-1 border-[1px] rounded-lg" type="text" :value="bot.title">
+      <input @change="e => changeTitle(e, bot!)" class="mt-1 w-full p-1 border-[1px] rounded-lg px-2" type="text" :value="bot.title">
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">
         编号
       </p>
-      <input class="mt-1 w-full p-1 border-[1px] rounded-lg" type="text" :value="bot.id" disabled>
+      <input class="mt-1 w-full p-1 border-[1px] rounded-lg px-2" type="text" :value="leftpad(8, bot.id)" disabled>
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">描述</p>
-      <textarea :value="bot.description" name="description" id="description" class="resize-none w-full h-52 mt-1 border-[1px] rounded-lg p-2">
+      <textarea @change="e => changeDescription(e, bot!)" :value="bot.description" name="description" id="description" class="resize-none w-full h-52 mt-1 border-[1px] rounded-lg p-2">
       </textarea>
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">游戏</p>
       <div class="flex flex-wrap mt-2 gap-2">
-        <div class="mt-2" v-for="game in games">
-          <input :value="game" class="hidden" :id="(game as string)" name="lang" type="radio" disabled :checked="game === bot.game">
-          <label class="border-[1px] p-2 transition" :for="(game as string)">{{ game }}</label>
+        <div class="mt-2" v-for="game in games" :key="game.id">
+          <input :value="game.id" class="hidden" :id="(game.title as string)" name="game" type="radio" disabled :checked="game.id === bot.gameId">
+          <label class="border-[1px] p-2 transition rounded-md" :for="(game.title as string)">{{ toWord(game.title) }}</label>
         </div>
       </div>
     </div>
     <div class="pt-5">
       <p class="font-semibold text-xl">语言</p>
       <div class="flex flex-wrap mt-2 gap-2">
-        <div class="mt-2" v-for="lang in langs">
-          <input :value="lang" class="hidden" :id="(lang as string)" name="lang" type="radio" disabled :checked="lang === bot.lang">
-          <label class="border-[1px] p-2 transition" :for="(lang as string)">{{ lang }}</label>
+        <div class="mt-2" v-for="lang in langs" :key="lang.id">
+          <input :value="lang.id" class="hidden" :id="(lang.lang as string)" name="lang" type="radio" disabled :checked="lang.id === bot.langId">
+          <label class="border-[1px] p-2 transition rounded-md" :for="(lang.lang as string)">{{ toWord(lang.lang) }}</label>
         </div>
       </div>
     </div>
@@ -49,8 +49,8 @@
       <p class="font-semibold text-xl relative mb-10">
         代码
         <div class="absolute right-0">
-          <button @click="getCode" class="bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-sm p-2 rounded-lg text-white mr-2">获取代码</button>
-          <button :disabled="uploadStatus === 'uploading'" @click="upload" class="bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-sm p-2 rounded-lg text-white disabled:bg-purple-300">上传修改</button>
+          <button :disabled="isGettingCode" @click="getCode" class="bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-sm p-2 rounded-lg text-white mr-2">获取代码</button>
+          <button :disabled="uploadStatus === 'uploading'" @click="changeCode" class="bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-sm p-2 rounded-lg text-white disabled:bg-purple-300">上传修改</button>
         </div>
       </p>
       <MonacoEditor ref="$editor" id="edit-bot-code" class="h-screen mt-2"/>
@@ -60,26 +60,57 @@
 
 <script setup lang="ts">
 import MonacoEditor from '@/components/MonacoEditor.vue';
-import { faker } from '@faker-js/faker';
-import { ref } from 'vue';
-import { IBot } from './BotsManage.vue';
+import useCacheStore, { IBot, IGame, ILang } from '@/store/cache';
+import leftpad from '@/utils/leftpad';
+import { onMounted, ref } from 'vue';
+import toWord from "@/utils/toWord";
+import { getCodeApi, updateBotApi } from "@/api/bots";
 
 type PropsType = {
   bot: IBot | undefined,
 };
 
 const props = defineProps<PropsType>();
+const cacheStore = useCacheStore();
 
-const games = ref<String[]>(new Array(10).fill(0).map(x => faker.word.noun()));
-
-const langs = ref<String[]>(new Array(10).fill(0).map(x => faker.word.adjective()));
+const games = ref<IGame[]>(cacheStore.games);
+const langs = ref<ILang[]>(cacheStore.langs);
 
 const $editor = ref();
 
+onMounted(() => {
+  setTimeout(() => {
+    $editor.value.setLang(cacheStore.getLang(props.bot?.langId!));
+  });
+});
+
+const isGettingCode = ref<boolean>(false);
 const getCode = () => {
-  console.log(props.bot?.code);
-  $editor.value.setLang(props.bot?.lang);
-  $editor.value.setContent(props.bot?.code);
+  if (!props.bot) return ;
+  if (props.bot.code) {
+    $editor.value.setLang(cacheStore.getLang(props.bot.langId));
+    $editor.value.setContent(props.bot.code);
+  } else {
+    isGettingCode.value = true;
+    getCodeApi(props.bot.id)
+    .then((info: any) => {
+      return info.code as string;
+    })
+    .then(code => {
+      if (!props.bot) return ;
+      $editor.value.setLang(cacheStore.getLang(props.bot.langId));
+      $editor.value.setContent(code || "");
+      props.bot.code = code;
+      window._alert("success", "获取成功");
+    })
+    .catch(error => {
+      console.log(error);
+      window._alert("danger", `获取失败：${error}`);
+    })
+    .finally(() => {
+      isGettingCode.value = false;
+    });
+  }
 };
 
 const reset = () => {
@@ -92,23 +123,59 @@ defineExpose({
 
 const uploadStatus = ref<"to upload" | "uploading">("to upload");
 
-const upload = () => {
+const changeCode = () => {
   uploadStatus.value = "uploading";
-  setTimeout(() => {
-    window._alert("success", "上传修改成功", 2000);
-    console.log($editor.value.getContent());
-    uploadStatus.value = "to upload";
-  }, 2000);
+  const code = $editor.value.getContent();
+  updateBotApi(props.bot!.id, {
+    code
+  })
+    .then((info: any) => {
+      props.bot!.code = code;
+      props.bot!.modifyTime = info.modifyTime;
+      window._alert("success", "修改成功");
+    })
+    .catch(error => {
+      window._alert("danger", `修改失败：${error}`);
+    })
+    .finally(() => {
+      uploadStatus.value = "to upload";
+    });
 };
 
 const changeTitle = (e: Event, bot: IBot) => {
   const dom = e.target;
   const newTitle = (dom as HTMLInputElement).value;
-  
-  // success
-  bot.title = newTitle;
+  updateBotApi(bot.id, {
+    title: newTitle
+  })
+    .then((info: any) => {
+      // success
+      bot.title = newTitle;
+      bot.modifyTime = info.modifyTime;
+      window._alert("success", "修改成功");
+    })
+    .catch(error => {
+      // fail
+      window._alert("danger", `修改失败：${error}`);
+    });
+};
 
-  // fail
+const changeDescription = (e: Event, bot: IBot) => {
+  const dom = e.target;
+  const newDescription = (dom as HTMLTextAreaElement).value;
+  updateBotApi(bot.id, {
+    description: newDescription,
+  })
+    .then((info: any) => {
+      // success
+      bot.description = newDescription;
+      bot.modifyTime = info.modifyTime;
+      window._alert("success", "修改成功");
+    })
+    .catch(error => {
+      // fail
+      window._alert("danger", `修改失败：${error}`);
+    });
 };
 
 const emit = defineEmits(['delete']);
