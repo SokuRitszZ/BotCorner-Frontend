@@ -13,7 +13,7 @@
     <!-- card container -->
     <div class="grid lg:grid-cols-3 grid-cols-1">
       <div v-for="game in games"
-        class="w-96 h-[120px] text-2xl mt-4 p-4 bg-gray-100 rounded-3xl m-auto shadow-2xl shrink-0 hover:translate-x-3 cursor-pointer transition select-none">
+        class="w-96 h-[120px] text-2xl mt-4 p-4 bg-gray-100 rounded-3xl m-auto shadow-2xl shrink-0 hover:-translate-y-3 cursor-pointer transition select-none">
         <h1 class="font-semibold text-purple-500">{{ game.name }}</h1>
         <div class="h-14 overflow-scroll">
           <p>{{ game.description }}</p>

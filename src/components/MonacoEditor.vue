@@ -26,8 +26,8 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (theEditor.value) theEditor.value.dispose();
-})
+  if (theEditor.value) toRaw(theEditor.value).dispose();
+});
 
 self.MonacoEnvironment = {
   getWorker(_, label) {
