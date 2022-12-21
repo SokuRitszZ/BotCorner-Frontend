@@ -11,12 +11,12 @@
         'bg-slate-200 shadow-2xl shadow-slate-200': index === 1,
         'bg-yellow-600 shadow-2xl shadow-yellow-700': index === 2,
         }" class="flex justify-between items-center rounded-full w-[600px] bg-purple-600 mt-3 shadow-xl p-2 pr-4 hover:translate-x-2">
-        <img class="w-10 h-10 rounded-full" :src="rating.user.headIcon" alt="avatar">
+        <img class="w-10 h-10 rounded-full" :src="rating.headIcon" alt="avatar">
         <div class="text-xl" :class="{
           'text-white': index === 0, 
           'text-gray-200': index > 2,
           'text-black': index === 1,
-          }">{{ rating.user.username }}</div>
+          }">{{ rating.username }}</div>
         <div class="text-xl">{{ rating.rating }}</div>
       </div>
     </div>
@@ -32,12 +32,12 @@
 
 <script setup lang="ts">
 
-import useCacheStore, { IGame } from '@/store/cache';
+import useCacheStore, { IGame, IRating } from '@/store/cache';
 import { faker } from '@faker-js/faker';
 import { onMounted, ref } from 'vue';
 
-const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
+const games = ref<IGame[]>([]);
 
 onMounted(() => {
   cacheStore.getGames()
@@ -52,33 +52,8 @@ const setSelectedGame = (game: IGame) => {
   if (selectedGame.value === game) return ;
   /// 
   selectedGame.value = game;
-  ratings.value = getRating(game);
-};
-
-type IUser = {
-  id: number
-  username: string 
-  headIcon: string
-};
-
-type IRating = {
-  user: IUser
-  rating: number
-};
-
-const getRating: (game: IGame) => IRating[] = (game: IGame) => {
-  return new Array(10).fill(0).map(x => {
-    return ({
-      user: {
-        id: Math.floor(Math.random() * 10000),
-        username: faker.name.fullName(),
-        headIcon: faker.image.animals(),
-      },
-      rating: Math.floor(Math.random() * 10000),
-    } as IRating);
-  }).sort((a, b) => {
-    return b.rating - a.rating;
-  });
+  cacheStore.getRatings(game.title)
+    .then(list => ratings.value = (list as IRating[]));
 };
 
 </script>

@@ -1,5 +1,6 @@
 import { getBotsApi } from "@/api/bots";
 import { getGamesApi, getLangsApi } from "@/api/cache";
+import { getRatingsApi } from "@/api/ratings";
 import { defineStore } from "pinia";
 
 export type ILang = {
@@ -27,16 +28,30 @@ export type IBot = {
   code?: string;
 };
 
+export type IUser = {
+  id: number
+  username: string 
+  headIcon: string
+};
+
+export type IRating = {
+  rating: number
+} & IUser;
+
 type ICacheStore = {
   langs: ILang[];
   games: IGame[];
   bots: IBot[];
+  ratings: {
+    [key: string]: IRating[]
+  };
 };
 
 const initState: ICacheStore = {
   langs: [],
   games: [],
   bots: [],
+  ratings: {},
 };
 
 const useCacheStore = defineStore("CacheStore", {
@@ -56,9 +71,9 @@ const useCacheStore = defineStore("CacheStore", {
     },
     getGames() {
       if (!this.games.length) {
-        return getGamesApi().then((info: any) => {
-          return info.games;
-        }).then(games => {
+        return getGamesApi()
+        .then(info => (info as any).games)
+        .then(games => {
           this.games.push(...games);
           return this.games;
         });
@@ -68,14 +83,26 @@ const useCacheStore = defineStore("CacheStore", {
     },
     getBots() {
       if (!this.bots.length) {
-        return getBotsApi().then((info: any) => {
-          return info.bots;
-        }).then(bots => {
+        return getBotsApi()
+        .then(info => (info as any).bots)
+        .then(bots => {
           this.bots.push(...bots);
           return this.bots;
         });
       } else {
         return Promise.resolve(this.bots);
+      }
+    },
+    getRatings(game: string) {
+      if (!this.ratings[game]) {
+        return getRatingsApi(game)
+          .then(info => (info as any).ratings)
+          .then(ratings => {
+            this.ratings[game] = ratings;
+            return this.ratings[game];
+          });
+      } else {
+        return Promise.resolve(this.ratings[game]);
       }
     },
     emptyBots() {

@@ -3,28 +3,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRaw } from 'vue';
+import { onMounted, onUnmounted, ref, toRaw } from 'vue';
 import { editor } from 'monaco-editor';
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
-
-self.MonacoEnvironment = {
-  getWorker(_, label) {
-    if (label === 'typescript' || label === 'javascript') {
-      return new tsWorker();
-    }
-    return new editorWorker();
-  }
-};
 
 type PropsType = {
   id: string,
   class: string | undefined,
 };
 const props = defineProps<PropsType>();
-
-const theEditor = ref<editor.IStandaloneCodeEditor>();
 
 onMounted(() => {
   theEditor.value = editor.create(document.getElementById(`monaco-editor-${props.id}`)!, {
@@ -35,6 +24,21 @@ onMounted(() => {
     fontFamily: "Consolas",
   });
 });
+
+onUnmounted(() => {
+  if (theEditor.value) theEditor.value.dispose();
+})
+
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'typescript' || label === 'javascript') {
+      return new tsWorker();
+    }
+    return new editorWorker();
+  }
+};
+
+const theEditor = ref<editor.IStandaloneCodeEditor>();
 
 const setLang = (lang: string) => {
   if (!theEditor.value) return ;
