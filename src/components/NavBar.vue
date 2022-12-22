@@ -1,6 +1,22 @@
 <template>  
-  <nav class="nav">
-    <div class="nav-inner">
+  <nav class="fixed top-0 left-0 w-screen py-5 bg-gray-700 z-10">
+    <div class="m-auto max-w-7xl px-10 relative">
+      <div class="flex justify-between">
+        <div class="flex items-center justify-start gap-10 relative">
+          <div class="icon">
+            <img class="block h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            alt="Your Company">
+          </div>
+          <div class="nav_s flex justify-start gap-3 self-start">
+            <RouterLink class="transition font-bold text-white py-1 px-3 rounded-lg hover:bg-gray-900 active:900" v-for="url in urls" :to="url.path">{{ url.name }}</RouterLink>
+          </div>
+        </div>
+        <div>
+          <Profile/>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="nav-inner">
       <div class="flex-box">
         <div class="mobile-box">
           <button type="button" class="menu-button" aria-controls="mobile-menu" aria-expanded="false">
@@ -26,12 +42,12 @@
               <RouterLink v-for="url in urls" :to="url.path" class="nav-link">{{ url.name }}</RouterLink>
             </div>
           </div>
-        </div>
-        <div class="absolute right-0 top-4 pr-2">
-          <Profile />
+          <div class="absolute right-0 h-10 max-w-100 w-100">
+            <Profile />
+          </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </nav>
 </template>
 
@@ -51,84 +67,7 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
-.nav {
-  @apply 
-  fixed
-  z-50
-  w-screen
-  bg-gray-800;
-  
-  &::before {
-    content: '';
-    @apply
-    py-3
-    h-fit
-    relative;
-  }
-  
-
-  .nav-link {
-    @apply
-    font-semibold
-    text-gray-300 active:bg-gray-900 hover:bg-gray-700
-    hover:text-white active:text-white
-    px-3 py-2 rounded-md text-base;
-    &.router-link-exact-active {
-      @apply 
-      bg-gray-900
-      text-white
-    }
-}
-
-;
-
-  .nav-inner {
-    @apply 
-    mx-auto 
-    max-w-7xl 
-    px-2 sm:px-6 lg:px-8;
-
-    .flex-box {
-      @apply
-      relative
-      flex 
-      h-16 
-      items-center justify-between;
-
-      .mobile-box {
-        @apply 
-        absolute
-        inset-y-0
-        left-0 
-        flex 
-        items-center  
-        lg:hidden;
-        
-        .menu-button {
-          @apply 
-          inline-flex items-center justify-center
-          rounded-md 
-          p-2 
-          text-gray-400 
-          hover:bg-gray-700 hover:text-white 
-          focus:outline-none focus:ring-2 focus:ring-white
-        }
-      }
-
-      .pc-box {
-        @apply 
-        flex flex-1 items-center justify-center
-        sm:items-stretch sm:justify-start;
-        
-        .company-box {
-          @apply 
-          flex flex-shrink-0 items-center;
-          img {
-            @apply h-8 w-auto;
-          }
-        }
-      }
-    }
-  }
+.router-link-exact-active {
+  @apply bg-gray-900;
 }
 </style>

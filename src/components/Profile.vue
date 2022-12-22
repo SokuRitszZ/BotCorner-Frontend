@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div class="relative w-96 h-full flex items-center">
     <Transition name="profile">
       <!-- Input -->
-      <div key="not" v-if="userStore.status === 'not logged in'" class="block mt-1">
-        <div class="flex">
+      <div key="not" v-if="userStore.status === 'not logged in'" class="absolute right-0">
+        <div class="flex justify-center items-center">
           <input placeholder="用户名" v-model="username" name="username" class="mx-2 px-2 rounded-md w-40" type="text">
           <input placeholder="密码" v-model="password" name="password" class="mx-2 px-2 rounded-md w-40" type="password">
           <button @click="login"
-          class="bg-purple-500 rounded-md text-white px-2 hover:bg-purple-600 active:bg-purple-700 font-semibold">登录</button>
+          class="bg-purple-500 rounded-md text-white px-2 hover:bg-purple-600 active:bg-purple-700 font-semibold whitespace-nowrap">登录</button>
         </div>
       </div>
       <!-- Loading -->
-      <div key="ing" class="text-white mt-1 flex flex-row-reverse" v-else-if="userStore.status === 'logging in'">
+      <div key="ing" class="text-white mt-1 flex flex-row-reverse items-center absolute right-0" v-else-if="userStore.status === 'logging in'">
         登录中...
       </div>
       <!-- Profile -->
-      <div v-else-if="userStore.status === 'logged in'" class="flex flex-row-reverse">
+      <div v-else-if="userStore.status === 'logged in'" class="flex flex-row-reverse absolute right-0">
         <button key="ed" id="user-menu-button"
         @click="() => isShownUserMenu = !isShownUserMenu" @blur="() => isShownUserMenu = false"
         class="flex rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -28,7 +28,7 @@
     <Transition name="user-menu">
       <div
         v-show="isShownUserMenu"
-        class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 top-8 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
         <!-- Active: "bg-gray-100", Not Active: "" -->
         <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</p>
