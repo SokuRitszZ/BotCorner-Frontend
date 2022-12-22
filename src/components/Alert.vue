@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed w-80 h-screen z-50 left-0 top-0 pt-24 pl-4">
+  <div class="fixed w-80 h-fit z-50 left-0 top-0 pt-24 pl-4">
     <TransitionGroup>
       <div :key="alert.id" class="overflow-visible mb-2" v-for="alert in alerts">
-        <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg grid grid-cols-2 items-center"
+        <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex gap-5 justify-between items-center"
           :class="{
             'bg-blue-500': alert.type === 'primary',
             'bg-red-600': alert.type === 'danger',
@@ -10,8 +10,10 @@
             'bg-yellow-400': alert.type === 'warning',
           }"
         >
-          <Icon :type="alert.type"/>
-          {{ alert.message }}
+          <Icon :type="alert.type" class="text-xl"/>
+          <div class="overflow-scroll whitespace-nowrap">
+            {{ alert.message }}
+          </div>
         </div>
       </div>
     </TransitionGroup>
@@ -74,7 +76,7 @@ defineExpose({
 
 .v-enter-to,
 .v-leave-from {
-  @apply h-[48px] max-h-[48px];
+  @apply max-h-[48px];
 }
 
 @keyframes into {
