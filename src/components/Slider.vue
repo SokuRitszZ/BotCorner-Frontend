@@ -29,25 +29,42 @@ const cacheStore = useCacheStore();
 const games = ref<IGame[]>([]);
 const ptr = ref<number>(0);
 const timer = ref<NodeJS.Timer>();
+const animating = ref<boolean>(false);
+
+const animate = () => {
+  if (animating.value) return false;
+  animating.value = true;
+  setTimeout(() => {
+    animating.value = false;
+  }, 1000);
+  return true;
+};
 
 const next = () => {
-  ptr.value = (ptr.value + 1) % games.value.length;
+  slideTo((ptr.value + 1) % games.value.length);
 };
 
 const start = () => {
   stop();
   timer.value = setInterval(() => {
     next();
-  }, 3000);
+  }, 4000);
 };
 
 const stop = () => {
   clearInterval(timer.value);
 };
 
-const goto = (index: number) => {
-  ptr.value = index;
+const slideTo = (index: number) => {
+  if (animate()) {
+    ptr.value = index;
+  }
 };
+
+defineExpose({
+  ptr,
+  slideTo
+});
 
 const callback = () => {
   if (document.visibilityState === "hidden") {
