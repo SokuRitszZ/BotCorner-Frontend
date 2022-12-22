@@ -1,23 +1,23 @@
 <template>
   <div class="lg:normal h-screen w-screen bg-purple-500 overflow-auto flex flex-col justify-start">
-    <div class="text-center mb-10 relative mx-auto mt-24">
+    <!-- card container -->
+    <Slider ref="$slider" class="w-[500px] h-[600px] m-auto overflow-hidden shadow-inner shadow-purple-500" />
+    <div class="text-center mb-10 relative mx-auto">
       <nav class="bg-gray-700 opacity-60 flex justify-between gap-3 p-3 rounded-full">
-        <div @click="$slider.slideTo(index)" v-for="(game, index) in games" :class="{'selected': index === $slider.ptr }" class="hover:bg-purple-600 p-2 rounded-full text-2xl cursor-pointer transition">
+        <div @click="$slider.slideTo(index)" v-for="(game, index) in games" :class="{'selected': index === $slider.ptr }"
+          class="hover:bg-purple-600 p-2 rounded-full text-2xl cursor-pointer transition">
           {{ game.name }}
         </div>
       </nav>
       <!-- <div class="w-fit flex items-center">
-        <input placeholder="此功能未开放" type="text" class="w-96 h-10 rounded-lg shadow-xl hover:shadow-2xl p-2">
-        <svg xmlns="http://www.w3.org/2000/svg" height="60%" fill="currentColor"
-          class="bi bi-search absolute z-10 right-2 text-purple-800 cursor-pointer" viewBox="0 0 16 16">
-          <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-        </svg>
-      </div> -->
+          <input placeholder="此功能未开放" type="text" class="w-96 h-10 rounded-lg shadow-xl hover:shadow-2xl p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" height="60%" fill="currentColor"
+            class="bi bi-search absolute z-10 right-2 text-purple-800 cursor-pointer" viewBox="0 0 16 16">
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          </svg>
+        </div> -->
     </div>
-    <!-- card container -->
-    <Slider ref="$slider" class="w-[500px] h-[600px] m-auto overflow-hidden shadow-inner shadow-purple-500">
-    </Slider>
   </div>
 </template>
 
