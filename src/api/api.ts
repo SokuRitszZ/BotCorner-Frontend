@@ -16,7 +16,7 @@ const getHeader = () => {
   };
 };
 
-// intercepters
+// interceptors
 api.interceptors.request.use((config) => {
   const newHeaders = { ...config.headers, ...getHeader() };
   config.headers = newHeaders;
@@ -31,6 +31,6 @@ api.interceptors.response.use(response => {
   if (data.result === "fail")
     return Promise.reject(data.message);
   return data.data;
-}, error => Promise.reject(error));
+}, error => Promise.reject("未登录 没有权限"));
 
 export default api;

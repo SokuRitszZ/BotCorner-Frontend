@@ -36,7 +36,7 @@
           我的Bots
         </div>
         <div>
-          <Options @change="changeComparor" title="排序" :options="comparors" />
+          <Options @change="changeComparer" title="排序" :options="comparers" />
         </div>
       </div>
       <div class="relative flex justify-center px-10 pb-7">
@@ -117,7 +117,7 @@ import Icon from '@/components/Icon.vue';
 import useUserStore from '@/store/userStore';
 
 import leftpad from "@/utils/leftpad";
-import useCacheStore, { IBot } from '@/store/cache';
+import useCacheStore, { IBot } from '@/store/cacheStore';
 import toWord from '@/utils/toWord';
 import { deleteBotApi } from '@/api/bots';
 
@@ -129,21 +129,23 @@ const bots = ref<(IBot & { isMarked: boolean })[]>([]);
 onMounted(() => {
   cacheStore.getLangs();
   cacheStore.getGames();
-  cacheStore.getBots()
+  userStore.addAfterLoginCallback("get bot", () => {
+    cacheStore.getBots()
     .then(list => {
       (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
       bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
     });
+  });
 });
 
 const toggle = (id: number, isMarked: boolean) => {
   bots.value.forEach(bot => bot.id === id && (bot.isMarked = isMarked));
 };
 
-const comparors: Array<string> = [ "语言", "游戏", "时间", "名称" ];
+const comparers: Array<string> = [ "语言", "游戏", "时间", "名称" ];
 
-const changeComparor = (comparor: String) => {
-  switch (comparor) {
+const changeComparer = (comparer: String) => {
+  switch (comparer) {
     case "语言":
   }
 };
@@ -224,6 +226,7 @@ const toAddBot = () => {
 
 .bots-enter-to,
 .bots-leave-from {
+  
   @apply max-h-[89px] py-4;
 }
 

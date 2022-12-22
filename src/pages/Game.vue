@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import Slider from '@/components/Slider.vue';
-import useCacheStore, { IGame } from '@/store/cache';
+import useCacheStore, { IGame } from '@/store/cacheStore';
 import { onMounted, ref } from 'vue';
 
 const games = ref<IGame[]>([]);

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 
-import useCacheStore, { IGame, IRating } from '@/store/cache';
+import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
 import { faker } from '@faker-js/faker';
 import { onMounted, ref } from 'vue';

@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { addBotApi } from '@/api/bots';
 import MonacoEditor from '@/components/MonacoEditor.vue';
-import useCacheStore, { IGame, ILang } from '@/store/cache';
+import useCacheStore, { IGame, ILang } from '@/store/cacheStore';
 import toWord from '@/utils/toWord';
 import { ref } from 'vue';
 

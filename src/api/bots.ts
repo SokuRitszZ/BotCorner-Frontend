@@ -1,4 +1,4 @@
-import { IBot } from "@/store/cache";
+import { IBot } from "@/store/cacheStore";
 import api from "./api";
 
 export function getBotsApi() {

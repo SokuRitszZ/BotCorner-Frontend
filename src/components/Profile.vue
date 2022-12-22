@@ -33,25 +33,32 @@
         <!-- Active: "bg-gray-100", Not Active: "" -->
         <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</p>
         <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</p>
-        <p @click="userStore.logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</p>
+        <p @click="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</p>
       </div>
     </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
+import useCacheStore from '@/store/cacheStore';
 import useUserStore from '@/store/userStore';
 import { throttle } from 'lodash';
 import { onMounted, ref } from 'vue';
 
 const isShownUserMenu = ref<boolean>(false);
 const userStore = useUserStore();
+const cacheStore = useCacheStore();
 const username = ref<string>("");
 const password = ref<string>("");
 
 const login = throttle((e: Event) => {
   userStore.getToken(username.value, password.value);
 }, 1000);
+
+const logout = () => {
+  userStore.logout();
+  cacheStore.emptyBots();
+}
 
 onMounted(() => {
   userStore.loadToken();

@@ -1,13 +1,14 @@
 import { getInfoApi, getTokenApi } from "@/api/account";
 import { defineStore } from "pinia";
-import useCacheStore from "./cache";
+import useCacheStore from "./cacheStore";
 
 type IUserStore = {
-  id: number
-  username: String 
-  headIcon: String 
-  token: String 
-  status: "not logged in" | "logging in" | "logged in"
+  id: number;
+  username: String;
+  headIcon: String;
+  token: String;
+  status: "not logged in" | "logging in" | "logged in";
+  callbacks: { [key: string]: Function };
 };
 
 const initState: IUserStore = {
@@ -16,11 +17,21 @@ const initState: IUserStore = {
   headIcon: "",
   token: "",
   status: "not logged in",
+  callbacks: {},
 };
 
 const useUserStore = defineStore("UserStore", {
-  state: (): IUserStore => ({...initState}),
+  state: (): IUserStore => ({ ...initState }),
   actions: {
+    /**
+     * 添加登录后需要触发的回调
+     * @param name
+     * @param fn
+     */
+    addAfterLoginCallback(name: string, fn: Function) {
+      this.callbacks[name] = fn;
+      if (this.status === "logged in") fn();
+    },
     /**
      * 从localStorage加载token
      */
@@ -36,10 +47,10 @@ const useUserStore = defineStore("UserStore", {
       this.status = "logging in";
 
       type InfoType = {
-        token: string
+        token: string;
       };
 
-      getTokenApi(username, password)
+      return getTokenApi(username, password)
         .then((info: any) => {
           this.token = (info as InfoType).token;
           localStorage.setItem("token", info.token);
@@ -53,16 +64,21 @@ const useUserStore = defineStore("UserStore", {
     /**
      * 获取信息
      */
-    getInfo() {
-      getInfoApi()
+    async getInfo() {
+      if (!this.token) return Promise.reject("没有Token");
+
+      this.status = "logging in";
+
+      return getInfoApi()
         .then((info: any) => {
           window._alert("success", "登录成功 欢迎回来", 2000);
           this.$patch({ ...info });
           this.status = "logged in";
+          Object.values(this.callbacks).forEach((fn) => fn());
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-          window._alert("danger", "登录失败：令牌无效", 2000);
+          window._alert("danger", "登录失败：Token无效", 2000);
           localStorage.removeItem("token");
         });
     },

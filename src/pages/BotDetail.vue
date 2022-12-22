@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import MonacoEditor from '@/components/MonacoEditor.vue';
-import useCacheStore, { IBot, IGame, ILang } from '@/store/cache';
+import useCacheStore, { IBot, IGame, ILang } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
 import { onMounted, ref } from 'vue';
 import toWord from "@/utils/toWord";
