@@ -127,15 +127,16 @@ const cacheStore = useCacheStore();
 const bots = ref<(IBot & { isMarked: boolean })[]>([]);
 
 onMounted(() => {
-  cacheStore.getLangs();
-  cacheStore.getGames();
-  userStore.addAfterLoginCallback("get bot", () => {
-    cacheStore.getBots()
-    .then(list => {
-      (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
-      bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
+  Promise.all([cacheStore.getLangs(), cacheStore.getGames()])
+    .then(() => {
+      userStore.addAfterLoginCallback("get bot", () => {
+        cacheStore.getBots()
+          .then(list => {
+            (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
+            bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
+          });
+      });
     });
-  });
 });
 
 const toggle = (id: number, isMarked: boolean) => {
