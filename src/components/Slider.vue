@@ -3,7 +3,7 @@
     <div class="flex justify-start flex-nowrap h-full relative">
       <TransitionGroup>
         <div v-for="(game, idx) in games" :key="game.id" v-show="idx === ptr" class="w-[500px] h-[600px] shrink-0 p-3 absolute left-0 top-0">
-          <div @mouseenter="stop" @mouseleave="start" class="cursor-pointer w-full h-full rounded-xl bg-gray-100 p-10 hover:bg-purple-800 hover:text-white transition">
+          <div @click="router.push(`/game/${game.title}`)" @mouseenter="stop" @mouseleave="start" class="cursor-pointer w-full h-full rounded-xl bg-gray-100 p-10 hover:bg-purple-800 hover:text-white transition">
             <h1 class="text-purple-500 text-5xl text-center font-semibold">{{ game.name }}</h1>
             <hr class="my-5">
             <p class="font-medium text-3xl">
@@ -19,12 +19,14 @@
 <script setup lang="ts">
 import useCacheStore, { IGame } from '@/store/cacheStore';
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 type PropsType = {
   class?: string
 };
 const props = defineProps<PropsType>()
 const cacheStore = useCacheStore();
+const router = useRouter();
 
 const games = ref<IGame[]>([]);
 const ptr = ref<number>(0);

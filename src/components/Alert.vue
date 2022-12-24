@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed w-80 h-fit z-50 left-0 top-0 pt-24 pl-4">
+  <div class="fixed w-80 h-fit z-50 left-0 top-24 pl-4">
     <TransitionGroup>
       <div :key="alert.id" class="overflow-visible mb-2" v-for="alert in alerts">
         <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex gap-5 justify-between items-center"
@@ -10,7 +10,7 @@
             'bg-yellow-400': alert.type === 'warning',
           }"
         >
-          <Icon :type="alert.type" class="text-xl"/>
+          <Icon :type="alert.type" :size="20"/>
           <div class="overflow-scroll whitespace-nowrap">
             {{ alert.message }}
           </div>
@@ -46,19 +46,15 @@ const remove = (theAlert: IAlert) => {
   alerts.value = alerts.value.filter(alert => alert.id !== theAlert.id);
 };
 
-const test = (ms: number) => {
-  setInterval(() => {
-    alert("primary", "For test", ms);
-  }, 1000);
-}
+// const test = (ms: number) => {
+//   setInterval(() => {
+//     alert("primary", "For test", ms);
+//   }, 1000);
+// }
 
 onMounted(() => {
   window._alert = alert;
   // test(5000);
-});
-
-defineExpose({
-  alert
 });
 
 </script>
