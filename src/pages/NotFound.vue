@@ -1,16 +1,18 @@
 <template>
   <div class="w-screen h-screen bg-gray-200 flex flex-col justify-center">
     <div class="w-[640px] lg:w-[1080px] h-full pt-20 m-auto">
-      <p class="text-7xl text-red-700">404</p>
-      <p class="font-bold text-3xl py-4 border-b-[1px] border-gray-300">你貌似访问了一个不存在的页面！
+      <p class="text-7xl text-red-700 flex items-center gap-10">
+        404
         <img class="inline" src="@/assets/oops.jpg" width="100" alt="">
+      </p>
+      <p class="font-bold text-3xl py-4 border-b-[1px] border-gray-300">你貌似访问了一个不存在的页面！
       </p>
       <div class="py-10">
         <p class="text-3xl font-semibold">可能没有使用正确的路径</p>
         <p class="py-9 text-xl text-gray-600">上面导航栏的路由随便点点看看啦。</p>
         <p class="text-3xl font-semibold">或许出现Bug了</p>
         <p class="py-9 text-xl text-gray-600">报Bug方式如下：</p>
-        <p class="text-xl text-gray-600">提issue：
+        <p class="text-xl text-gray-600 flex items-center gap-2">提issue：
           <a href="https://github.com/SokuRitszZ/BotCorner-Frontend/issues" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" height="32px" fill="currentColor" class="bi bi-github inline"
               viewBox="0 0 16 16">
