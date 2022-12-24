@@ -101,7 +101,7 @@ const useCacheStore = defineStore("CacheStore", {
         return this.promises["games"] as Promise<any>;
       }
     },
-    getBots(): Promise<any> {
+    getBots(): Promise<IBot[]> {
       if (!this.bots.length && !this.promises["bots"]) {
         return (this.promises["bots"] = getBotsApi()
           .then((info) => (info as any).bots)
@@ -114,7 +114,7 @@ const useCacheStore = defineStore("CacheStore", {
             window._alert("danger", `获取Bot列表失败：${error}`);
           });
       } else {
-        return this.promises["bots"] as Promise<any>;
+        return this.promises["bots"] as Promise<IBot[]>;
       }
     },
     getRatings(game: string): Promise<any> {

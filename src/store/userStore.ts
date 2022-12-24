@@ -2,11 +2,17 @@ import { getInfoApi, getTokenApi } from "@/api/account";
 import { defineStore } from "pinia";
 import useCacheStore from "./cacheStore";
 
-type IUserStore = {
-  id: number;
-  username: String;
-  headIcon: String;
-  token: String;
+export type IUser = {
+  id: number
+  username: string
+  headIcon: string
+};
+
+export type IAuthUser = IUser & {
+  token: string 
+}
+
+type IUserStore = IAuthUser & {
   status: "not logged in" | "logging in" | "logged in";
   callbacks: { [key: string]: Function };
 };
@@ -31,6 +37,9 @@ const useUserStore = defineStore("UserStore", {
     addAfterLoginCallback(name: string, fn: Function) {
       this.callbacks[name] = fn;
       if (this.status === "logged in") fn();
+    },
+    removeAfterLoginCallback(name: string) {
+      delete this.callbacks[name];
     },
     /**
      * 从localStorage加载token
@@ -77,8 +86,8 @@ const useUserStore = defineStore("UserStore", {
           Object.values(this.callbacks).forEach((fn) => fn());
         })
         .catch((error) => {
-          console.log(error);
           window._alert("danger", "登录失败：Token无效", 2000);
+          this.status = "not logged in";
           localStorage.removeItem("token");
         });
     },
