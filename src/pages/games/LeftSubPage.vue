@@ -104,7 +104,7 @@ const server = ref<GameWebSocket>();
 onMounted(async () => {
   server.value = await props.promise_server;
   server.value
-    .addCallback({
+    .on({
       action: "start single game",
       callback: data => {
         if (data.error) {
@@ -116,41 +116,41 @@ onMounted(async () => {
         }
       }
     })
-    .addCallback({
+    .on({
       action: "start multi game",
       callback: data => {
         match_status.value = "waiting";
         multi_isOk.value = [false, false];
       }
     })
-    .addCallback({
+    .on({
       action: "make match",
       callback: data => {
         multi_userData.value = data.userData;
         match_status.value = "matched";
       }
     })
-    .addCallback({
+    .on({
       action: "allow to control",
       callback: data => {
         status.value = "started";
         match_status.value = "to match";
       }
     })
-    .addCallback({
+    .on({
       action: "tell result",
       callback: data => {
         status.value = "to start";
         match_status.value = "to match";
       }
     })
-    .addCallback({
+    .on({
       action: "start match", // 确认帧
       callback: data => {
         clearTimeout(match_timer.value);
       }
     })
-    .addCallback({
+    .on({
       action: "exit match",
       callback: data => {
         const id = data.id;
@@ -160,7 +160,7 @@ onMounted(async () => {
         }
       }
     })
-    .addCallback({
+    .on({
       action: "toggle match",
       callback: data => {
         multi_isOk.value[data.id] = data.isOk;

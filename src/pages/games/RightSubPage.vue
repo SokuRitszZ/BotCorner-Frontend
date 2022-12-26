@@ -36,6 +36,7 @@ import { IUser } from '@/store/cacheStore';
 import useUserStore from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import { onMounted, ref } from 'vue';
+import { createMemoryHistory } from 'vue-router';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
@@ -71,14 +72,14 @@ const control = (id: number, d: number) => {
 onMounted(async () => {
   server.value = await props.promise_server;
   server.value
-    .addCallback({
+    .on({
       action: "set step",
       callback: data => {
         const id = data.id;
         ok.value[id] = true;
       }
     })
-    .addCallback({
+    .on({
       action: ["start single game", "start multi game"],
       callback: data => {
         window._alert("warning", "等待游戏开始...");
@@ -87,13 +88,20 @@ onMounted(async () => {
         botIds.value = data.botIds;
       }
     })
-    .addCallback({
+    .on({
+      action: "play record",
+      callback: data => {
+        window._alert("warning", "开始播放录像");
+        chose.value = [[], []];
+      }
+    })
+    .on({
       action: "allow to control",
       callback: data => {
         ok.value = [false, false];
       }
     })
-    .addCallback({
+    .on({
       action: "move snake",
       callback: data => {
         chose.value[0].unshift(parseInt(data.step[0]));
@@ -101,13 +109,13 @@ onMounted(async () => {
         ok.value = ok.value.map(x => false);
       }
     })
-    .addCallback({
+    .on({
       action: "tell result",
       callback: data => {
         botIds.value = [1, 1];
       }
     })
-    .addCallback({
+    .on({
       action: "make match",
       callback: data => {
         userData.value = data.userData;

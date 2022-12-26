@@ -39,10 +39,15 @@
       <path
         d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
     </svg>
-    <svg v-else-if="type === 'down'" xmlns="http://www.w3.org/2000/svg" :width="props.size || 16" :height="props.size || 16" fill="currentColor" class="bi bi-arrow-down-circle-fill"
-      viewBox="0 0 16 16">
+    <svg v-else-if="type === 'down'" xmlns="http://www.w3.org/2000/svg" :width="props.size || 16" :height="props.size || 16"
+      fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
       <path
         d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
+    </svg>
+    <svg v-else-if="type === 'play'" xmlns="http://www.w3.org/2000/svg" :width="props.size || 16" :height="props.size || 16" fill="currentColor" class="bi bi-play-circle-fill"
+      viewBox="0 0 16 16">
+      <path
+        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
     </svg>
   </div>
 </template>
