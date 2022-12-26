@@ -19,7 +19,7 @@ class GameWebSocket {
     this.server.onopen = () => window._alert("success", "WebSocket连接成功");
     this.server.onclose = () => window._alert("primary", "WebSocket已关闭");
     this.server.onerror = (error) => window._alert("danger", `WebSocket出错：${error}`);
-    this.server.onmessage = (message) => this.callback(JSON.parse(message.data)); ;
+    this.server.onmessage = (message) => this.emit(JSON.parse(message.data)); ;
   }
 
   /**
@@ -27,10 +27,10 @@ class GameWebSocket {
    * @param {ICallback} callback 
    * @returns 
    */
-  public addCallback(callback: ICallback) {
+  public on(callback: ICallback) {
     const action = callback.action;
     if (action instanceof Array) {
-      action.forEach(action => this.addCallback({
+      action.forEach(action => this.on({
         action, 
         callback: callback.callback
       }))
@@ -46,7 +46,7 @@ class GameWebSocket {
    * 发布者 (本来是设置成private，但有可能信息不通过ws传过来，需要手动发布信息，因此设置成public)
    * @param {IActionMessage} message 
    */
-  public callback(message: IActionMessage) {
+  public emit(message: IActionMessage) {
     const action = message.action;
     if (this.callbackMap[action]) {
       this.callbackMap[action].forEach(fn => fn(message.data));
