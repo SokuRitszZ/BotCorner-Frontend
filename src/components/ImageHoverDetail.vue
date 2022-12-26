@@ -2,7 +2,7 @@
   <div class="relative flex flex-col justify-center">
     <img @mouseenter="hover" @mouseleave="leave" :class="props.class" :src="props.src" alt="img">
     <Transition>
-      <div @mouseenter="hover" @mouseleave="leave" v-if="status === 'show'" :class="boardClass" class="absolute p-3 bg-gray-50 opacity-50 rounded-2xl left-0 bottom-0 translate-y-[110%]">
+      <div @mouseenter="hover" @mouseleave="leave" v-if="status === 'show'" :class="boardClass" class="absolute p-3 bg-gray-50 opacity-50 rounded-2xl left-0 bottom-0 translate-y-[110%] z-50">
         <slot></slot>
       </div>
     </Transition>
