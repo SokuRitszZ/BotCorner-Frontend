@@ -28,7 +28,7 @@ class SnakeGame extends Game {
     }));
   }
 
-  public setStep(data: {
+  protected _setStep(data: {
     id: number,
     d: number,
     incr: boolean,
@@ -36,9 +36,10 @@ class SnakeGame extends Game {
   }) {
     const { id, d, incr, status } = data;
     this.snakes[id].addNextStep(d, incr, status);
+    return this;
   }
 
-  public prepare(options: { mode: "single" | "multi" | "record"; initData: any; }): this {
+   protected _prepare(options: { mode: "single" | "multi" | "record"; initData: any; }): this {
     const { mode, initData } = options;
     this.mode = mode;
 
