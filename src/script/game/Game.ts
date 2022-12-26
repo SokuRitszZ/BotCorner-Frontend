@@ -8,6 +8,7 @@ class Game {
   private screen: Screen;
   private gameObjects: GameObject[] = [];
   private engine: number = 0;
+  private callbacks: {[key: string]: Function[]} = {};
 
   public get L() {
     return this.screen.L;
@@ -24,11 +25,38 @@ class Game {
     this.screen = new Screen(this, $parent);
   }
 
-  public parseAndAct(data: any) {
-
+  public on(tag: string, callback: Function) {
+    if (!this.callbacks[tag]) this.callbacks[tag] = [];
+    this.callbacks[tag].push(callback);
   }
 
-  public setStep(data: any) {}
+  public emit(tag: string, ...args: any) {
+    if (!this.callbacks[tag]) return ;
+    this.callbacks[tag].forEach(fn => fn(...args));
+  }
+
+  public parseAndAct(data: any) {
+  }
+
+  public prepare(options: {
+    mode: "single" | "multi" | "record",
+    initData: any
+  }) {
+    this._prepare(options);
+    this.emit("prepare", options);
+    return this;
+  }
+
+  public setStep(data: any) {
+
+    this._setStep(data);
+    this.emit("set step", data);
+    return this;
+  }
+
+  protected _setStep(data: any) {
+    return this;
+  }
 
   public setScreen(options: [number, number]) {
     this.screen.config(options);
@@ -37,13 +65,15 @@ class Game {
 
   public addObj(obj: GameObject) {
     this.gameObjects.push(obj);
+    return this;
   }
 
   public removeObj(obj: GameObject) {
     this.gameObjects = this.gameObjects.filter(_obj => _obj !== obj);
+    return this;
   }
   
-  public prepare(options: {
+  protected _prepare(options: {
     mode: "single" | "multi" | "record",
     initData: any
   }) {
