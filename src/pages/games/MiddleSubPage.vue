@@ -6,34 +6,35 @@
     <div class="mt-3 text-gray-300 rounded-xl flex justify-center items-center bg-purple-800 p-3">
       录像播放控件
     </div>
-    <RecordList @play-record="playRecord" :game-id="1" class="bg-purple-800 mt-3 p-3 rounded-xl w-full h-fit" />
+    <RecordList @play-record="playRecord" :game-id="gameId" class="bg-purple-800 mt-3 p-3 rounded-xl w-full h-fit" />
   </div>
 </template>
 
 <script setup lang="ts">
-import Game from '@/script/game/Game';
-import SnakeGame from '@/script/game/snake/SnakeGame';
+import useCacheStore from '@/store/cacheStore';
+import useGameStore from '@/store/gameStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import RecordList from './RecordList.vue';
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
+  game: string;
 };
 const props = defineProps<PropsType>();
 
 const $parent = ref();
 const $canvas = ref();
 
-const game = ref<Game>();
+const gameStore = useGameStore();
 const server = ref<GameWebSocket>();
+const gameId = ref<number>(0);
 
 const recordPlayer = ref<RecordPlayer>();
 
 const playRecord = (record: IRecord) => {
   recordPlayer.value?.load(record)
     .setSpeed(2)
-    // .on("stop", () => console.log("stop"))
     .play();
 };
 
@@ -44,17 +45,27 @@ const prepare = (options: {
   if ($canvas.value) $canvas.value.remove();
   $canvas.value = document.createElement("canvas");
   $parent.value.append($canvas.value);
-  game.value = new SnakeGame($parent.value, $canvas.value);
-  game.value.prepare({
-    mode: options.mode,
-    initData: options.initData,
-  });
-  game.value.start();
+  gameStore.createGame(props.game, $parent.value, $canvas.value);
+  gameStore.game
+    ?.prepare({
+      mode: options.mode,
+      initData: options.initData,
+    })
+    .start();
 };
 
+const cacheStore = useCacheStore();
 
 onMounted(async () => {
-  game.value = new SnakeGame($parent.value, $canvas.value);
+  cacheStore.getGames()
+    .then(() => {
+      gameId.value = cacheStore.getGameId(props.game);
+    });
+
+  gameStore.createGame(props.game, $parent.value, $canvas.value)
+    .on("prepare", (data: any) => {
+      window._alert("warning", "等待游戏开始...");
+    });
   
   server.value = await props.promise_server;
 
@@ -70,10 +81,10 @@ onMounted(async () => {
       }
     })
     .on({
-      action: "move snake",
+      action: "set step truly",
       callback: (data) => {
         const step = data.step;
-        game.value!.parseAndAct(step);
+        gameStore.game?.parseAndAct(step);
       }
     })
     .on({
@@ -84,6 +95,12 @@ onMounted(async () => {
         } else {
           prepare(data);
         }
+      }
+    })
+    .on({
+      action: "play record",
+      callback: data => {
+        window._alert("warning", "开始播放录像");
       }
     })
     .on({
@@ -107,22 +124,21 @@ onMounted(async () => {
         initData
       });
     },
-    (cur, record) => {
-      const step = record.steps.slice(cur.v, cur.v + 5);
-      cur.v += 5;
-      return step;
-    },
+    gameStore.game!.next,
     () => "",
   )
     .on("next", (curV: number, step: string) => {
       server.value?.emit({
-        action: "move snake",
+        action: "set step truly",
         data: {
           step
         }
       });
     });
-  ;
+});
+
+onUnmounted(() => {
+  gameStore.clearEmit();
 });
 </script>
 <style scoped lang="scss"></style>

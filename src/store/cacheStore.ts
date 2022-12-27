@@ -157,6 +157,9 @@ const useCacheStore = defineStore("CacheStore", {
     getGame(gameId: number) {
       return this.games.find((game) => game.id === gameId)!.name;
     },
+    getGameId(title: string) {
+      return this.games.find((game) => game.title === title)!.id;
+    }
   },
 });
 

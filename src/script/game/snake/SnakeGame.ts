@@ -1,3 +1,4 @@
+import { IRecord } from "@/utils/RecordPlayer";
 import Game from "../Game";
 import GameMap from "./GameMap";
 import Snake, { IStatus } from "./Snake";
@@ -7,12 +8,17 @@ class SnakeGame extends Game {
   public cols: number = 0;
   public g: number[][] = [];
 
-  private mode: "single" | "multi" | "record" = "single";
   private map: GameMap = new GameMap(this);
   private snakes: Snake[] = [];
   
   constructor($parent: HTMLDivElement, $canvas: HTMLCanvasElement) {
     super($parent, $canvas);
+  }
+
+  public next(cur: {v: number}, record: IRecord) {
+    const step = record.steps.slice(cur.v, cur.v + 5);
+    cur.v += 5;
+    return step;
   }
 
   public parseAndAct(data: any): void {
@@ -40,8 +46,7 @@ class SnakeGame extends Game {
   }
 
    protected _prepare(options: { mode: "single" | "multi" | "record"; initData: any; }): this {
-    const { mode, initData } = options;
-    this.mode = mode;
+    const { initData } = options;
 
     let { rc, mask } = initData;
     this.cols = rc & (1 << 16) - 1;

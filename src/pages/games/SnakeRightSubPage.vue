@@ -33,15 +33,16 @@
 import DirectionController from '@/components/DirectionController.vue';
 import Icon from '@/components/Icon.vue';
 import { IUser } from '@/store/cacheStore';
+import useGameStore from '@/store/gameStore';
 import useUserStore from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import { onMounted, ref } from 'vue';
-import { createMemoryHistory } from 'vue-router';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
 };
 const userStore = useUserStore();
+const gameStore = useGameStore();
 const props = defineProps<PropsType>();
 const botIds = ref<number[]>([1, 1]);
 const userData = ref<IUser[]>(new Array<IUser>(2).fill({} as IUser).map(x => userStore.$state as IUser));
@@ -59,7 +60,7 @@ const getType = (d: number) => {
     case 3: return "left";
     default: return "primary";
   }
-}
+};
 
 const control = (id: number, d: number) => {
   if (!server.value) return;
@@ -68,7 +69,6 @@ const control = (id: number, d: number) => {
     data: { id, d }
   });
 };
-
 onMounted(async () => {
   server.value = await props.promise_server;
   server.value
@@ -82,17 +82,7 @@ onMounted(async () => {
     .on({
       action: ["start single game", "start multi game"],
       callback: data => {
-        window._alert("warning", "等待游戏开始...");
-        ok.value = [true, true];
-        chose.value = [[], []];
         botIds.value = data.botIds;
-      }
-    })
-    .on({
-      action: "play record",
-      callback: data => {
-        window._alert("warning", "开始播放录像");
-        chose.value = [[], []];
       }
     })
     .on({
@@ -102,10 +92,8 @@ onMounted(async () => {
       }
     })
     .on({
-      action: "move snake",
+      action: "set step truly",
       callback: data => {
-        chose.value[0].unshift(parseInt(data.step[0]));
-        chose.value[1].unshift(parseInt(data.step[1]));
         ok.value = ok.value.map(x => false);
       }
     })
@@ -120,6 +108,15 @@ onMounted(async () => {
       callback: data => {
         userData.value = data.userData;
       }
+    });
+  gameStore
+    .on("set step", (data: any) => {
+      const {id, d} = data;
+      chose.value[id].unshift(d);
+    })
+    .on("prepare", (data: any) => {
+        ok.value = [true, true];
+        chose.value = [[], []];
     });
 });
 

@@ -79,6 +79,7 @@ import useUserStore, { IUser } from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import leftpad from '@/utils/leftpad';
 import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 type IMode = "single" | "multi";
 type IStatus = "to start" | "starting" | "started";
@@ -128,6 +129,7 @@ onMounted(async () => {
       callback: data => {
         multi_userData.value = data.userData;
         match_status.value = "matched";
+        multi_isOk.value = [false, false];
       }
     })
     .on({
@@ -233,11 +235,15 @@ const disabled_multi = computed(() => mode.value !== 'multi' || status.value !==
 
 const disabled_exit = computed(() => mode.value !== 'multi' || status.value !== 'starting' || match_status.value === 'to match');
 
+const route = useRoute();
+
 onMounted(() => {
-  cacheStore.getBots()
-    .then(list => {
-      botList.value.push(...list.filter(bot => bot.gameId === 1).map(bot => ({ key: bot.title + '#' + bot.id, value: bot.id })));
-    });
+  userStore.addAfterLoginCallback("get bot list by game id", () => {
+    Promise.all([cacheStore.getBots(), cacheStore.getGames()])
+      .then(([list, _]) => {
+        botList.value.push(...list.filter(bot => bot.gameId === cacheStore.getGameId(route.params.game as string)).map(bot => ({ key: bot.title + '#' + bot.id, value: bot.id })));
+      });
+  })
 });
 
 </script>

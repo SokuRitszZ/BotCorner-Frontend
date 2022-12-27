@@ -2,33 +2,39 @@
   <div class="min-w-[1600px] w-screen h-screen bg-purple-300 flex justify-center items-center">
     <div class="grid grid-cols-7 w-4/5 h-5/6 gap-3">
       <!-- left -->
-      <LeftSubPage :promise_server="promise_server"/>
+      <LeftSubPage :promise_server="promise_server" />
       <!-- middle -->
       <div class="col-span-3 flex justify-center bg-purple-700 rounded-3xl p-3 shadow-xl overflow-scroll">
-        <MiddleSubPage :promise_server="promise_server" />
+        <MiddleSubPage :game="(route.params.game as string)" :promise_server="promise_server" />
       </div>
       <!-- right -->
       <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl flex flex-col justify-between px-3">
-        <RightSubPage :promise_server="promise_server" />
+        <SnakeRightSubPage v-if="(route.params.game as string) === 'snake'" :promise_server="promise_server" />
+        <ReversiRightSubPage v-else-if="(route.params.game as string) === 'reversi'" :promise_server="promise_server" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import useUserStore, { IUser } from '@/store/userStore';
+import useUserStore from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import { onMounted, onUnmounted, ref } from 'vue';
 import LeftSubPage from './LeftSubPage.vue';
 import MiddleSubPage from "./MiddleSubPage.vue";
-import RightSubPage from './RightSubPage.vue';
+import SnakeRightSubPage from './SnakeRightSubPage.vue';
+import { ws_url, mode } from "@/config.json";
+import { useRoute } from 'vue-router';
+import ReversiRightSubPage from './ReversiRightSubPage.vue';
 
 const userStore = useUserStore();
+const route = useRoute();
 
 const server = ref<GameWebSocket>();
 const promise_server = ref<Promise<GameWebSocket>>(new Promise((resolve) => {
+  const game = route.params.game;
   userStore.addAfterLoginCallback("connect to ws", () => {
-    server.value = new GameWebSocket(`ws://localhost:8080/websocket/snake/${userStore.token}`);
+    server.value = new GameWebSocket(`${ws_url[mode]}/${game}/${userStore.token}`);
     resolve(server.value);
   });
 }));
@@ -44,12 +50,6 @@ onMounted(async () => {
       }
     })
     .on({
-      action: 'make match',
-      callback: data => {
-        console.log(data);
-      }
-    })
-    .on({
       action: "nothing",
       callback: (data: any) => { }
     })
@@ -62,7 +62,7 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  if (!server.value) return ;
+  if (!server.value) return;
   userStore.removeAfterLoginCallback("connect to ws");
   server.value.close();
   userStore.removeAfterLoginCallback("get record list");
