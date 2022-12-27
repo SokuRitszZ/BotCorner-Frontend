@@ -102,16 +102,6 @@ const setSelectedGame = (game: IGame) => {
   @apply max-h-[56px];
 }
 
-// .v-enter-from,
-// .v-leave-to {
-//   @apply max-h-0 mt-0 py-0;
-// }
-
-// .v-enter-to,
-// .v-leave-from {
-//   @apply max-h-[56px]
-// }
-
 .champion {
   @apply bg-yellow-400 text-white shadow-yellow-200;
   box-shadow: 0 0 50px;

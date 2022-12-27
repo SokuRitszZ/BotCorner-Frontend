@@ -13,8 +13,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/game",
-    name: "game",
-    component: () => import("@/pages/Game.vue"),
+    name: "game lobby",
+    component: () => import("@/pages/GameLobby.vue"),
   },
   {
     path: "/bots",
@@ -27,9 +27,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/Rating.vue"),
   },
   {
-    path: "/game/snake",
-    name: "snake",
-    component: () => import("@/pages/games/Snake.vue"),
+    path: "/game/:game",
+    name: "game",
+    component: () => import("@/pages/games/Game.vue"),
   },
   {
     path: "/404",
