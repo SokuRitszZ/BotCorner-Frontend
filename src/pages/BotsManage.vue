@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-5">
+  <div class="grid grid-cols-5 min-w-[1600px]">
     <!-- left -->
     <div class="py-24 px-16 col-span-1 h-screen border-r-[1px] border-gray-300">
       <div class="flex gap-4">
