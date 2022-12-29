@@ -11,22 +11,22 @@
             {{ record.reason }}
           </div>
         </div>
-        <div class="flex justify-around items-center">
+        <div class="grid grid-cols-5 gap-3 items-center">
           <div :key="user.id" v-for="(user, index) in record.users"
-            class="flex justify-around items-center text-xl p-1 rounded-lg border-2" :class="{
+            class="col-span-2 flex justify-around items-center text-sm p-1 rounded-lg border-2" :class="{
               'bg-red-800': index === 0 && record.reason.split(',')[0] === '',
               'bg-blue-800': index === 1 && record.reason.split(',')[1] === '',
               'border-red-800': index === 0,
               'border-blue-800': index === 1,
             }">
-            <ImageHoverDetail :src="user.headIcon" class="w-10 h-10 rounded-full">
+            <ImageHoverDetail :src="user.headIcon" class="col-span-2 w-5 h-5 rounded-full">
               {{ record.users[index].username }}#{{ leftpad(8, record.users[index].id) }}
             </ImageHoverDetail>
-            <div class="text-white">
+            <div class="col-span-1 text-white justify-end">
               {{ record.titles[index] }}
             </div>
           </div>
-          <div>
+          <div class="flex justify-end">
             <Icon @click="play(record.id)"
               class="cursor-pointer transition text-purple-400 hover:text-purple-500 active:text-purple-600" type="play"
               :size="32" />

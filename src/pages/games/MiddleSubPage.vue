@@ -64,6 +64,7 @@ onMounted(async () => {
 
   gameStore.createGame(props.game, $parent.value, $canvas.value)
     .on("prepare", (data: any) => {
+      if (data.mode !== "record") recordPlayer.value?.stop();
       window._alert("warning", "等待游戏开始...");
     });
   
