@@ -2,6 +2,7 @@ import { getBotsApi } from "@/api/bots";
 import { getGamesApi, getLangsApi } from "@/api/cache";
 import { getRatingsApi } from "@/api/ratings";
 import { defineStore } from "pinia";
+import { toRaw } from "vue";
 
 export type ILang = {
   id: number;
@@ -102,20 +103,21 @@ const useCacheStore = defineStore("CacheStore", {
       }
     },
     getBots(): Promise<IBot[]> {
-      if (!this.bots.length && !this.promises["bots"]) {
-        return (this.promises["bots"] = getBotsApi()
-          .then((info) => (info as any).bots)
-          .then((bots) => {
-            this.bots.push(...bots);
-            return this.bots;
-          }))
-          .catch(error => {
+      return Promise.all([this.getGames(), this.getLangs()]).then(() => {
+        if (!this.bots.length && !this.promises["bots"]) {
+          return (this.promises["bots"] = getBotsApi()
+            .then((info) => (info as any).bots)
+            .then((bots) => {
+              this.bots.push(...bots);
+              return this.bots;
+            })).catch((error) => {
             this.promises["bots"] = null;
             window._alert("danger", `获取Bot列表失败：${error}`);
           });
-      } else {
-        return this.promises["bots"] as Promise<IBot[]>;
-      }
+        } else {
+          return this.promises["bots"] as Promise<IBot[]>;
+        }
+      });
     },
     getRatings(game: string): Promise<any> {
       const promiseMap = this.promises["ratings"] as IPromiseMap;

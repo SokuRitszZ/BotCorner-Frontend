@@ -71,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+import { getBotsApi } from '@/api/bots';
 import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
 import Select from '@/components/Select.vue';
 import { IEntry } from '@/components/Select.vue';
@@ -239,8 +240,8 @@ const route = useRoute();
 
 onMounted(() => {
   userStore.addAfterLoginCallback("get bot list by game id", () => {
-    Promise.all([cacheStore.getBots(), cacheStore.getGames()])
-      .then(([list, _]) => {
+    cacheStore.getBots()
+      .then(list => {
         botList.value.push(...list.filter(bot => bot.gameId === cacheStore.getGameId(route.params.game as string)).map(bot => ({ key: bot.title + '#' + bot.id, value: bot.id })));
       });
   })
