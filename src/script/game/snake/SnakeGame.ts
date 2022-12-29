@@ -63,10 +63,10 @@ class SnakeGame extends Game {
 
     this.snakes = [
       new Snake(this, {
-        r: 1, c: this.cols - 2,
+        x: 1, y: this.cols - 2,
       }, "#ff0000"),
       new Snake(this, {
-        r: this.rows - 2, c: 1,
+        x: this.rows - 2, y: 1,
       }, "#0000ff")
     ];
     
@@ -75,8 +75,3 @@ class SnakeGame extends Game {
 }
 
 export default SnakeGame;
-
-export type IPosition = {
-  r: number;
-  c: number;
-};
