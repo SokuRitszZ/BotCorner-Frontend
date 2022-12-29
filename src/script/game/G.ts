@@ -48,6 +48,42 @@ class G {
     c.closePath();
     c.stroke();
   }
+
+  static Poly(options: {
+    ps: number[][], 
+    color?: string,
+  }) {
+    const {ps, color} = options;
+    const c = G.context;
+    c.beginPath();
+    ps.forEach(([x, y], idx) => {
+      if (!idx) c.moveTo(y, x);
+      else c.lineTo(y, x);
+    });
+    c.closePath();
+    c.fillStyle = color || "#000000";
+    c.fill();
+  }
+
+  static StrokePoly(options: {
+    ps: number[][], 
+    width?: number,
+    color?: string,
+  }) {
+    const {ps, width, color} = options;
+    const c = G.context;
+    c.save();
+    c.beginPath();
+    ps.forEach(([x, y], idx) => {
+      if (!idx) c.moveTo(y, x);
+      else c.lineTo(y, x);
+    });
+    c.closePath();
+    c.strokeStyle = color || "#000000";
+    c.lineWidth = width || 1
+    c.stroke();
+    c.restore();
+  }
 }
 
 export default G;
