@@ -12,6 +12,7 @@
         <SnakeRightSubPage v-if="(route.params.game as string) === 'snake'" :promise_server="promise_server" />
         <ReversiRightSubPage v-else-if="(route.params.game as string) === 'reversi'" :promise_server="promise_server" />
         <BackgammonRightSubPage v-else-if="(route.params.game as string) === 'backgammon'" :promise_server="promise_server" />
+        <HexRightSubPage v-else-if="(route.params.game as string) === 'hex'" :promise_server="promise_server"/>
       </div>
     </div>
   </div>
@@ -28,6 +29,7 @@ import { ws_url, mode } from "@/config.json";
 import { useRoute } from 'vue-router';
 import ReversiRightSubPage from './ReversiRightSubPage.vue';
 import BackgammonRightSubPage from './BackgammonRightSubPage.vue';
+import HexRightSubPage from './HexRightSubPage.vue';
 
 const userStore = useUserStore();
 const route = useRoute();

@@ -34,7 +34,7 @@ const recordPlayer = ref<RecordPlayer>();
 
 const playRecord = (record: IRecord) => {
   recordPlayer.value?.load(record)
-    .setSpeed(2)
+    .setSpeed(4)
     .play();
 };
 
