@@ -13,7 +13,7 @@ const prepare = (options: {
   if ($canvas.value) $canvas.value.remove();
   $canvas.value = document.createElement("canvas");
   $parent.value.append($canvas.value);
-  gameStore.createGame("hex", $parent.value, $canvas.value);
+  gameStore.createGame("gomoku", $parent.value, $canvas.value);
   gameStore.game
     ?.prepare({
       mode: options.mode,
