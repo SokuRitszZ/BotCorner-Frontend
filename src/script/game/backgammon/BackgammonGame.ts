@@ -4,7 +4,6 @@ import Chess from "./Chess";
 import GameMap from "./GameMap";
 import Selector from "./Selector";
 import Die from "./Die";
-import {isNumber} from "lodash";
 
 class BackgammonGame extends Game {
   public readonly rows = 11;
