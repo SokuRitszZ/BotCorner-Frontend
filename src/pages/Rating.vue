@@ -20,7 +20,7 @@
           </div>
           <div class="text-xl username">{{ rating.username }}
           </div>
-          <div class="text-xl rating">{{ rating.rating }}</div>
+          <div class="text-xl rating">{{ rating.score }}</div>
         </div>
       </TransitionGroup>
     </div>
@@ -56,7 +56,7 @@ const selectedGame = ref<IGame>();
 const setSelectedGame = (game: IGame) => {
   if (selectedGame.value === game) return;
   selectedGame.value = game;
-  cacheStore.getRatings(game.title)
+  cacheStore.getRatings(game.id)
     .then(list => {
       ratings.value = (list as IRating[]);
     });

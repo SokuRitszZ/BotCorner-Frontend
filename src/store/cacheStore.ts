@@ -36,7 +36,7 @@ export type IUser = {
 };
 
 export type IRating = {
-  rating: number;
+  score: number;
 } & IUser;
 
 export type IPromiseMap = {
@@ -119,22 +119,22 @@ const useCacheStore = defineStore("CacheStore", {
         }
       });
     },
-    getRatings(game: string): Promise<any> {
+    getRatings(gameId: number): Promise<any> {
       const promiseMap = this.promises["ratings"] as IPromiseMap;
-      if (!this.ratings[game] && !promiseMap[game]) {
-        return (promiseMap[game] = getRatingsApi(game)
+      if (!this.ratings[gameId] && !promiseMap[gameId]) {
+        return (promiseMap[gameId] = getRatingsApi(gameId)
           .then((info) => (info as any).ratings)
           .then((ratings) => {
-            this.ratings[game] = [];
-            this.ratings[game].push(...ratings);
-            return this.ratings[game];
+            this.ratings[gameId] = [];
+            this.ratings[gameId].push(...ratings);
+            return this.ratings[gameId];
           }))
           .catch(error => {
-            promiseMap[game] = null;
+            promiseMap[gameId] = null;
             window._alert("danger", `获取排名失败：${error}`);
           });
       } else {
-        return promiseMap[game] as Promise<any>;
+        return promiseMap[gameId] as Promise<any>;
       }
     },
     emptyLangs() {
