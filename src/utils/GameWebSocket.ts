@@ -51,7 +51,7 @@ class GameWebSocket {
     if (this.callbackMap[action]) {
       this.callbackMap[action].forEach(fn => fn(message.data));
     } else {
-      window._alert("danger", `执行回调失败：不存在${message.action}`);
+      // window._alert("danger", `执行回调失败：不存在${message.action}`);
     }
   }
 
