@@ -3,9 +3,7 @@
     <div ref="$parent" class="w-full h-2/3 overflow-hidden bg-black rounded-xl flex justify-center items-center">
       <canvas ref="$canvas"></canvas>
     </div>
-    <div class="mt-3 text-gray-300 rounded-xl flex justify-center items-center bg-purple-800 p-3">
-      录像播放控件
-    </div>
+    <RecordPlayerVue ref="$recordPlayer" :promise_server="props.promise_server" />
     <RecordList @play-record="playRecord" :game-id="gameId" class="bg-purple-800 mt-3 p-3 rounded-xl w-full h-fit" />
   </div>
 </template>
@@ -14,9 +12,11 @@
 import useCacheStore from '@/store/cacheStore';
 import useGameStore from '@/store/gameStore';
 import GameWebSocket from '@/utils/GameWebSocket';
-import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
 import { onMounted, onUnmounted, ref } from 'vue';
 import RecordList from './RecordList.vue';
+import RecordPlayerVue from '@/components/RecordPlayer.vue';
+import { IRecord } from '@/utils/RecordPlayer';
+
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
   game: string;
@@ -30,13 +30,7 @@ const gameStore = useGameStore();
 const server = ref<GameWebSocket>();
 const gameId = ref<number>(0);
 
-const recordPlayer = ref<RecordPlayer>();
-
-const playRecord = (record: IRecord) => {
-  recordPlayer.value?.load(record)
-    .setSpeed(4)
-    .play();
-};
+const $recordPlayer = ref();
 
 const prepare = (options: {
   mode: "single" | "multi" | "record",
@@ -44,6 +38,7 @@ const prepare = (options: {
 }) => {
   if ($canvas.value) $canvas.value.remove();
   $canvas.value = document.createElement("canvas");
+  $parent.value.innerHTML = "";
   $parent.value.append($canvas.value);
   gameStore.createGame(props.game, $parent.value, $canvas.value);
   gameStore.game
@@ -53,6 +48,10 @@ const prepare = (options: {
     })
     .start();
 };
+
+const playRecord = (record: IRecord) => {
+  $recordPlayer.value.playRecord(record);
+}
 
 const cacheStore = useCacheStore();
 
@@ -64,13 +63,11 @@ onMounted(async () => {
 
   gameStore.createGame(props.game, $parent.value, $canvas.value)
     .on("prepare", (data: any) => {
-      if (data.mode !== "record") recordPlayer.value?.stop();
+      if (data.mode !== "record") $recordPlayer.value.getRecordPlayer().stop();
       window._alert("warning", "等待游戏开始...");
     });
   
-  server.value = await props.promise_server;
-
-  server.value
+  server.value = (await props.promise_server)
     .on({
       action: "start single game",
       callback: data => {
@@ -102,6 +99,7 @@ onMounted(async () => {
       action: "play record",
       callback: data => {
         window._alert("warning", "开始播放录像");
+        prepare(data);
       }
     })
     .on({
@@ -112,29 +110,6 @@ onMounted(async () => {
           data: undefined
         });
       }
-    });
-
-  recordPlayer.value = new RecordPlayer(
-    (initData: any): void => {
-      server.value?.emit({
-        action: "play record",
-        data: undefined
-      });
-      prepare({
-        mode: "record",
-        initData
-      });
-    },
-    gameStore.game!.next,
-    () => "",
-  )
-    .on("next", (curV: number, step: string) => {
-      server.value?.emit({
-        action: "set step truly",
-        data: {
-          step
-        }
-      });
     });
 });
 

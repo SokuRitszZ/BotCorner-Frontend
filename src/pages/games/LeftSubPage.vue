@@ -28,8 +28,7 @@
           class="text-white text-xl bg-green-700 py-1 px-3 rounded-lg hover:bg-green-800 active:bg-green-900">开始</button>
       </h1>
       <div class="pt-3">
-        <Select :disabled="disabled_multi" v-model="multi_botId" class="h-10 rounded-xl w-full" :list="botList">
-        </Select>
+        <Select :disabled="disabled_multi" v-model="multi_botId" class="h-10 rounded-xl w-full" :list="botList" />
       </div>
     </div>
     <div class="w-full pt-3 relative">
