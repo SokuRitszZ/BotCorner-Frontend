@@ -47,16 +47,17 @@ class ReversiGame extends Game {
   public parseAndAct(data: string): void {
     "id.r.c";
     const [id, r, c] = data.split("").map(x => parseInt(x));
-    this.setStep({ id, r, c });
+    this.setStep({ id, r, c, step: data });
   }
 
   protected _setStep(data: {
     id: number,
     r: number,
     c: number,
+    step: string
   }) {
-    const { id, r, c } = data;
-    this.putChess(id, r, c);
+    const { id, r, c, step } = data;
+    this.putChess(id, r, c, step);
     return this;
   }
 
@@ -80,12 +81,14 @@ class ReversiGame extends Game {
     return this;
   }
 
-  private putChess(id: number, r: number, c: number) {
+  private putChess(id: number, r: number, c: number, step: string) {
     if (r === 9) {
-      this.pass();
+      this.pass(step);
       return ;
     }
+    const changedChess: [number, number][] = [];
     this.g[r][c] = id;
+    const lastLastPut = this.lastPut;
     this.lastPut = {r, c};
     for (let i = 0; i < 8; ++i) {
       if (this.isValidDir(r, c, i, id)) {
@@ -93,6 +96,7 @@ class ReversiGame extends Game {
         let nc = c + ReversiGame.dy[i];
         while (this.isIn(nr, nc) && this.g[nr][nc] === (id ^ 1)) {
           this.g[nr][nc] = id;
+          changedChess.push([nr, nc]); // record
           nr += ReversiGame.dx[i];
           nc += ReversiGame.dy[i];
         }
@@ -105,6 +109,12 @@ class ReversiGame extends Game {
       c, 
       cnt: [this.getCnt(0), this.getCnt(1)]
     });
+    this.memo(step, () => {
+      this.lastPut = lastLastPut;
+      this.g[r][c] = 2;
+      changedChess.forEach(([r, c]) => this.g[r][c] ^= 1);
+      this.cur ^= 1;
+    });
   }
 
   private getCnt(x: number) {
@@ -116,9 +126,10 @@ class ReversiGame extends Game {
     return res;
   }
   
-  private pass() {
+  private pass(step: string) {
     this.cur ^= 1;
     this.emit("pass", this.cur ^ 1);
+    this.memo(step, () => this.cur ^= 1);
   }
 
   private isValidDir(r: number, c: number, dir: number, id: number) {
