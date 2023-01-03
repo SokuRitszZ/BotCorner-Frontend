@@ -3,11 +3,17 @@ import G from "./G";
 import GameObject from "./GameObject";
 import Screen from "./Screen";
 
+type IAction = {
+  step: string;
+  fn: Function;
+}
+
 class Game {
   public mode: "single" | "multi" | "record" = "single";
 
   protected $parent: HTMLDivElement;
   protected $canvas: HTMLCanvasElement;
+  protected stack: IAction[] = [];
 
   private screen: Screen;
   private gameObjects: GameObject[] = [];
@@ -30,6 +36,13 @@ class Game {
 
   public next(cur: { v: number }, record: IRecord) {
     return "";
+  }
+
+  public upend(cur: { v: number }, record: IRecord) {
+    if (!this.stack.length) return ;
+    const action = this.stack.pop();
+    cur.v -= action!.step.length;
+    action!.fn();
   }
 
   public on(tag: string, callback: Function) {
@@ -60,10 +73,6 @@ class Game {
     return this;
   }
 
-  protected _setStep(data: any) {
-    return this;
-  }
-
   public setScreen(options: [number, number]) {
     this.screen.config(options);
     return this;
@@ -76,14 +85,6 @@ class Game {
 
   public removeObj(obj: GameObject) {
     this.gameObjects = this.gameObjects.filter((_obj) => _obj !== obj);
-    return this;
-  }
-
-  protected _prepare(options: {
-    mode: "single" | "multi" | "record";
-    initData: any;
-  }) {
-    // abstract
     return this;
   }
 
@@ -110,8 +111,6 @@ class Game {
     return this;
   }
 
-  protected onStart() {}
-
   public stop() {
     // abstract
     this.gameObjects.forEach((obj) => obj.destroy());
@@ -121,7 +120,25 @@ class Game {
     return this;
   }
 
+  protected _setStep(data: any) {
+    return this;
+  }
+
+  protected _prepare(options: {
+    mode: "single" | "multi" | "record";
+    initData: any;
+  }) {
+    // abstract
+    return this;
+  }
+
+  protected onStart() {}
+
   protected onStop() {}
+
+  protected memo(step: string, fn: Function) {
+    this.stack.push({step, fn});
+  }
 }
 
 export default Game;
