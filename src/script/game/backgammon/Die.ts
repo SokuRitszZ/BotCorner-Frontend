@@ -52,6 +52,18 @@ class Die extends GameObject {
     this.num = num;
   }
 
+  /**
+   * For Record
+   * @returns 
+   */
+  public getJson() {
+    return {
+      idx: this.idx,
+      id: this.id,
+      num: this.num,
+    };
+  }
+
   protected onStart(): void {
     this.addUpdater(
       "render die",
