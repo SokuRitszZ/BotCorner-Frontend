@@ -21,17 +21,23 @@ class SnakeGame extends Game {
     return step;
   }
 
-  public parseAndAct(data: any): void {
+  public parseAndAct(data: string): void {
     "d0.d1.incr.status0.status1";
     const d = [parseInt(data[0]), parseInt(data[1])];
-    const incr = data[2] == 1;
-    const status = [data[3], data[4]].map(x => x == 1 ? "die" : "alive");
+    const incr = data[2] == "1";
+    const status = [data[3], data[4]].map(x => x == "1" ? "die" : "alive");
     [0, 1].forEach(x => this.setStep({
       id: x,
       d: d[x],
       incr: incr,
-      status: status[x]
+      status: status[x],
+      step: data
     }));
+    this.memo(data, () => {
+      [0, 1].forEach(x => {
+        this.snakes[x].addNextStep(d[x], incr, status[x], true);
+      });
+    });
   }
 
   protected _setStep(data: {
@@ -39,9 +45,11 @@ class SnakeGame extends Game {
     d: number,
     incr: boolean,
     status: IStatus,
+    step: string
   }) {
-    const { id, d, incr, status } = data;
-    this.snakes[id].addNextStep(d, incr, status);
+    const { id, d, incr, status, step } = data;
+    this.snakes[id].addNextStep(d, incr, status, false);
+
     return this;
   }
 

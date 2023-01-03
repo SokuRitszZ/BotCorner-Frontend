@@ -1,8 +1,7 @@
 import GameObject from "../GameObject";
 import SnakeGame from "./SnakeGame";
-import { IPosition } from "./SnakeGame";
 import Updater from "../Updater";
-import C from "../C";
+import C, { IPosition } from "../C";
 import G from "../G";
 
 export type IStatus = "alive" | "die";
@@ -16,9 +15,10 @@ class Snake extends GameObject {
   private status: IStatus = "alive";
   private mqTimer: NodeJS.Timer | undefined = undefined;
   private mqCallback: () => void = () => {};
-  private mq: [number, boolean, IStatus][] = [];
+  private mq: [number, boolean, IStatus, boolean][] = [];
   private color: string;
   private speed: number = 5;
+  private stateStack: IPosition[][] = [];
 
   constructor(root: SnakeGame, position: IPosition, color: string) {
     super(root);
@@ -27,8 +27,8 @@ class Snake extends GameObject {
     this.color = color;
   }
 
-  public addNextStep(d: number, incr: boolean, status: "alive" | "die") {
-    this.mq.push([d, incr, status]);
+  public addNextStep(d: number, incr: boolean, status: "alive" | "die", dir: boolean) {
+    this.mq.push([d, incr, status, dir]);
   }
 
   protected onStart(): void {
@@ -80,7 +80,7 @@ class Snake extends GameObject {
 
     this.mqTimer = setInterval(this.mqCallback = () => {
       if (this.mq.length) 
-        this.nextStep(...(this.mq.shift() as [number, boolean, IStatus]));
+        this.nextStep(...(this.mq.shift() as [number, boolean, IStatus, boolean]));
     }, 250);
 
     document.addEventListener('visibilitychange', e => {
@@ -96,40 +96,47 @@ class Snake extends GameObject {
     clearInterval(this.mqTimer);
   }
 
-  private nextStep(d: number, incr: boolean, status: IStatus) {
-    if (this.status === "die") return ;
-    this.status = status;
-    if (status === "die") this.color = "#ffffff";
-    const nextCell: IPosition = {
-      x: this.cells[0].x + Snake.dx[d],
-      y: this.cells[0].y + Snake.dy[d],
-    };
-    this.cells = [{ ...this.cells[0] }].concat(
-      this.cells.map((x) => ({ ...x } as IPosition))
-    );
-    this.addUpdater("next step", new Updater(() => {
-      let dr = nextCell.x - this.cells[0].x;
-      let dc = nextCell.y - this.cells[0].y;
-      let dist = C.distance(nextCell, this.cells[0]);
-      const move_dist = this.speed * this.dTime;
-      if (dist < move_dist) {
-        this.cells[0] = nextCell;
-        if (!incr) this.cells.pop();
-        this.delUpdater("next step");
-      } else {
-        this.cells[0].x += move_dist * dr / dist;
-        this.cells[0].y += move_dist * dc / dist;
-        if (!incr) {
-          const n = this.cells.length;
-          const tail = this.cells[n - 1];
-          const target = this.cells[n - 2];
-          const dr = target.x - tail.x;
-          const dc = target.y - tail.y;
-          tail.x += move_dist * dr / dist;
-          tail.y += move_dist * dc / dist;
-        }
-      }
-    }));
+  private nextStep(d: number, incr: boolean, status: IStatus, dir: boolean) {
+    if (!dir) {
+      this.status = status;
+      this.stateStack.push(this.cells.map(cell => JSON.parse(JSON.stringify(cell))));
+      const nextCell: IPosition = {
+        x: this.cells[0].x + Snake.dx[d],
+        y: this.cells[0].y + Snake.dy[d],
+      };
+      this.cells = [{ ...this.cells[0] }].concat(
+        this.cells.map((x) => ({ ...x } as IPosition))
+      );
+      this.addUpdater(
+        "next step",
+        new Updater(() => {
+          let dr = nextCell.x - this.cells[0].x;
+          let dc = nextCell.y - this.cells[0].y;
+          let dist = C.distance(nextCell, this.cells[0]);
+          const move_dist = this.speed * this.dTime;
+          if (dist < move_dist) {
+            this.cells[0] = nextCell;
+            if (!incr) this.cells.pop();
+            this.delUpdater("next step");
+          } else {
+            this.cells[0].x += (move_dist * dr) / dist;
+            this.cells[0].y += (move_dist * dc) / dist;
+            if (!incr) {
+              const n = this.cells.length;
+              const tail = this.cells[n - 1];
+              const target = this.cells[n - 2];
+              const dr = target.x - tail.x;
+              const dc = target.y - tail.y;
+              tail.x += (move_dist * dr) / dist;
+              tail.y += (move_dist * dc) / dist;
+            }
+          }
+        })
+      );
+    } else {
+      this.delUpdater("next step");
+      this.cells = this.stateStack.pop()!;
+    }
   }
 };
 

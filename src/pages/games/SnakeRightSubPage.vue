@@ -108,6 +108,12 @@ onMounted(async () => {
       callback: data => {
         userData.value = data.userData;
       }
+    })
+    .on({
+      action: "upend",
+      callback: data => {
+        [0, 1].forEach(x => chose.value[x].shift())
+      }
     });
   gameStore
     .on("set step", (data: any) => {
