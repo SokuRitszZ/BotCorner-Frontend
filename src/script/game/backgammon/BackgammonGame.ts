@@ -23,10 +23,10 @@ class BackgammonGame extends Game {
   }
 
   public next(cur: { v: number }, record: IRecord) {
-    "v.from.to"
-    "d.12{34}"
-    "t"
-    "p"
+    "v.from.to";
+    "d.12{34}";
+    "t";
+    "p";
     let step = "";
     switch (record.steps[cur.v]) {
       case "t":
@@ -52,30 +52,38 @@ class BackgammonGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "v.from.to"
-    "d.12{34}"
-    "t"
-    "p"
+    "v.from.to";
+    "d.12{34}";
+    "t";
+    "p";
     switch (data[0]) {
-      case "v": this.setStep({
-        type: "move",
-        from: parseInt(data[1], 36),
-        to: parseInt(data[2], 36),
-      });
-      break;
-      case "z": this.setStep({
-        type: "dice",
-        dice: data.slice(1),
-      });
-      break;
-      case "t": this.setStep({
-        type: "turn",
-      })
-      break;
-      case "p": this.setStep({
-        type: "pass"
-      });
-      break;
+      case "v":
+        this.setStep({
+          type: "move",
+          from: parseInt(data[1], 36),
+          to: parseInt(data[2], 36),
+          step: data,
+        });
+        break;
+      case "z":
+        this.setStep({
+          type: "dice",
+          dice: data.slice(1),
+          step: data,
+        });
+        break;
+      case "t":
+        this.setStep({
+          type: "turn",
+          step: data,
+        });
+        break;
+      case "p":
+        this.setStep({
+          type: "pass",
+          step: data,
+        });
+        break;
     }
   }
 
@@ -126,19 +134,20 @@ class BackgammonGame extends Game {
   }
 
   protected _setStep(data: any) {
-    switch (data.type) {
-      case "dice": 
-        this.setDice(data.dice.split('').map((x: string) => parseInt(x)));
-      break;
+    const { type, step } = data;
+    switch (type) {
+      case "dice":
+        this.setDice(data.dice.split("").map((x: string) => parseInt(x)), step);
+        break;
       case "move":
-        this.moveChess(data.from, data.to);
-      break;
+        this.moveChess(data.from, data.to, step);
+        break;
       case "pass":
-        this.pass();
-      break;
+        this.pass(step);
+        break;
       case "turn":
-        this.turn();
-      break;
+        this.turn(step);
+        break;
     }
     // const { id, from, to } = data;
     return this;
@@ -152,12 +161,15 @@ class BackgammonGame extends Game {
 
     const { mask, start, dice } = initData;
     this.cur = start;
-    this.dice = dice.split('').map((x: string, i: number) => {
+    this.dice = dice.split("").map((x: string, i: number) => {
       return new Die(this, i, this.cur, parseInt(x));
     });
-    
+
     for (let i = 0; i < 26; ++i) {
-      const [tpe, cnt] = [parseInt(mask[i << 1]), parseInt(mask[(i << 1) | 1], 36)];
+      const [tpe, cnt] = [
+        parseInt(mask[i << 1]),
+        parseInt(mask[(i << 1) | 1], 36),
+      ];
       for (let j = 0; j < cnt; ++j) {
         this.addChessTo(i, tpe);
       }
@@ -167,19 +179,30 @@ class BackgammonGame extends Game {
     return this;
   }
 
-  private setDice(dice: number[]) {
-    this.dice.forEach(die => die.destroy());
+  private setDice(dice: number[], step: string) {
+    const oldDice = this.dice.map(die => die.getJson())
+    this.dice.forEach((die) => die.destroy());
     this.dice = dice.map((x, i) => new Die(this, i, this.cur, x));
+    this.memo(step, () => {
+      this.dice.forEach(die => die.destroy());
+      this.dice = oldDice.map((die: any) => new Die(this, die.idx, die.id, die.num));
+    });
   }
 
-  private pass() {
+  private pass(step: string) {
     this.cur ^= 1;
     this.emit("pass", this.cur);
+    this.memo(step, () => {
+      this.cur ^= 1;
+    });
   }
 
-  private turn() {
+  private turn(step: string) {
     this.cur ^= 1;
     this.emit("turn", this.cur);
+    this.memo(step, () => {
+      this.cur ^= 1;
+    });
   }
 
   private addChessTo(i: number, id: number) {
@@ -187,22 +210,37 @@ class BackgammonGame extends Game {
     this.g[i].push(new Chess(this, id, x, y));
   }
 
-  private moveChess(from: number, to: number, isEaten?: boolean) {
+  private moveChess(from: number, to: number, step: string, isEaten?: boolean) {
     if (!this.g[from].length) return;
     const chess = this.g[from].pop()!;
-    if (this.g[to].length === 1 && this.g[to][0].id !== chess.id)
-      this.moveChess(to, this.g[to][0].id * 25, true);
+    const moved: [number, number][] = [];
+    if (this.g[to].length === 1 && this.g[to][0].id !== chess.id) {
+      moved.push([to, this.g[to][0].id * 25]);
+      this.moveChess(to, this.g[to][0].id * 25, step, true);
+    }
     this.g[to].push(chess);
+    moved.push([from, to]);
     chess.moveTo(to, this.g[to].length);
 
     if (!isEaten) {
       // 骰子
-      if (to === 26 || to === 27) 
-        to = 25 * (1 - chess.id);
-      let idx = this.dice.findIndex(die => die.num === Math.abs(to - from));
+      if (to === 26 || to === 27) to = 25 * (1 - chess.id);
+      const len = Math.abs(to - from)
+      let idx = this.dice.findIndex((die) => die.num === len);
       if (idx === -1) idx = 0;
       this.dice[idx].destroy();
+
+      const die = this.dice[idx].getJson();
       this.dice.splice(idx, 1);
+      this.memo(step, () => {
+        while (moved.length) {
+          const [from, to] = moved.pop()!;
+          const chess = this.g[to].pop()!;
+          this.g[from].push(chess);
+          chess.moveTo(from, this.g[from].length);
+        }
+        this.dice.splice(idx, 0, new Die(this, die.idx, die.id, die.num));
+      });
     }
   }
 }
