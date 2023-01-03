@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-export type IEntry<T> = {
+export type IEntry<T = number> = {
   key: string 
   value: T
 };
