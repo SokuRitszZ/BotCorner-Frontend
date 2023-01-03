@@ -1,5 +1,4 @@
 import { IRecord } from "@/utils/RecordPlayer";
-import { toRaw } from "vue";
 import C, { IPosition, Vector } from "../C";
 import Game from "../Game";
 import Chess from "./Chess";
@@ -85,12 +84,12 @@ class HexGame extends Game {
   public parseAndAct(data: string): void {
     "r.c";
     const [r, c] = data.split("").map(x => parseInt(x, 36));
-    this.setStep({ id: 0, r, c });
+    this.setStep({ id: 0, r, c, step: data });
   }
 
-  protected _setStep(data: { id: number; r: number; c: number }) {
-    const { id, r, c } = data;
-    this.putChess(r, c);
+  protected _setStep(data: { id: number; r: number; c: number, step: string }) {
+    const { id, r, c, step } = data;
+    this.putChess(r, c, step);
     return this;
   }
 
@@ -109,9 +108,14 @@ class HexGame extends Game {
     this.currentChess.setPos(p).setId(this.cur);
   }
 
-  private putChess(x: number, y: number) {
+  private putChess(x: number, y: number, step: string) {
     this.chess.push(new Chess(this, x, y, this.cur));
     this.cur ^= 1;
+
+    this.memo(step, () => {
+      this.chess.pop()?.destroy();
+      this.cur ^= 1;
+    });
   }
 }
 

@@ -56,12 +56,12 @@ class GomokuGame extends Game {
   public parseAndAct(data: string): void {
     "r.c";
     const [r, c] = data.split("").map(x => parseInt(x, 36));
-    this.setStep({ id: this.cur, r, c });
+    this.setStep({ id: this.cur, r, c, step: data });
   }
 
-  protected _setStep(data: { id: number; r: number; c: number }) {
-    const { id, r, c } = data;
-    this.putChess(r, c);
+  protected _setStep(data: { id: number; r: number; c: number, step: string }) {
+    const { id, r, c, step } = data;
+    this.putChess(r, c, step);
     return this;
   }
 
@@ -82,9 +82,14 @@ class GomokuGame extends Game {
     return this;
   }
 
-  private putChess(r: number, c: number) {
+  private putChess(r: number, c: number, step: string) {
     this.g[r][c] = this.cur;
     this.cur ^= 1;
+
+    this.memo(step, () => {
+      this.g[r][c] = 2;
+      this.cur ^= 1;
+    });
   }
 }
 
