@@ -1,76 +1,4 @@
-<template>
-  <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl p-3 pt-7 w-full">
-    <div class="w-full">
-      <h1 class="text-center text-3xl flex justify-between items-center">
-        <button :disabled="status !== 'to start'" @click="mode = 'single'"
-          :class="{ 'bg-purple-700 text-white': mode === 'single', 'text-purple-700': mode !== 'single' }"
-          class="cursor-pointer p-2 rounded-xl transition border-2 border-purple-700">
-          单人模式
-        </button>
-        <button :disabled="disabled_single" @click="startSingleMode"
-          class="text-white text-xl bg-green-700 py-1 px-3 rounded-lg hover:bg-green-800 active:bg-green-900">开始</button>
-      </h1>
-      <input :disabled="disabled_single" placeholder="红方的Bot的编号，不填代表手动" v-model="single_botId[0]" type="number"
-        class="rounded-xl py-2 px-3 w-full mt-3 bg-red-200 border-2 border-red-400 outline-none">
-      <input :disabled="disabled_single" placeholder="蓝方的Bot的编号，不填代表手动" v-model="single_botId[1]" type="number"
-        class="rounded-xl py-2 px-3 w-full mt-3 bg-blue-200 border-2 border-blue-400 outline-none">
-    </div>
-    <div class="w-full pt-10">
-      <h1 class="text-3xl text-center flex justify-between items-center">
-        <button :disabled="status !== 'to start'" @click="mode = 'multi'"
-          :class="{ 'bg-purple-700 text-white': mode === 'multi', 'text-purple-700': mode !== 'multi' }"
-          class="cursor-pointer p-2 rounded-xl transition border-2 border-purple-700">
-          多人模式
-        </button>
-        <button :disabled="disabled_exit" @click="exitMatching"
-          class="text-white text-xl bg-red-700 py-1 px-3 rounded-lg hover:bg-red-800 active:bg-red-900">退出</button>
-        <button :disabled="disabled_multi" @click="startMatching"
-          class="text-white text-xl bg-green-700 py-1 px-3 rounded-lg hover:bg-green-800 active:bg-green-900">开始</button>
-      </h1>
-      <div class="pt-3">
-        <Select :disabled="disabled_multi" v-model="multi_botId" class="h-10 rounded-xl w-full" :list="botList" />
-      </div>
-    </div>
-    <div class="w-full pt-3 relative">
-      <Transition>
-        <!-- matching -->
-        <div v-if="match_status === 'matching'" class="w-full flex justify-center items-center gap-5 absolute left-0">
-          <img :src="userStore.headIcon" class="rotate rounded-full w-16 h-16" alt="avatar">
-          <div class="text-2xl">
-            寻找对手中......
-          </div>
-        </div>
-        <!-- matched -->
-        <div v-else-if="match_status === 'matched'" class="w-full absolute left-0">
-          <div class="w-full flex justify-between items-center">
-            <ImageHoverDetail @click="ok(0)" :src="multi_userData[0].headIcon"
-              :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[0] ? 'border-purple-800' : 'border-red-700'}`">
-              <h1 class="whitespace-nowrap">
-                {{ multi_userData[0].username }}#{{ leftpad(8, multi_userData[0].id) }}
-              </h1>
-            </ImageHoverDetail>
-            <div class="text-white">
-              点击头像准备
-            </div>
-            <ImageHoverDetail @click="ok(1)" :src="multi_userData[1].headIcon"
-              :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[1] ? 'border-purple-800' : 'border-blue-700'}`">
-              <h1 class="whitespace-nowrap">
-                {{ multi_userData[1].username }}#{{ leftpad(8, multi_userData[1].id) }}
-              </h1>
-            </ImageHoverDetail>
-          </div>
-        </div>
-        <!-- waiting -->
-        <div v-else-if="match_status === 'waiting'" class="w-full flex justify-center items-center text-xl text-gray-50">
-          等待Bot编译完成......
-        </div>
-      </Transition>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { getBotsApi } from '@/api/bots';
 import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
 import Select from '@/components/Select.vue';
 import { IEntry } from '@/components/Select.vue';
@@ -224,11 +152,6 @@ const ok = (id: number) => {
   });
 };
 
-const startMultiGame = () => {
-  status.value = "started";
-  match_status.value = "to match";
-};
-
 const disabled_single = computed(() => mode.value !== 'single' || status.value !== 'to start');
 
 const disabled_multi = computed(() => mode.value !== 'multi' || status.value !== 'to start');
@@ -248,6 +171,77 @@ onMounted(() => {
 
 </script>
 
+<template>
+  <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl p-7 w-full">
+    <div class="w-full">
+      <h1 class="text-center text-3xl flex justify-between items-center">
+        <button :disabled="status !== 'to start'" @click="mode = 'single'"
+          :class="{ 'bg-purple-700 text-white': mode === 'single', 'text-purple-700': mode !== 'single' }"
+          class="cursor-pointer p-2 rounded-xl transition border-2 border-purple-700">
+          单人模式
+        </button>
+        <button :disabled="disabled_single" @click="startSingleMode"
+          class="text-white text-xl bg-green-700 py-1 px-3 rounded-lg hover:bg-green-800 active:bg-green-900">开始</button>
+      </h1>
+      <input :disabled="disabled_single" placeholder="Bot的编号，不填代表手动" v-model="single_botId[0]" type="number"
+        class="rounded-xl py-2 px-3 w-full mt-3 bg-purple-200 border-2 border-purple-400 focus:border-purple-900 outline-none">
+      <input :disabled="disabled_single" placeholder="Bot的编号，不填代表手动" v-model="single_botId[1]" type="number"
+        class="rounded-xl py-2 px-3 w-full mt-3 bg-purple-200 border-2 border-purple-400 focus:border-purple-900 outline-none">
+    </div>
+    <div class="w-full pt-10">
+      <h1 class="text-3xl text-center flex justify-between items-center">
+        <button :disabled="status !== 'to start'" @click="mode = 'multi'"
+          :class="{ 'bg-purple-700 text-white': mode === 'multi', 'text-purple-700': mode !== 'multi' }"
+          class="cursor-pointer p-2 rounded-xl transition border-2 border-purple-700">
+          多人模式
+        </button>
+        <button :disabled="disabled_exit" @click="exitMatching"
+          class="text-white text-xl bg-red-700 py-1 px-3 rounded-lg hover:bg-red-800 active:bg-red-900">退出</button>
+        <button :disabled="disabled_multi" @click="startMatching"
+          class="text-white text-xl bg-green-700 py-1 px-3 rounded-lg hover:bg-green-800 active:bg-green-900">开始</button>
+      </h1>
+      <div class="pt-3">
+        <Select :disabled="disabled_multi" v-model="multi_botId" class="h-10 rounded-xl w-full" :list="botList" />
+      </div>
+    </div>
+    <div class="w-full pt-3 relative">
+      <Transition>
+        <!-- matching -->
+        <div v-if="match_status === 'matching'" class="w-full flex justify-center items-center gap-5 absolute left-0">
+          <img :src="userStore.headIcon" class="rotate rounded-full w-16 h-16" alt="avatar">
+          <div class="text-2xl">
+            寻找对手中......
+          </div>
+        </div>
+        <!-- matched -->
+        <div v-else-if="match_status === 'matched'" class="w-full absolute left-0">
+          <div class="w-full flex justify-between items-center">
+            <ImageHoverDetail @click="ok(0)" :src="multi_userData[0].headIcon"
+              :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[0] ? 'border-purple-800' : 'border-red-700'}`">
+              <h1 class="whitespace-nowrap">
+                {{ multi_userData[0].username }}#{{ leftpad(8, multi_userData[0].id) }}
+              </h1>
+            </ImageHoverDetail>
+            <div class="text-white">
+              点击头像准备
+            </div>
+            <ImageHoverDetail @click="ok(1)" :src="multi_userData[1].headIcon"
+              :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[1] ? 'border-purple-800' : 'border-blue-700'}`">
+              <h1 class="whitespace-nowrap">
+                {{ multi_userData[1].username }}#{{ leftpad(8, multi_userData[1].id) }}
+              </h1>
+            </ImageHoverDetail>
+          </div>
+        </div>
+        <!-- waiting -->
+        <div v-else-if="match_status === 'waiting'" class="w-full flex justify-center items-center text-xl text-gray-50">
+          等待Bot编译完成......
+        </div>
+      </Transition>
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 @keyframes rot {
   from {
@@ -266,16 +260,16 @@ onMounted(() => {
 .v-enter-active,
 .v-leave-active {
   animation-timing-function: ease-out;
-  transition: 1s;
+  transition: .5s;
 }
 
 .v-enter-from,
 .v-leave-to {
-  @apply -translate-x-10 opacity-0;
+  @apply -translate-y-3 opacity-0;
 }
 
 .v-enter-to,
 .v-leave-from {
-  @apply translate-x-0 opacity-100;
+  @apply translate-y-0 opacity-100;
 }
 </style>

@@ -8,16 +8,13 @@
             {{ dayjs(record.time).format("YYYY-MM-DD hh:mm:ss") }}
           </div>
           <div>
-            {{ record.reason }}
+            {{ record.result }}
           </div>
         </div>
         <div class="grid grid-cols-5 gap-3 items-center">
           <div :key="user.id" v-for="(user, index) in record.users"
-            class="col-span-2 flex justify-around items-center text-sm p-1 rounded-lg border-2" :class="{
-              'bg-red-800': index === 0 && record.reason.split(',')[0] === '',
-              'bg-blue-800': index === 1 && record.reason.split(',')[1] === '',
-              'border-red-800': index === 0,
-              'border-blue-800': index === 1,
+            class="col-span-2 flex justify-around items-center text-sm p-1 rounded-lg border-2 border-purple-900" :class="{
+              'bg-purple-900': record.reason.split(',')[index] === '',
             }">
             <ImageHoverDetail :src="user.headIcon" class="col-span-2 w-5 h-5 rounded-full">
               {{ record.users[index].username }}#{{ leftpad(8, record.users[index].id) }}
