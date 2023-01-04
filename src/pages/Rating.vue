@@ -1,3 +1,32 @@
+<script setup lang="ts">
+
+import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
+import leftpad from '@/utils/leftpad';
+import { faker } from '@faker-js/faker';
+import { onMounted, ref } from 'vue';
+
+const cacheStore = useCacheStore();
+const games = ref<IGame[]>([]);
+
+onMounted(() => {
+  cacheStore.getGames()
+    .then(list => games.value = list);
+})
+
+const ratings = ref<IRating[]>([]);
+
+const selectedGame = ref<IGame>();
+
+const setSelectedGame = (game: IGame) => {
+  if (selectedGame.value === game) return;
+  selectedGame.value = game;
+  cacheStore.getRatings(game.id)
+    .then(list => {
+      ratings.value = (list as IRating[]);
+    });
+};
+</script>
+
 <template>
   <div class="w-full h-full bg-purple-500 pt-24">
     <!-- nav -->
@@ -33,36 +62,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-
-import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
-import leftpad from '@/utils/leftpad';
-import { faker } from '@faker-js/faker';
-import { onMounted, ref } from 'vue';
-
-const cacheStore = useCacheStore();
-const games = ref<IGame[]>([]);
-
-onMounted(() => {
-  cacheStore.getGames()
-    .then(list => games.value = list);
-})
-
-const ratings = ref<IRating[]>([]);
-
-const selectedGame = ref<IGame>();
-
-const setSelectedGame = (game: IGame) => {
-  if (selectedGame.value === game) return;
-  selectedGame.value = game;
-  cacheStore.getRatings(game.id)
-    .then(list => {
-      ratings.value = (list as IRating[]);
-    });
-};
-
-</script>
 
 <style scoped lang="scss">
 // http://vue.dragonlm.com/guide/built-ins/transition-group.html#move-transitions
