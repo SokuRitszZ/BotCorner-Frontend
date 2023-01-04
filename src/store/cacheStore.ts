@@ -26,6 +26,7 @@ export type IBot = {
   modifyTime: Date;
   gameId: number;
   langId: number;
+  visible: boolean;
   code?: string;
 };
 

@@ -1,4 +1,3 @@
-import { IBot } from "@/store/cacheStore";
 import api from "./api";
 
 export function getBotsApi() {
@@ -47,5 +46,11 @@ export function updateBotApi(
   return api.put("/bot/update", {
     id,
     ...info,
+  });
+}
+
+export function changeVisibleApi(id: number, visible: boolean) {
+  return api.put("/bot/visible", {
+    id, visible
   });
 }
