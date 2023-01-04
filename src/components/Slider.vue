@@ -50,7 +50,7 @@ const start = () => {
   stop();
   timer.value = setInterval(() => {
     next();
-  }, 4000);
+  }, 3000);
 };
 
 const stop = () => {
@@ -80,6 +80,7 @@ onMounted(() => {
   cacheStore.getGames()
     .then(list => {
       games.value = list;
+      slideTo(Math.floor(Math.random() * list.length));
       start();
     });
   document.addEventListener("visibilitychange", callback)
