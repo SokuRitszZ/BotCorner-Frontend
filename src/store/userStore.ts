@@ -97,6 +97,7 @@ const useUserStore = defineStore("UserStore", {
     logout() {
       this.$patch({ ...initState });
       useCacheStore().emptyBots();
+      useCacheStore().emptyMyRating();
       localStorage.removeItem("token");
       window._alert("success", "成功退出登录", 1000);
     },

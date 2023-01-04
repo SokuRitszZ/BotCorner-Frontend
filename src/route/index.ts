@@ -53,3 +53,6 @@ const router: Router = createRouter({
 });
 
 export default router;
+
+router.beforeEach(async () => {
+})

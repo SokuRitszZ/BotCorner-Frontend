@@ -88,6 +88,13 @@ class RecordPlayer {
   }
 
   /**
+   * 清除所有事件
+   */
+  public clearEmit() {
+    this.events = {};
+  }
+
+  /**
    * 开始播放
    * @returns 链式调用
    */

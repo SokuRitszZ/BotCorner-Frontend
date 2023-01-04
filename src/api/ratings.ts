@@ -7,3 +7,11 @@ export function getRatingsApi(gameId: number) {
     params: { gameId }
   });
 }
+
+export function getMyRatingApi(gameId: number) {
+  return api({
+    method: "GET",
+    url: "/rating/my",
+    params: { gameId },
+  });
+}

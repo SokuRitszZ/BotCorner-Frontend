@@ -1,16 +1,27 @@
 <script setup lang="ts">
 
 import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
+import useUserStore from '@/store/userStore';
 import leftpad from '@/utils/leftpad';
-import { faker } from '@faker-js/faker';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const cacheStore = useCacheStore();
+const userStore = useUserStore();
 const games = ref<IGame[]>([]);
+const myRating = ref<IRating>({
+  id: 0,
+  username: "NULL",
+  headIcon: "https://sdfsdf.dev/500x500.png",
+  score: 0,
+});
 
 onMounted(() => {
   cacheStore.getGames()
     .then(list => games.value = list);
+})
+
+onUnmounted(() => {
+  userStore.removeAfterLoginCallback("get my rating");
 })
 
 const ratings = ref<IRating[]>([]);
@@ -20,6 +31,12 @@ const selectedGame = ref<IGame>();
 const setSelectedGame = (game: IGame) => {
   if (selectedGame.value === game) return;
   selectedGame.value = game;
+  userStore.addAfterLoginCallback("get my rating", () => {
+    cacheStore.getMyRating(game.id)
+      .then(info => {
+        myRating.value = { ...info, ...userStore };
+      })
+  });
   cacheStore.getRatings(game.id)
     .then(list => {
       ratings.value = (list as IRating[]);
@@ -55,9 +72,9 @@ const setSelectedGame = (game: IGame) => {
     </div>
     <div class="m-auto w-fit">
       <div class="flex justify-between items-center rounded-full w-[600px] bg-blue-200 mt-3 shadow-xl p-2 pr-4 hover:-translate-y-1 transition">
-        <img class="w-10 h-10 rounded-full" :src="faker.image.animals()" alt="avatar">
-        <div class="text-xl text-gray-900">{{ faker.name.fullName() }}</div>
-        <div class="text-xl">{{ Math.floor(Math.random() * 10000) }}</div>
+        <img class="w-10 h-10 rounded-full" :src="myRating.headIcon" alt="avatar">
+        <div class="text-xl text-gray-900">{{ myRating.username }}</div>
+        <div class="text-xl">{{ myRating.score }}</div>
       </div>
     </div>
   </div>

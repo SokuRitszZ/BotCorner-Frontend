@@ -1,6 +1,6 @@
 import { getBotsApi } from "@/api/bots";
 import { getGamesApi, getLangsApi } from "@/api/cache";
-import { getRatingsApi } from "@/api/ratings";
+import { getMyRatingApi, getRatingsApi } from "@/api/ratings";
 import { defineStore } from "pinia";
 import { toRaw } from "vue";
 
@@ -69,6 +69,14 @@ const initState: ICacheStore = {
 const useCacheStore = defineStore("CacheStore", {
   state: (): ICacheStore => JSON.parse(JSON.stringify(initState)),
   actions: {
+    getMyRating(gameId: number): Promise<IRating> {
+      const tag = `my_rating:${gameId}`;
+      if (!this.promises[tag]) {
+        return this.promises[tag] = getMyRatingApi(gameId).then((info: any) => info.rating);
+      } else {
+        return this.promises[tag] as Promise<IRating>;
+      }
+    },
     getLangs(): Promise<any> {
       if (!this.langs.length && !this.promises["langs"]) {
         return (this.promises["langs"] = getLangsApi()
@@ -153,6 +161,9 @@ const useCacheStore = defineStore("CacheStore", {
     emptyRatings() {
       this.ratings = {};
       this.promises["ratings"] = {};
+    },
+    emptyMyRating() {
+      this.games.map(game => game.id).forEach(x => delete this.promises[`my_rating:${x}`]);
     },
     getLang(langId: number) {
       return this.langs.find((lang) => lang.id === langId)!.lang;

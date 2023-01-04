@@ -2,7 +2,7 @@
 import useGameStore from '@/store/gameStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
-import { onMounted, ref, toRaw, watch } from 'vue';
+import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
 import Icon from './Icon.vue';
 import Progress from './Progress.vue';
 import { IEntry } from './Select.vue';
@@ -83,6 +83,10 @@ onMounted(async () => {
       status.value = "ready";
     })
 });
+
+onUnmounted(async () => {
+  recordPlayer.value?.stop().clearEmit();
+})
 
 const speed = ref<number>(1);
 const speedList = ref<IEntry[]>([
