@@ -96,7 +96,7 @@
 <script setup lang="ts">
 type PropsType = {
   type: string
-  class?: string
+  class?: any 
   size?: number
 }
 
