@@ -1,4 +1,4 @@
-import { getInfoApi, getTokenApi } from "@/api/account";
+import { getInfoApi, getTokenApi, registerApi } from "@/api/account";
 import { defineStore } from "pinia";
 import useCacheStore from "./cacheStore";
 
@@ -46,6 +46,16 @@ const useUserStore = defineStore("UserStore", {
      */
     loadToken() {
       this.token = localStorage.getItem("token") || "";
+    },
+    async register(username: string, password: string, confirmed_password: string) {
+      return registerApi(username, password, confirmed_password)
+        .then(() => {
+          window._alert("success", `注册成功，将自动登录`);
+          this.getToken(username, password);
+        })
+        .catch((error) => {
+          window._alert("danger", `注册失败：${error}`);
+        })
     },
     /**
      * 获取Token
@@ -101,6 +111,10 @@ const useUserStore = defineStore("UserStore", {
       localStorage.removeItem("token");
       window._alert("success", "成功退出登录", 1000);
     },
+    async updateAvatar(url: string) {
+      this.headIcon = "";
+      setTimeout(() => this.headIcon = url);
+    }
   },
 });
 

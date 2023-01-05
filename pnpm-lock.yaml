@@ -7,6 +7,7 @@ specifiers:
   '@vitejs/plugin-vue': ^4.0.0
   autoprefixer: ^10.4.13
   axios: ^1.2.1
+  cropperjs: ^1.5.13
   dayjs: ^1.11.7
   lodash: ^4.17.21
   monaco-editor: ^0.34.1
@@ -23,6 +24,7 @@ specifiers:
 
 dependencies:
   axios: registry.npmmirror.com/axios/1.2.1
+  cropperjs: registry.npmmirror.com/cropperjs/1.5.13
   dayjs: registry.npmmirror.com/dayjs/1.11.7
   monaco-editor: registry.npmmirror.com/monaco-editor/0.34.1
   nanoid: registry.npmmirror.com/nanoid/4.0.0
@@ -693,6 +695,12 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: registry.npmmirror.com/delayed-stream/1.0.0
+    dev: false
+
+  registry.npmmirror.com/cropperjs/1.5.13:
+    resolution: {integrity: sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cropperjs/-/cropperjs-1.5.13.tgz}
+    name: cropperjs
+    version: 1.5.13
     dev: false
 
   registry.npmmirror.com/cssesc/3.0.0:
