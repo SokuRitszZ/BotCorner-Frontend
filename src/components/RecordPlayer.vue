@@ -93,6 +93,7 @@ const speedList = ref<IEntry[]>([
   { key: "x1", value: 1, },
   { key: "x2", value: 2, },
   { key: "x4", value: 4, },
+  { key: "x8", value: 8, },
 ]);
 watch(speed, newV => {
   if (!recordPlayer.value) return ;
