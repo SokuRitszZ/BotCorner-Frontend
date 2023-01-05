@@ -16,38 +16,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="nav-inner">
-      <div class="flex-box">
-        <div class="mobile-box">
-          <button type="button" class="menu-button" aria-controls="mobile-menu" aria-expanded="false">
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="pc-box">
-          <div class="company-box">
-            <img class="block lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company">
-            <img class="hidden lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company">
-          </div>
-          <div class="hidden lg:ml-6 lg:block">
-            <div class="flex space-x-4">
-              <RouterLink v-for="url in urls" :to="url.path" class="nav-link">{{ url.name }}</RouterLink>
-            </div>
-          </div>
-          <div class="absolute right-0 h-10 max-w-100 w-100">
-            <Profile />
-          </div>
-        </div>
-      </div>
-    </div> -->
   </nav>
 </template>
 

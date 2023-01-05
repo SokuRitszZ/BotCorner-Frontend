@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, toRaw } from 'vue';
+import { ref } from 'vue';
 
 type PropsType = {
   title?: string
+  class?: string
 };
 const props = defineProps<PropsType>();
 
@@ -113,7 +114,7 @@ defineExpose({
 
 <template>
   <Transition>
-    <div v-show="status !== 'hidden'" ref="$window" class="window fixed min-w-[100px] shadow-2xl rounded-xl">
+    <div v-show="status !== 'hidden'" ref="$window" class="window fixed min-w-[100px] shadow-2xl rounded-xl z-50">
       <!-- header -->
       <div @mousedown="handleMouseDown_move"
         class="select-none p-1 px-4 rounded-t-xl bg-purple-700 flex justify-between items-center">
@@ -126,7 +127,7 @@ defineExpose({
         </div>
       </div>
       <!-- body -->
-      <div ref="$body" class="body w-full bg-purple-200 overflow-scroll">
+      <div ref="$body" class="body w-full bg-purple-200 overflow-scroll" :class="props.class">
         <slot></slot>
       </div>
       <!-- footer -->
