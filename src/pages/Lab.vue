@@ -2,16 +2,22 @@
 import useGameStore from '@/store/gameStore';
 import { onMounted, ref } from 'vue';
 import Progress from '@/components/Progress.vue';
+import Window from '@/components/SokuWindow.vue';
+import ChatRoom from '@/components/ChatRoom.vue';
 
 const $parent = ref();
 const $canvas = ref();
 const gameStore = useGameStore();
 const val = ref<number>(0);
+const $window = ref();
 
 onMounted(() => {
   // setInterval(() => {
   //   // val.value++;
   // }, 10);
+  if ($window.value) {
+    $window.value.open();
+  }
 })
 
 
@@ -42,10 +48,9 @@ const handleChange = (data: number) => console.log(data);
 
 <template>
   <div class="mt-24 h-full text-center">
-    <!-- <div ref="$parent" class="bg-black m-auto w-2/3 h-3/4">
-      <canvas ref="$canvas"></canvas>
-    </div> -->
     <Progress @change="handleChange" v-model="val" :max="200" :width="100" />
+    <Window ref="$window"></Window>
+    <ChatRoom />
   </div>
 </template>
 

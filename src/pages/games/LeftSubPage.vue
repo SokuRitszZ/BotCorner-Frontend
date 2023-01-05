@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ChatRoom from '@/components/ChatRoom.vue';
 import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
 import Select from '@/components/Select.vue';
 import { IEntry } from '@/components/Select.vue';
@@ -6,6 +7,7 @@ import useCacheStore from '@/store/cacheStore';
 import useUserStore, { IUser } from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
 import leftpad from '@/utils/leftpad';
+import { nanoid } from 'nanoid';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -169,11 +171,39 @@ onMounted(() => {
   })
 });
 
+const send = (content: string) => {
+  if (!content.length) return ;
+  server.value?.sendMessage({
+    action: "send talk",
+    data: {
+      sender: userStore.username,
+      content,
+    }
+  });
+};
+
+const $chatroom = ref();
+
+onMounted(async () => {
+  const server = (await props.promise_server)
+    .on({
+      action: "send talk",
+      callback: data => {
+        $chatroom.value.addMessage({
+          ...data,
+          type: "talk",
+          id: nanoid(11),
+        });
+      }
+    })
+})
+
 </script>
 
 <template>
   <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl p-7 w-full">
-    <div class="w-full">
+    <ChatRoom ref="$chatroom" @send="send" />
+    <div class="w-full mt-3">
       <h1 class="text-center text-3xl flex justify-between items-center">
         <button :disabled="status !== 'to start'" @click="mode = 'single'"
           :class="{ 'bg-purple-700 text-white': mode === 'single', 'text-purple-700': mode !== 'single' }"
