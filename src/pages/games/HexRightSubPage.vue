@@ -1,23 +1,20 @@
 <template>
-  <div class="h-2/5 w-full flex flex-col-reverse">
+  <div class="w-full">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-red-500" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 0}" :src="userData[0].headIcon" alt="avatar">
-    </div>
-    <div class="my-2 max-h-[150px] overflow-scroll flex flex-wrap justify-start gap-1">
+      <img class="h-24 rounded-full border-red-700" :class="isMe(0) && 'border-8'" :src="userData[0].headIcon" alt="avatar">
+      <div class="text-5xl font-bold text-red-700"> 红方 </div>
     </div>
   </div>
-  <div class="font-bold text-4xl h-1/5 flex justify-center gap-10 items-center">
-    <div class="h-full flex items-center">
-    </div>
-    <div class="flex items-center">
+  <div class="w-full mt-5">
+    <div class="w-full flex justify-between items-center">
+      <img class="h-24 rounded-full border-blue-700" :class="isMe(1) && 'border-8'" :src="userData[1].headIcon" alt="avatar">
+      <div class="text-5xl font-bold text-blue-700"> 蓝方 </div>
     </div>
   </div>
-  <div class="h-2/5 w-full flex flex-col">
-    <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-blue-500" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 1}" :src="userData[1].headIcon" alt="avatar">
-    </div>
-    <div class="my-2 max-h-[150px] overflow-scroll text-xl flex gap-1 justify-start flex-wrap">
-    </div>
+  <div class="mt-5 flex justify-between items-center">
+    <div class="text-5xl font-bold"> TURN: </div>
+    <div v-if="turn === 0" class="text-5xl font-bold text-red-700">红方</div>
+    <div v-else-if="turn === 1" class="text-5xl font-bold text-blue-700">蓝方</div>
   </div>
 </template>
 
@@ -30,6 +27,11 @@ import { onMounted, ref } from 'vue';
 const userStore = useUserStore();
 const gameStore = useGameStore();
 const userData = ref<IUser[]>(new Array<IUser>(2).fill({} as IUser).map(x => userStore.$state as IUser));
+const turn = ref<number>(-1);
+
+const isMe = (id: number) => {
+  return userData.value.findIndex(user => userStore.id === user.id) === id;
+};
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
@@ -43,8 +45,15 @@ onMounted(async () => {
         userData.value = data.userData;
       }
     })
+    .on({
+      action: "set step truly",
+      callback: data => {
+        turn.value ^= 1;
+      }
+    })
   gameStore
     .on("prepare", () => {
+      turn.value = 0;
     })
     .on("click", (data: any) => {
       if (gameStore.game!.mode === "single") {

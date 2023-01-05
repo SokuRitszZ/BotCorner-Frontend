@@ -8,7 +8,7 @@
         <MiddleSubPage :game="(route.params.game as string)" :promise_server="promise_server" />
       </div>
       <!-- right -->
-      <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl flex flex-col justify-between px-3">
+      <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl justify-between p-3">
         <SnakeRightSubPage v-if="(route.params.game as string) === 'snake'" :promise_server="promise_server" />
         <ReversiRightSubPage v-else-if="(route.params.game as string) === 'reversi'" :promise_server="promise_server" />
         <BackgammonRightSubPage v-else-if="(route.params.game as string) === 'backgammon'" :promise_server="promise_server" />
@@ -30,7 +30,7 @@ import { ws_url, mode } from "@/config.json";
 import { useRoute } from 'vue-router';
 import ReversiRightSubPage from './ReversiRightSubPage.vue';
 import BackgammonRightSubPage from './BackgammonRightSubPage.vue';
-import HexRightSubPage from './GomokuRightSubPage.vue';
+import HexRightSubPage from './HexRightSubPage.vue';
 import GomokuRightSubPage from './GomokuRightSubPage.vue';
 
 const userStore = useUserStore();

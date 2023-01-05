@@ -1,7 +1,7 @@
 <template>
   <div class="h-2/5 w-full flex flex-col-reverse">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-purple-300" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 0}" :src="userData[0].headIcon" alt="avatar">
+      <img class="h-24 rounded-full border-black" :class="{'border-8': userData.findIndex(user => user.id === userStore.id) === 0}" :src="userData[0].headIcon" alt="avatar">
       <div class="relative w-full h-full flex justify-center items-center">
         <div class=" bg-white rounded-full absolute w-16 top-3 h-16 drop-shadow-2xl"></div>
         <div class=" bg-black rounded-full absolute top-2 w-16 h-16"></div>
@@ -30,7 +30,7 @@
   </div>
   <div class="h-2/5 w-full flex flex-col">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-purple-300" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 1}" :src="userData[1].headIcon" alt="avatar">
+      <img class="h-24 rounded-full border-white" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 1}" :src="userData[1].headIcon" alt="avatar">
       <div class="relative w-full h-full flex justify-center items-center">
         <div class=" bg-black rounded-full absolute w-16 top-3 h-16 drop-shadow-2xl shadow-white"></div>
         <div class=" bg-white rounded-full absolute w-16 top-2 h-16"></div>

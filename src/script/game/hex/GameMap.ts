@@ -100,6 +100,21 @@ class GameMap extends GameObject {
         });
       })
     );
+
+    this.addUpdater(
+      "render first",
+      new Updater(() => {
+        const L = this.root.L;
+        const { x, y } = HexGame.getPosition(1, 2);
+        G.StrokeHex({
+          x: x * L,
+          y: y * L,
+          radius: 0.8 * L,
+          width: 0.4 * L,
+          color: "#912"
+        });
+      })
+    )
   }
 }
 
