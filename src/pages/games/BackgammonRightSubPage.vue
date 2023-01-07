@@ -70,10 +70,6 @@ onMounted(async () => {
         });
       }
     })
-    .on("put chess", (data) => {
-      cnt.value = data.cnt;
-      turn.value = data.id ^ 1;
-    })
     .on("turn", (id) => {
       turn.value = id;
     })

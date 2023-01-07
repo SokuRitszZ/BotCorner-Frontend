@@ -52,7 +52,6 @@ window.addEventListener("mousemove", (e) => {
   if (shouldMove.value) {
     const offsetX = $progress.value?.getBoundingClientRect().left;
     let newV = Math.floor((e.clientX - offsetX!) / (props.width / props.max));
-
     current_position.value = newV;
   }
 });
@@ -84,7 +83,7 @@ const okEdit = () => {
 
 <template>
   <div :class="props.class" class="select-none w-fit m-auto pr-4 rounded-full relative flex items-center gap-1">
-    <div v-if="!shouldEdit" @click="edit" class="w-24 mr-3 flex justify-end">{{ current_position }} / {{ props.max }}</div>
+    <div v-if="!shouldEdit" @click="edit" class="px-2 w-fit mr-3 flex justify-end">{{ current_position }} / {{ props.max }}</div>
     <input v-else @keyup.enter="okEdit" @blur="okEdit" ref="$input" type="number" class="w-24 mr-3 bg-purple-400 rounded-xl px-3">
     <div ref="$progress" class="w-fit flex items-center">
       <div ref="$line" class="bg-purple-900 h-1 rounded-full" />

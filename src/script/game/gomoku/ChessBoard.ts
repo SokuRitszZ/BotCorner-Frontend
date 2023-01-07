@@ -1,9 +1,12 @@
+import { IPosition } from "../C";
 import G from "../G";
 import GameObject from "../GameObject";
 import Updater from "../Updater";
 import GomokuGame from "./GomokuGame";
 
 class ChessBoard extends GameObject {
+  public lastPut?: IPosition;
+
   private chessboard: number[][];
 
   constructor(root: GomokuGame, chessboard: number[][]) {
@@ -31,6 +34,18 @@ class ChessBoard extends GameObject {
         });
       })
     );
+
+    this.addUpdater("render put", new Updater(() => {
+      const L = this.root.L;
+      if (!this.lastPut) return ;
+      const { x, y } = this.lastPut;
+      G.Cir({
+        x: (y + 1) * L,
+        y: (x + 1) * L,
+        radius: 0.1 * L,
+        color: "#f00"
+      });
+    }));
   }
 
 }

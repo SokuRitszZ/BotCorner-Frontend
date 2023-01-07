@@ -85,10 +85,13 @@ class GomokuGame extends Game {
   private putChess(r: number, c: number, step: string) {
     this.g[r][c] = this.cur;
     this.cur ^= 1;
+    const lastLastPut = this.chessboard.lastPut;
+    this.chessboard.lastPut = {x: r, y: c};
 
     this.memo(step, () => {
       this.g[r][c] = 2;
       this.cur ^= 1;
+      this.chessboard.lastPut = lastLastPut;
     });
   }
 }

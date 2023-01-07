@@ -149,7 +149,6 @@ class BackgammonGame extends Game {
         this.turn(step);
         break;
     }
-    // const { id, from, to } = data;
     return this;
   }
 
@@ -158,6 +157,7 @@ class BackgammonGame extends Game {
     initData: any;
   }): this {
     const { mode, initData } = options;
+    this.mode = mode;
 
     const { mask, start, dice } = initData;
     this.cur = start;
