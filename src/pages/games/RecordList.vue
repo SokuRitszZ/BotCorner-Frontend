@@ -12,15 +12,18 @@
           </div>
         </div>
         <div class="grid grid-cols-5 gap-3 items-center">
-          <div :key="user.id" v-for="(user, index) in record.users"
-            class="col-span-2 flex justify-around items-center text-sm p-1 rounded-lg border-2 border-purple-900" :class="{
-              'bg-purple-900': record.reason.split(',')[index] === '',
-            }">
-            <ImageHoverDetail :src="user.headIcon" class="col-span-2 w-5 h-5 rounded-full">
-              {{ record.users[index].username }}#{{ leftpad(8, record.users[index].id) }}
-            </ImageHoverDetail>
-            <div class="col-span-1 text-white justify-end">
-              {{ record.titles[index] }}
+          <div class="col-span-4 flex justify-center gap-2 flex-wrap">
+            <div :key="user.id" v-for="(user, index) in record.users"
+              class="flex justify-around gap-3 items-center text-sm p-1 rounded-lg border-2 border-purple-900"
+              :class="{
+                'bg-purple-900': record.reason.split(',')[index] === '',
+              }">
+              <ImageHoverDetail :src="user.headIcon" class="col-span-2 w-5 h-5 rounded-full">
+                {{ record.users[index].username }}#{{ leftpad(8, record.users[index].id) }}
+              </ImageHoverDetail>
+              <div class="w-fit overflow-hidden whitespace-nowrap text-white justify-end">
+                {{ record.titles[index] }}
+              </div>
             </div>
           </div>
           <div class="flex justify-end">
@@ -30,11 +33,10 @@
           </div>
         </div>
       </div>
-
     </TransitionGroup>
-      <div class="mt-3 p-3 bg-purple-700 rounded-xl flex justify-center">
-        <Pager @change-page="changePage" :max="Math.ceil(recordCount / capacity)" />
-      </div>
+    <div class="mt-3 p-3 bg-purple-700 rounded-xl flex justify-center">
+      <Pager @change-page="changePage" :max="Math.ceil(recordCount / capacity)" />
+    </div>
   </div>
 </template>
 
