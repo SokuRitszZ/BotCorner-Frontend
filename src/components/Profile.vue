@@ -14,7 +14,7 @@ const username = ref<string>("");
 const password = ref<string>("");
 
 const login = throttle((e: Event) => {
-  userStore.getToken(username.value, password.value);
+  userStore.getTokenByApi(username.value, password.value);
 }, 1000);
 
 const logout = () => {
@@ -23,8 +23,7 @@ const logout = () => {
 };
 
 onMounted(() => {
-  userStore.loadToken();
-  userStore.getInfo();
+  userStore.getInfo().catch(() => {});
 });
 
 const $window_register = ref();
@@ -49,7 +48,7 @@ const register = throttle(() => {
     register_info.value.password, 
     register_info.value.confirmed_password
   );
-}, 2000);
+}, 4000);
 
 const $window_settings = ref();
 
@@ -98,7 +97,7 @@ const toUpdateAvatar = () => {
         class="flex rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
         aria-expanded="false" aria-haspopup="true">
         <span class="sr-only"> User Profile </span>
-        <img class="w-8 h-8 rounded-full" :src="(userStore.headIcon as string)">
+        <img class="w-8 h-8 rounded-full" :src="(userStore.avatar as string)">
       </button>
     </div>
     </Transition>
