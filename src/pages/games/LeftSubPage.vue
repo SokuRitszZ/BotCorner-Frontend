@@ -164,7 +164,7 @@ const route = useRoute();
 
 onMounted(() => {
   userStore.addAfterLoginCallback("get bot list by game id", () => {
-    cacheStore.getBots()
+    cacheStore.getBots
       .then(list => {
         botList.value.push(...list.filter(bot => bot.gameId === cacheStore.getGameId(route.params.game as string)).map(bot => ({ key: bot.title + '#' + bot.id, value: bot.id })));
       });
@@ -238,7 +238,7 @@ onMounted(async () => {
       <Transition>
         <!-- matching -->
         <div v-if="match_status === 'matching'" class="w-full flex justify-center items-center gap-5 absolute left-0">
-          <img :src="userStore.headIcon" class="rotate rounded-full w-16 h-16" alt="avatar">
+          <img :src="userStore.avatar" class="rotate rounded-full w-16 h-16" alt="avatar">
           <div class="text-2xl">
             寻找对手中......
           </div>
@@ -246,7 +246,7 @@ onMounted(async () => {
         <!-- matched -->
         <div v-else-if="match_status === 'matched'" class="w-full absolute left-0">
           <div class="w-full flex justify-between items-center">
-            <ImageHoverDetail @click="ok(0)" :src="multi_userData[0].headIcon"
+            <ImageHoverDetail @click="ok(0)" :src="multi_userData[0].avatar"
               :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[0] ? 'border-purple-800' : 'border-red-700'}`">
               <h1 class="whitespace-nowrap">
                 {{ multi_userData[0].username }}#{{ leftpad(8, multi_userData[0].id) }}
@@ -255,7 +255,7 @@ onMounted(async () => {
             <div class="text-white">
               点击头像准备
             </div>
-            <ImageHoverDetail @click="ok(1)" :src="multi_userData[1].headIcon"
+            <ImageHoverDetail @click="ok(1)" :src="multi_userData[1].avatar"
               :class="`w-16 h-16 rounded-full border-4 cursor-pointer transition ${multi_isOk[1] ? 'border-purple-800' : 'border-blue-700'}`">
               <h1 class="whitespace-nowrap">
                 {{ multi_userData[1].username }}#{{ leftpad(8, multi_userData[1].id) }}

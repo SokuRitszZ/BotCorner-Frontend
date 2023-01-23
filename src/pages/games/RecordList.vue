@@ -18,7 +18,7 @@
               :class="{
                 'bg-purple-900': record.reason.split(',')[index] === '',
               }">
-              <ImageHoverDetail :src="user.headIcon" class="col-span-2 w-5 h-5 rounded-full">
+              <ImageHoverDetail :src="user.avatar" class="col-span-2 w-5 h-5 rounded-full">
                 {{ record.users[index].username }}#{{ leftpad(8, record.users[index].id) }}
               </ImageHoverDetail>
               <div class="w-fit overflow-hidden whitespace-nowrap text-white justify-end">
@@ -76,7 +76,9 @@ const getRecord = (id: number, from: number, count: number) => {
   userStore.addAfterLoginCallback("get record list", () => {
     getRecordListApi(id, from, count)
       .then((data: any) => data.records)
-      .then(list => records.value = list);
+      .then(list => {
+        records.value = list
+      });
     getRecordCountApi(id)
       .then((data: any) => data.count)
       .then(count => recordCount.value = count);

@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 const getHeader = () => {
-  const token = useUserStore().token;
+  const token = useUserStore().getToken;
   if (!token) return {};
   return {
     Authorization: `Bearer ${token}`,

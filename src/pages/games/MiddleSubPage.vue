@@ -56,7 +56,7 @@ const playRecord = (record: IRecord) => {
 const cacheStore = useCacheStore();
 
 onMounted(async () => {
-  cacheStore.getGames()
+  cacheStore.getGames
     .then(() => {
       gameId.value = cacheStore.getGameId(props.game);
     });

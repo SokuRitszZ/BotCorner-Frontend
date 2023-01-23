@@ -19,7 +19,7 @@ const bots = ref<(IBot & { isMarked: boolean })[]>([]);
 
 onMounted(() => {
   userStore.addAfterLoginCallback("get bot", () => {
-    cacheStore.getBots()
+    cacheStore.getBots
       .then(list => {
         (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
         bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
@@ -107,7 +107,7 @@ watch(comparer, (newF: IComparer) => {
     <!-- left -->
     <div class="py-24 px-16 col-span-1 h-screen border-r-[1px] border-gray-300">
       <div class="flex gap-4">
-        <img class="rounded-full w-[50px] h-[50px] ring-2 ring-purple-500" :src="(userStore.headIcon as string)" alt="avatar">
+        <img class="rounded-full w-[50px] h-[50px] ring-2 ring-purple-500" :src="(userStore.avatar as string)" alt="avatar">
         <div>
           <p class="font-semibold text-purple-500">{{ userStore.username }}</p>
           <p class="font-thin text-gray-400">#{{ leftpad(7, userStore.id) }}</p>

@@ -33,7 +33,7 @@ defineExpose({
 
 <template>
   <SokuWindow ref="$window" title="个人设置">
-    <Cropper @crop="upload" ref="$cropper" class="w-full text-center mt-3" :default-src="userStore.headIcon" />
+    <Cropper @crop="upload" ref="$cropper" class="w-full text-center mt-3" :default-src="userStore.avatar" />
     <div class="w-full flex justify-center mt-3">
       <soku-button @click="updateAvatar" class="p-2 text-3xl">更换</soku-button>
     </div>

@@ -11,12 +11,12 @@ const games = ref<IGame[]>([]);
 const myRating = ref<IRating>({
   id: 0,
   username: "NULL",
-  headIcon: "https://sdfsdf.dev/500x500.png",
+  avatar: "https://sdfsdf.dev/500x500.png",
   score: 0,
 });
 
 onMounted(() => {
-  cacheStore.getGames()
+  cacheStore.getGames
     .then(list => games.value = list);
 })
 
@@ -45,13 +45,13 @@ const setSelectedGame = (game: IGame) => {
 </script>
 
 <template>
-  <div class="w-full h-full bg-purple-500 pt-24">
+  <div class="w-screen h-screen bg-purple-500 pt-24">
     <!-- nav -->
     <nav class="flex justify-center gap-2 px-2 py-2 text-xl text-gray-50 opacity-80 bg-gray-800 m-auto w-fit rounded-full">
       <div @click="setSelectedGame(game)" :class="{ 'bg-purple-600': selectedGame === game }"
         class="transition rounded-full cursor-pointer px-2 py-1 hover:bg-purple-500" v-for="game in games" :key="game.title">{{ game.name }}</div>
     </nav>
-    <div class="m-auto w-fit">
+    <div class="w-full h-[70vh] overflow-auto">
       <TransitionGroup>
         <div v-for="(rating, index) in ratings" :key="rating.id" :class="{
           'champion': index === 0,
@@ -59,9 +59,9 @@ const setSelectedGame = (game: IGame) => {
           'third-place': index === 2,
           'other-place': index > 2,
           }"
-          class="flex justify-between items-center rounded-full w-[600px] mt-3 shadow-xl p-2 pr-4 hover:-translate-y-1 transition">
+          class="flex justify-between items-center m-auto rounded-full w-[600px] mt-3 shadow-xl p-2 pr-4 hover:-translate-y-1 transition">
           <div class="flex items-center gap-2">
-            <img class="w-10 h-10 rounded-full" :src="rating.headIcon" alt="avatar">
+            <img class="w-10 h-10 rounded-full" :src="rating.avatar" alt="avatar">
             <div class="id text-gray-600">#{{ leftpad(7, rating.id) }}</div>
           </div>
           <div class="text-xl username">{{ rating.username }}
@@ -69,12 +69,12 @@ const setSelectedGame = (game: IGame) => {
           <div class="text-xl rating">{{ rating.score }}</div>
         </div>
       </TransitionGroup>
-    </div>
-    <div class="m-auto w-fit">
-      <div class="flex justify-between items-center rounded-full w-[600px] bg-blue-200 mt-3 shadow-xl p-2 pr-4 hover:-translate-y-1 transition">
-        <img class="w-10 h-10 rounded-full" :src="myRating.headIcon" alt="avatar">
-        <div class="text-xl text-gray-900">{{ myRating.username }}</div>
-        <div class="text-xl">{{ myRating.score }}</div>
+      <div class="m-auto w-fit">
+        <div class="flex justify-between items-center rounded-full w-[600px] bg-blue-200 mt-3 shadow-xl p-2 pr-4 hover:-translate-y-1 transition">
+          <img class="w-10 h-10 rounded-full" :src="myRating.avatar" alt="avatar">
+          <div class="text-xl text-gray-900">{{ myRating.username }}</div>
+          <div class="text-xl">{{ myRating.score }}</div>
+        </div>
       </div>
     </div>
   </div>

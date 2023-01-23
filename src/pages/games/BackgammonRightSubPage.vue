@@ -1,13 +1,13 @@
 <template>
   <div class="h-fit w-full flex justify-between">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-[#ccc]" :class="isMe(0) && 'border-8'" :src="userData[0].headIcon" alt="avatar">
+      <img class="h-24 rounded-full border-[#ccc]" :class="isMe(0) && 'border-8'" :src="userData[0].avatar" alt="avatar">
       <div class="text-5xl text-[#ccc] font-bold"> 白方 </div>
     </div>
   </div>
   <div class="h-fit w-full mt-5">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-[#800]" :class="isMe(1) && 'border-8'" :src="userData[1].headIcon" alt="avatar">
+      <img class="h-24 rounded-full border-[#800]" :class="isMe(1) && 'border-8'" :src="userData[1].avatar" alt="avatar">
       <div class="text-5xl text-[#800] font-bold"> 红方 </div>
     </div>
   </div>

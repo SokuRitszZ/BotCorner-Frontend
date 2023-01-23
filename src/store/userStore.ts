@@ -5,7 +5,7 @@ import useCacheStore from "./cacheStore";
 export type IUser = {
   id: number
   username: string
-  headIcon: string
+  avatar: string
 };
 
 export type IAuthUser = IUser & {
@@ -20,7 +20,7 @@ type IUserStore = IAuthUser & {
 const initState: IUserStore = {
   id: 0,
   username: "",
-  headIcon: "",
+  avatar: "",
   token: "",
   status: "not logged in",
   callbacks: {},
@@ -28,6 +28,12 @@ const initState: IUserStore = {
 
 const useUserStore = defineStore("UserStore", {
   state: (): IUserStore => ({ ...initState }),
+  getters: {
+    getToken(): string {
+      this.token = localStorage.getItem('token') || "";
+      return this.token;
+    }
+  },
   actions: {
     /**
      * 添加登录后需要触发的回调
@@ -36,22 +42,21 @@ const useUserStore = defineStore("UserStore", {
      */
     addAfterLoginCallback(name: string, fn: Function) {
       this.callbacks[name] = fn;
-      if (this.status === "logged in") fn();
+      if (this.status === "logged in")
+        setTimeout(() => fn());
     },
     removeAfterLoginCallback(name: string) {
       delete this.callbacks[name];
     },
-    /**
-     * 从localStorage加载token
-     */
-    loadToken() {
-      this.token = localStorage.getItem("token") || "";
+    setToken(token: string) {
+      localStorage.setItem('token', token);
+      this.token = token;
     },
     async register(username: string, password: string, confirmed_password: string) {
       return registerApi(username, password, confirmed_password)
         .then(() => {
           window._alert("success", `注册成功，将自动登录`);
-          this.getToken(username, password);
+          this.getTokenByApi(username, password);
         })
         .catch((error) => {
           window._alert("danger", `注册失败：${error}`);
@@ -62,7 +67,7 @@ const useUserStore = defineStore("UserStore", {
      * @param username
      * @param password
      */
-    async getToken(username: string, password: string) {
+    async getTokenByApi(username: string, password: string) {
       this.status = "logging in";
 
       type InfoType = {
@@ -71,7 +76,7 @@ const useUserStore = defineStore("UserStore", {
 
       return getTokenApi(username, password)
         .then((info: any) => {
-          this.token = (info as InfoType).token;
+          this.setToken((info as InfoType).token);
           localStorage.setItem("token", info.token);
           this.getInfo();
         })
@@ -84,7 +89,7 @@ const useUserStore = defineStore("UserStore", {
      * 获取信息
      */
     async getInfo() {
-      if (!this.token) return Promise.reject("没有Token");
+      if (!this.getToken) return Promise.reject("没有Token");
 
       this.status = "logging in";
 
@@ -112,8 +117,8 @@ const useUserStore = defineStore("UserStore", {
       window._alert("success", "成功退出登录", 1000);
     },
     async updateAvatar(url: string) {
-      this.headIcon = "";
-      setTimeout(() => this.headIcon = url);
+      this.avatar = "";
+      setTimeout(() => this.avatar = url);
     }
   },
 });
