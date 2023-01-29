@@ -28,6 +28,7 @@ const userStore = useUserStore();
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
+  class?: string
 };
 const props = defineProps<PropsType>();
 const server = ref<GameWebSocket>();
@@ -201,7 +202,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl p-7 w-full">
+  <div :class="[props.class, 'bg-purple-500 rounded-3xl shadow-2xl p-7 w-full']">
     <ChatRoom ref="$chatroom" @send="send" />
     <div class="w-full mt-3">
       <h1 class="text-center text-3xl flex justify-between items-center">

@@ -1,8 +1,13 @@
 <template>
-  <div class="min-w-[1600px] w-screen h-screen bg-purple-300 flex justify-center items-center">
-    <div class="grid grid-cols-7 w-4/5 h-5/6 gap-3">
+  <div class="min-w-[1600px] w-screen h-screen bg-purple-300 flex flex-col justify-center items-center px-3 py-[80px]">
+    <div class="grid grid-cols-9 px-3 min-w-[1600px] w-screen mb-3">
+      <div class="h-[50px]"></div>
+      <ShowOnline class="col-span-7 h-fit bg-purple-500 rounded-xl overflow-scroll" :promise_server="promise_server" />
+    </div>
+    <div class="grid grid-cols-9 w-full h-5/6 gap-3 relative">
+      <div></div>
       <!-- left -->
-      <LeftSubPage :promise_server="promise_server" />
+      <LeftSubPage class="col-span-2" :promise_server="promise_server" />
       <!-- middle -->
       <div class="col-span-3 flex justify-center bg-purple-700 rounded-3xl p-3 shadow-xl overflow-scroll">
         <MiddleSubPage :game="(route.params.game as string)" :promise_server="promise_server" />
@@ -11,9 +16,10 @@
       <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl justify-between p-3">
         <SnakeRightSubPage v-if="(route.params.game as string) === 'snake'" :promise_server="promise_server" />
         <ReversiRightSubPage v-else-if="(route.params.game as string) === 'reversi'" :promise_server="promise_server" />
-        <BackgammonRightSubPage v-else-if="(route.params.game as string) === 'backgammon'" :promise_server="promise_server" />
-        <HexRightSubPage v-else-if="(route.params.game as string) === 'hex'" :promise_server="promise_server"/>
-        <GomokuRightSubPage v-else-if="(route.params.game as string) === 'gomoku'" :promise_server="promise_server"/>
+        <BackgammonRightSubPage v-else-if="(route.params.game as string) === 'backgammon'"
+          :promise_server="promise_server" />
+        <HexRightSubPage v-else-if="(route.params.game as string) === 'hex'" :promise_server="promise_server" />
+        <GomokuRightSubPage v-else-if="(route.params.game as string) === 'gomoku'" :promise_server="promise_server" />
       </div>
     </div>
   </div>
@@ -32,6 +38,7 @@ import ReversiRightSubPage from './ReversiRightSubPage.vue';
 import BackgammonRightSubPage from './BackgammonRightSubPage.vue';
 import HexRightSubPage from './HexRightSubPage.vue';
 import GomokuRightSubPage from './GomokuRightSubPage.vue';
+import ShowOnline from './ShowOnline.vue';
 
 const userStore = useUserStore();
 const route = useRoute();
