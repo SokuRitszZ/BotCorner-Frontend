@@ -46,7 +46,7 @@ class Snake extends GameObject {
       G.Cir({
         x: (this.cells[0].y + 0.5) * L,
         y: (this.cells[0].x + 0.5) * L,
-        radius: L * 0.1,
+        radius: L * 0.2,
         color: "#000000",
       });
     }));
