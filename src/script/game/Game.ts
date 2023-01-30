@@ -6,10 +6,12 @@ import Screen from "./Screen";
 type IAction = {
   step: string;
   fn: Function;
-}
+};
+
+type IMode = "single" | "multi" | "record" | "watch";
 
 class Game {
-  public mode: "single" | "multi" | "record" = "single";
+  public mode: IMode = "single";
 
   protected $parent: HTMLDivElement;
   protected $canvas: HTMLCanvasElement;
@@ -58,7 +60,7 @@ class Game {
   public parseAndAct(data: any) {}
 
   public prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: IMode;
     initData: any;
   }) {
     this.mode = options.mode;
@@ -125,7 +127,7 @@ class Game {
   }
 
   protected _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: IMode;
     initData: any;
   }) {
     // abstract

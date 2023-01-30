@@ -27,36 +27,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/Rating.vue"),
   },
   {
-    path: "/game",
+    path: "/game/:game",
     name: "game",
     component: () => import("@/pages/games/Game.vue"),
-    children: [
-      {
-        path: "snake",
-        name: "snake",
-        component: () => import("@/pages/games/Snake.vue"),
-      },
-      {
-        path: "reversi",
-        name: "reversi",
-        component: () => import("@/pages/games/Reversi.vue"),
-      },
-      {
-        path: "backgammon",
-        name: "backgammon",
-        component: () => import("@/pages/games/Backgammon.vue"),
-      },
-      {
-        path: "gomoku",
-        name: "gomoku",
-        component: () => import("@/pages/games/Gomoku.vue"),
-      },
-      {
-        path: "hex",
-        name: "hex",
-        component: () => import("@/pages/games/Hex.vue"),
-      },
-    ]
   },
   {
     path: "/lab",

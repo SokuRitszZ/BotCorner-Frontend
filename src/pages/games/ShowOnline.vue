@@ -17,7 +17,7 @@ onMounted(async () => {
     .on({
       action: "init",
       callback: data => {
-        user_list.value = data
+        user_list.value = data.users;
       }
     })
     .on({
@@ -31,7 +31,7 @@ onMounted(async () => {
       callback: data => {
         user_list.value = user_list.value.filter(u => u.id !== data.id)
       }
-    })
+    });
 });
 </script>
 
@@ -39,7 +39,7 @@ onMounted(async () => {
   <div :class="[props.class, 'p-3 flex justify-center']">
     <div class="h-[50px]"></div>
     <TransitionGroup>
-      <ImageHoverDetail :key="u.id" v-for="(u, i) of user_list" :src="u.avatar" :class="[i && 'not-first' || undefined, 'w-[50px] h-[50px] rounded-sm border-gray-500 border-[1px] p-1']">
+      <ImageHoverDetail :key="u.id" v-for="(u, i) of user_list" :src="u.avatar" :class="[i && 'not-first' || undefined, 'w-[50px] h-[50px] border-gray-500 p-1']">
         <div> {{ '#' + leftpad(8, u.id) }} </div>
         <div> {{ u.username }} </div>
       </ImageHoverDetail>
