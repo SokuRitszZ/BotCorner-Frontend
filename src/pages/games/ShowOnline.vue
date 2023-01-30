@@ -24,14 +24,14 @@ onMounted(async () => {
       action: "join",
       callback: data => {
         user_list.value.push(data)
-      } 
+      }
     })
     .on({
       action: "leave",
       callback: data => {
         user_list.value = user_list.value.filter(u => u.id !== data.id)
       }
-    });
+    })
 });
 </script>
 
@@ -39,8 +39,9 @@ onMounted(async () => {
   <div :class="[props.class, 'p-3 flex justify-center']">
     <div class="h-[50px]"></div>
     <TransitionGroup>
-      <ImageHoverDetail :key="u.id" v-for="(u, i) of user_list" :src="u.avatar" :class="[i && 'not-first' || undefined, 'w-[50px] h-[50px] border-gray-500 p-1']">
-        <div> {{ '#' + leftpad(8, u.id) }} </div>
+      <ImageHoverDetail :key="u.id" v-for="u in user_list" :src="u.avatar"
+        :class="['w-[50px] h-[50px] border-gray-500 p-1']">
+        <div> {{ '#' + leftpad(8, u.id.toString()) }} </div>
         <div> {{ u.username }} </div>
       </ImageHoverDetail>
     </TransitionGroup>
@@ -48,7 +49,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-
 .not-first {
   margin-left: 10px;
 }
@@ -62,10 +62,12 @@ onMounted(async () => {
   overflow: hidden;
   transition: .4s;
 }
+
 .v-enter-from,
 .v-leave-to {
   width: 0;
 }
+
 .v-enter-to,
 .v-leave-from {
   width: 50px;

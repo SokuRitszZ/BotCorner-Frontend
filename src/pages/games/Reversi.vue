@@ -1,7 +1,7 @@
 <template>
   <div class="h-2/5 w-full flex flex-col-reverse">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-black" :class="{'border-8': userData.findIndex(user => user.id === userStore.id) === 0}" :src="userData[0].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-black" :class="{'border-8': users.findIndex(user => user.id === userStore.id) === 0}" :src="users[0].avatar" alt="avatar">
       <div class="relative w-full h-full flex justify-center items-center">
         <div class=" bg-white rounded-full absolute w-16 top-3 h-16 drop-shadow-2xl"></div>
         <div class=" bg-black rounded-full absolute top-2 w-16 h-16"></div>
@@ -30,7 +30,7 @@
   </div>
   <div class="h-2/5 w-full flex flex-col">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-white" :class="{'border-4': userData.findIndex(user => user.id === userStore.id) === 1}" :src="userData[1].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-white" :class="{'border-4': users.findIndex(user => user.id === userStore.id) === 1}" :src="users[1].avatar" alt="avatar">
       <div class="relative w-full h-full flex justify-center items-center">
         <div class=" bg-black rounded-full absolute w-16 top-3 h-16 drop-shadow-2xl shadow-white"></div>
         <div class=" bg-white rounded-full absolute w-16 top-2 h-16"></div>
@@ -52,22 +52,16 @@ import { onMounted, ref } from 'vue';
 
 const userStore = useUserStore();
 const gameStore = useGameStore();
-const userData = ref<IUser[]>(new Array<IUser>(2).fill({} as IUser).map(x => userStore.$state as IUser));
 const cnt = ref<number[]>([0, 0]);
 const turn = ref<number>(-1);
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
+  users: IUser[];
 };
 const props = defineProps<PropsType>();
 onMounted(async () => {
   const server = (await props.promise_server)
-    .on({
-      action: "make match",
-      callback: data => {
-        userData.value = data.userData;
-      }
-    })
   gameStore
     .on("prepare", () => {
       turn.value = -1;
@@ -84,7 +78,7 @@ onMounted(async () => {
           action: "set step",
           data: {
             ...data,
-            id: userData.value.findIndex(user => user.id === userStore.id),
+            id: props.users.findIndex(user => user.id === userStore.id),
           }
         });
       }
