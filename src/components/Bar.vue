@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { isNumber } from 'lodash';
-import { nextTick, ref, toRaw, watch } from 'vue';
+import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
 
 type PropsType = {
   list: string[]
   class?: string
+  transition?: number;
   modelValue?: number
 };
 const props = defineProps<PropsType>();
@@ -16,7 +17,7 @@ const animating = ref<boolean>(false);
 function animate() {
   if (animating.value) return false;
   animating.value = true;
-  setTimeout(() => animating.value = false, 1000);
+  setTimeout(() => animating.value = false, props.transition || 500);
   return true;
 }
 
@@ -44,12 +45,16 @@ function slideTo(index: number) {
   ptr.value = index;
 }
 
+onMounted(() => {
+  setTimeout(() => ptr.value = 0, 200);
+})
+
 </script>
 
 <template>
   <div :class="['p-3 rounded-full bg-gray-600 opacity-60', props.class]">
     <div class="flex items-center w-fit h-fit relative">
-      <div ref="$slug" class="-z-10 slug h-full bg-purple-900 w-10 absolute rounded-full"> </div>
+      <div ref="$slug" :class="['-z-10 slug h-full bg-purple-900 w-10 absolute rounded-full', `duration-500`]"> </div>
       <div @click="slideTo(index)" ref="$options" :class="['transition cursor-pointer px-4 py-1 whitespace-nowrap', index === ptr && 'text-white']" v-for="(item, index) in list" :key="index">{{
         item
       }}</div>
@@ -62,6 +67,6 @@ function slideTo(index: number) {
   --movedX: 0;
 
   transform: translateX(var(--movedX));
-  transition: 1s;
+  // transition: 1s;
 }
 </style>
