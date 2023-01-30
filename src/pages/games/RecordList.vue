@@ -1,6 +1,9 @@
 <template>
   <div :class="props.class">
-    <TransitionGroup>
+    <div v-if="records.length === 0" class="text-purple-400 text-xl text-center">
+      似乎还没有任何比赛
+    </div>
+    <TransitionGroup v-else>
       <div class="bg-purple-700 p-3 w-full rounded-xl" :class="{ 'mt-3': index > 0 }" :key="record.id"
         v-for="(record, index) in records">
         <div class="text-gray-400 ml-3 flex justify-between">
@@ -44,16 +47,16 @@
 import { getRecordCountApi, getRecordJsonApi, getRecordListApi } from '@/api/record';
 import Icon from '@/components/Icon.vue';
 import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
-import { IUser } from '@/store/cacheStore';
+import useCacheStore, { IUser } from '@/store/cacheStore';
 import useUserStore from '@/store/userStore';
 import leftpad from '@/utils/leftpad';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import dayjs from "dayjs";
 import Pager from '@/components/Pager.vue';
+import { useRouter } from 'vue-router';
 
 type PropsType = {
   class?: string;
-  gameId: number;
 };
 type IRecordListItem = {
   id: number;
@@ -67,34 +70,35 @@ const props = defineProps<PropsType>();
 const records = ref<IRecordListItem[]>([]);
 const recordCount = ref<number>(0);
 const capacity = 5;
+const router = useRouter();
 const userStore = useUserStore();
+const cacheStore = useCacheStore();
 
 onMounted(() => {
+  cacheStore.getGames
+    .then(() => {
+      gameId.value = cacheStore.getGameId(router.currentRoute.value.name!.toString());
+      getRecord(gameId.value, 0, capacity);
+    });
 });
 
 const getRecord = (id: number, from: number, count: number) => {
-  userStore.addAfterLoginCallback("get record list", () => {
-    getRecordListApi(id, from, count)
-      .then((data: any) => data.records)
-      .then(list => {
-        records.value = list
-      });
-    getRecordCountApi(id)
-      .then((data: any) => data.count)
-      .then(count => recordCount.value = count);
-  });
+  getRecordListApi(id, from, count)
+    .then((data: any) => data.records)
+    .then(list => {
+      records.value = list
+    });
+  getRecordCountApi(id)
+    .then((data: any) => data.count)
+    .then(count => recordCount.value = count);
 }
 
-watch(() => props.gameId, (newV) => {
-  getRecord(newV, 0, 5);
-});
+const gameId = ref<number>(0);
 
 const changePage = (idx: number) => {
-  userStore.addAfterLoginCallback("get record list", () => {
-    getRecordListApi(props.gameId, idx * 5, 5)
+    getRecordListApi(gameId.value, idx * 5, 5)
       .then((data: any) => data.records)
       .then(list => records.value = list);
-  });
 };
 
 const emit = defineEmits(["play-record"]);
@@ -118,7 +122,6 @@ onUnmounted(() => {
 .v-enter-active,
 .v-leave-active {
   overflow: hidden;
-  transition: 0.5s;
 }
 
 .v-enter-from,
