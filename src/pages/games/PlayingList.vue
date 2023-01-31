@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
 import { IUser } from '@/store/cacheStore';
+import useGameStore from '@/store/gameStore';
 export type IPlaying = {
   uuid: string
   bots: any[]
@@ -14,6 +15,16 @@ type PropsType = {
 const props = defineProps<PropsType>();
 
 const emit = defineEmits(['watch']);
+const gameStore = useGameStore();
+
+function toWatch(uuid: string) {
+  const playing: IPlaying | undefined = props.list_play.find(p => p.uuid === uuid);
+  if (!playing) return ;
+  const users = playing.users;
+  if (users.length === 1) users.unshift(users[0]);
+  gameStore.users = users;
+  emit('watch', uuid);
+}
 </script>
 
 <template>
@@ -25,7 +36,7 @@ const emit = defineEmits(['watch']);
       <div class="bg-purple-700 p-3 w-full rounded-xl flex justify-between items-center" :class="{ 'mt-3': index > 0 }" :key="playing.uuid"
         v-for="(playing, index) in props.list_play">
         <h1 class="text-lg text-purple-300"> {{ playing.users.map(u => ' ' + u.username + ' ').join('与') + "在进行一场比赛" }} </h1>
-        <Icon @click="emit('watch', playing.uuid)" class="
+        <Icon @click="toWatch(playing.uuid)" class="
         hover:text-purple-800
         active:text-purple-900
         " type="play" :size="24" />

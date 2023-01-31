@@ -14,7 +14,7 @@
       </div>
       <!-- right -->
       <div class="col-span-2 bg-purple-500 rounded-3xl shadow-2xl justify-between p-3">
-        <router-view :users="users" :promise_server="promise_server" />
+        <router-view :promise_server="promise_server" />
       </div>
     </div>
   </div>
@@ -34,18 +34,6 @@ import useGameStore from '@/store/gameStore';
 const userStore = useUserStore();
 const route = useRoute();
 
-const users = ref<IUser[]>([
-  {
-    id: 0,
-    username: "unknown",
-    avatar: "/src/assets/unknown.png"
-  },
-  {
-    id: 0,
-    username: "unknown",
-    avatar: "/src/assets/unknown.png"
-  }
-]);
 const server = ref<GameWebSocket>();
 const promise_server = ref<Promise<GameWebSocket>>(new Promise((resolve) => {
   const game = route.name?.toString();
@@ -78,7 +66,7 @@ onMounted(async () => {
     .on({
       action: "make match",
       callback: (data: any) => {
-        users.value = data.userData;
+        gameStore.users = data.userData;
       }
     })
     .on({

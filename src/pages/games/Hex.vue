@@ -1,13 +1,13 @@
 <template>
   <div class="w-full">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-red-700" :class="isMe(0) && 'border-8'" :src="users[0].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-red-700" :class="isMe(0) && 'border-8'" :src="gameStore.users[0].avatar" alt="avatar">
       <div class="text-5xl font-bold text-red-700"> 红方 </div>
     </div>
   </div>
   <div class="w-full mt-5">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-blue-700" :class="isMe(1) && 'border-8'" :src="users[1].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-blue-700" :class="isMe(1) && 'border-8'" :src="gameStore.users[1].avatar" alt="avatar">
       <div class="text-5xl font-bold text-blue-700"> 蓝方 </div>
     </div>
   </div>
@@ -22,19 +22,18 @@
 import useGameStore from '@/store/gameStore';
 import useUserStore, { IUser } from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 const userStore = useUserStore();
 const gameStore = useGameStore();
 const turn = ref<number>(-1);
 
 const isMe = (id: number) => {
-  return props.users.findIndex(user => userStore.id === user.id) === id;
+  return gameStore.users.findIndex(user => userStore.id === user.id) === id;
 };
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
-  users: IUser[];
 };
 const props = defineProps<PropsType>();
 onMounted(async () => {
@@ -60,7 +59,7 @@ onMounted(async () => {
           action: "set step",
           data: {
             ...data,
-            id: props.users.findIndex(user => user.id === userStore.id),
+            id: gameStore.users.findIndex(user => user.id === userStore.id),
           }
         });
       }

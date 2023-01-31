@@ -12,7 +12,18 @@ type IGameStore = {
 const initState: IGameStore = {
   game: null,
   events: [],
-  users: [],
+  users: [
+    {
+      id: 0,
+      username: "unknown",
+      avatar: "https://sdfsdf.dev/100x100.png",
+    },
+    {
+      id: 0,
+      username: "unknown",
+      avatar: "https://sdfsdf.dev/100x100.png",
+    },
+  ],
 };
 
 const useGameStore = defineStore("GameStore", {

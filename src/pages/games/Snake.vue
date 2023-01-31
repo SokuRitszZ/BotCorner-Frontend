@@ -1,7 +1,7 @@
 <template>
   <div class="h-fit w-full">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-red-600" :class="isMe(0) && 'border-8'" :src="users[0].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-red-600" :class="isMe(0) && 'border-8'" :src="gameStore.users[0].avatar" alt="avatar">
       <DirectionController :all-active="ok[0]" :disabled="disabledController(0)" @control="d => control(0, d)"
         class="w-32 h-32" active-class="bg-red-700 text-white"
         button-class="border-red-600 border-[1px] hover:bg-red-600 hover:text-white transition drop-shadow-xl" />
@@ -15,7 +15,7 @@
   </div>
   <div class="h-fit w-full mt-10">
     <div class="w-full flex justify-between items-center">
-      <img class="h-24 rounded-full border-blue-600" :class="isMe(1) && 'border-8'" :src="users[1].avatar" alt="avatar">
+      <img class="h-24 rounded-full border-blue-600" :class="isMe(1) && 'border-8'" :src="gameStore.users[1].avatar" alt="avatar">
       <DirectionController :all-active="ok[1]" :disabled="disabledController(1)" @control="d => control(1, d)"
         class="w-32 h-32" active-class="bg-blue-700 text-white"
         button-class="border-blue-600 border-[1px] hover:bg-blue-600 hover:text-white transition drop-shadow-xl" />
@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import DirectionController from '@/components/DirectionController.vue';
 import Icon from '@/components/Icon.vue';
-import { IUser } from '@/store/cacheStore';
 import useGameStore from '@/store/gameStore';
 import useUserStore from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';
@@ -40,7 +39,6 @@ import { onMounted, ref } from 'vue';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
-  users: IUser[];
 };
 const userStore = useUserStore();
 const gameStore = useGameStore();
@@ -54,10 +52,10 @@ onMounted(() => {
 });
 
 const isMe = (id: number) => {
-  return id === props.users.findIndex(user => user.id === userStore.id);
+  return id === gameStore.users.findIndex(user => user.id === userStore.id);
 };
 
-const disabledController = (id: number) => botIds.value[id] !== 0 || ok.value[id] || props.users[id].id !== userStore.id;
+const disabledController = (id: number) => botIds.value[id] !== 0 || ok.value[id] || gameStore.users[id].id !== userStore.id;
 
 const getType = (d: number) => {
   switch (d) {
