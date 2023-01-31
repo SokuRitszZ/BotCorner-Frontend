@@ -4,6 +4,7 @@ import useCacheStore from '@/store/cacheStore';
 import useUserStore from '@/store/userStore';
 import { throttle } from 'lodash';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import SokuButton from './SokuButton.vue';
 import SokuWindow from './SokuWindow.vue';
 
@@ -12,6 +13,7 @@ const userStore = useUserStore();
 const cacheStore = useCacheStore();
 const username = ref<string>("");
 const password = ref<string>("");
+const router = useRouter();
 
 const login = throttle((e: Event) => {
   userStore.getTokenByApi(username.value, password.value);
@@ -20,6 +22,7 @@ const login = throttle((e: Event) => {
 const logout = () => {
   userStore.logout();
   cacheStore.emptyBots();
+  router.push("/")
 };
 
 onMounted(() => {

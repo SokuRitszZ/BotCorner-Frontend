@@ -30,6 +30,9 @@ const routes: RouteRecordRaw[] = [
     path: "/game",
     name: "game",
     component: () => import("@/pages/games/Game.vue"),
+    meta: {
+      auth: true,
+    },
     children: [
       {
         path: "snake",
@@ -79,7 +82,15 @@ const router: Router = createRouter({
   routes,
 });
 
-export default router;
+import useUserStore from './../store/userStore';
 
-router.beforeEach(async () => {
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && useUserStore().status !== 'logged in') {
+    window._alert('danger', '请先登录');
+    next(from)
+  } else {
+    next();
+  }
 })
+
+export default router;
