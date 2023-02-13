@@ -9,7 +9,6 @@ export type IPlaying = {
 };
 
 type PropsType = {
-  class?: string
   list_play: IPlaying[]
 };
 const props = defineProps<PropsType>();
@@ -28,7 +27,7 @@ function toWatch(uuid: string) {
 </script>
 
 <template>
-  <div :class="props.class">
+  <div :class="class">
     <div v-if="list_play.length === 0" class="text-purple-400 text-xl text-center">
       似乎还没有任何比赛正在进行
     </div>

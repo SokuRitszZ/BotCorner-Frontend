@@ -17,13 +17,11 @@ const cacheStore = useCacheStore();
 
 const bots = ref<(IBot & { isMarked: boolean })[]>([]);
 
-onMounted(() => {
-  userStore.addAfterLoginCallback("get bot", () => {
-    cacheStore.getBots
-      .then(list => {
-        (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
-        bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
-      });
+onMounted(async () => {
+  userStore.addAfterLoginCallback("get bot", async () => {
+    const list = await cacheStore.getBots;
+    (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime));
+    bots.value = (list as (IBot & { isMarked: boolean })[]).sort((a, b) => +a.modifyTime - +b.modifyTime);
   });
 });
 

@@ -53,13 +53,12 @@
           <button :disabled="uploadStatus === 'uploading'" @click="changeCode" class="bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-sm p-2 rounded-lg text-white disabled:bg-purple-300">上传修改</button>
         </div>
       </p>
-      <MonacoEditor ref="$editor" id="edit-bot-code" class="h-screen mt-2"/>
+      <textarea ref="$editor" class="h-screen mt-2 font-mono border-[1px] rounded-xl w-full p-3" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import MonacoEditor from '@/components/MonacoEditor.vue';
 import useCacheStore, { IBot, IGame, ILang } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
 import { onMounted, ref } from 'vue';
@@ -80,7 +79,6 @@ const $editor = ref();
 
 onMounted(() => {
   setTimeout(() => {
-    $editor.value.setLang(cacheStore.getLang(props.bot?.langId!));
   });
 });
 
@@ -88,8 +86,7 @@ const isGettingCode = ref<boolean>(false);
 const getCode = () => {
   if (!props.bot) return ;
   if (props.bot.code) {
-    $editor.value.setLang(cacheStore.getLang(props.bot.langId));
-    $editor.value.setContent(props.bot.code);
+    $editor.value.value = props.bot.code;
   } else {
     isGettingCode.value = true;
     getCodeApi(props.bot.id)
@@ -98,13 +95,11 @@ const getCode = () => {
     })
     .then(code => {
       if (!props.bot) return ;
-      $editor.value.setLang(cacheStore.getLang(props.bot.langId));
-      $editor.value.setContent(code || "");
+      $editor.value.value = code || "";
       props.bot.code = code;
       window._alert("success", "获取成功");
     })
     .catch(error => {
-      console.log(error);
       window._alert("danger", `获取失败：${error}`);
     })
     .finally(() => {
@@ -114,7 +109,7 @@ const getCode = () => {
 };
 
 const reset = () => {
-  $editor.value.setContent("");
+  $editor.value.value = "";
 };
 
 defineExpose({

@@ -43,14 +43,13 @@
       <div class="absolute right-0">
       </div>
       </p>
-      <MonacoEditor ref="$editor" id="add-bot-code" class="h-screen mt-2" />
+      <textarea ref="$editor" class="h-screen mt-2 w-full border-[1px] rounded-xl p-3"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { addBotApi } from '@/api/bots';
-import MonacoEditor from '@/components/MonacoEditor.vue';
 import useCacheStore, { IGame, ILang } from '@/store/cacheStore';
 import toWord from '@/utils/toWord';
 import { ref } from 'vue';
@@ -68,7 +67,6 @@ const $editor = ref();
 const submitStatus = ref<"to submit" | "submitting">("to submit");
 
 const changeLang = () => {
-  $editor.value.setLang(cacheStore.getLang(selectedLang.value!));
 };
 
 const emit = defineEmits(['addBot']);
@@ -85,7 +83,7 @@ const submit = () => {
     description: description.value?.trim() || "",
     gameId: selectedGame.value || 0,
     langId: selectedLang.value || 0,
-    code: $editor.value.getContent().trim(),
+    code: $editor.value.value.trim(),
   };
   
   submitStatus.value = "submitting";

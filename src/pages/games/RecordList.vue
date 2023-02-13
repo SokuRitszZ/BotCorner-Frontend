@@ -1,5 +1,5 @@
 <template>
-  <div :class="props.class">
+  <div :class="class">
     <div v-if="records.length === 0" class="text-purple-400 text-xl text-center">
       似乎还没有任何比赛
     </div>
@@ -56,7 +56,7 @@ import Pager from '@/components/Pager.vue';
 import { useRouter } from 'vue-router';
 
 type PropsType = {
-  class?: string;
+  [key: string]: any;
 };
 type IRecordListItem = {
   id: number;
