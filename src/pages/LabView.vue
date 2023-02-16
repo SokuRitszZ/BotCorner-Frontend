@@ -13,13 +13,11 @@ onMounted(() => {
     $window.value.open();
   }
 });
-
-const handleChange = (data: number) => console.log(data);
 </script>
 
 <template>
   <div class="mt-24 h-full text-center">
-    <Progress @change="handleChange" v-model="val" :max="200" :width="100" />
+    <Progress v-model="val" :max="200" :width="100" />
     <Window ref="$window"></Window>
     <ChatRoom />
     <div class="w-40 h-40 bg-purple-400" />

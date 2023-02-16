@@ -6,6 +6,9 @@
     "@vue/eslint-config-typescript",
     "@vue/eslint-config-prettier"
   ],
+  "rules": {
+    "no-console": "warn"
+  },
   "parserOptions": {
     "ecmaVersion": "latest"
   }

@@ -56,7 +56,6 @@ const register = throttle(() => {
 const $window_settings = ref();
 
 function toUpdateAvatar() {
-  console.log(1);
   $window_settings.value.open();
 }
 </script>
