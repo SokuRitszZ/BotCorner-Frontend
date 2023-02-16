@@ -115,6 +115,7 @@ const control = (id: number, d: number) => {
     data: { id, d },
   });
 };
+
 onMounted(async () => {
   server.value = await props.promise_server;
   server.value

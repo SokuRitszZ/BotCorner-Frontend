@@ -41,6 +41,7 @@ import ShowOnline from "./ShowOnline.vue";
 import useGameStore from "@/store/gameStore";
 
 const userStore = useUserStore();
+const gameStore = useGameStore();
 const route = useRoute();
 
 const server = ref<GameWebSocket>();
@@ -85,10 +86,18 @@ onMounted(async () => {
     .on({
       action: "get current",
       callback: () => {},
+    })
+    .on({
+      action: "allow to control",
+      callback: () => {
+        gameStore.users = Array.from({ length: 2 }).map(() => ({
+          username: userStore.username,
+          id: userStore.id,
+          avatar: userStore.avatar,
+        }));
+      },
     });
 });
-
-const gameStore = useGameStore();
 
 onUnmounted(() => {
   gameStore.clearEmit();
