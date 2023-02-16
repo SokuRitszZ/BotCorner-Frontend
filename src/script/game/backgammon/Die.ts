@@ -54,7 +54,7 @@ class Die extends GameObject {
 
   /**
    * For Record
-   * @returns 
+   * @returns
    */
   public getJson() {
     return {

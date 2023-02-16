@@ -9,7 +9,8 @@ class GameMap extends GameObject {
   }
 
   protected onStart() {
-    this.addUpdater("render map",
+    this.addUpdater(
+      "render map",
       new Updater(() => {
         const L = this.root.L;
         const { rows, cols } = this.root as ReversiGame;
@@ -46,7 +47,8 @@ class GameMap extends GameObject {
       })
     );
 
-    this.addUpdater("render chess",
+    this.addUpdater(
+      "render chess",
       new Updater(() => {
         const L = this.root.L;
         (this.root as ReversiGame).g.forEach((_, i) => {
@@ -70,7 +72,8 @@ class GameMap extends GameObject {
       })
     );
 
-    this.addUpdater("render last put",
+    this.addUpdater(
+      "render last put",
       new Updater(() => {
         const L = this.root.L;
         const { r, c } = (this.root as ReversiGame).lastPut;

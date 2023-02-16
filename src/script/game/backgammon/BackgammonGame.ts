@@ -8,7 +8,7 @@ import Die from "./Die";
 class BackgammonGame extends Game {
   public readonly rows = 11;
   public readonly cols = 14;
-  public g: Chess[][] = new Array<Chess[]>(28).fill([]).map((x) => []);
+  public g: Chess[][] = new Array<Chess[]>(28).fill([]).map(() => []);
 
   private map: GameMap = new GameMap(this);
   private clickEvent: (e: MouseEvent) => void = () => {};
@@ -87,7 +87,7 @@ class BackgammonGame extends Game {
     }
   }
 
-  protected onStart(): void {
+  public onStart(): void {
     this.moveEvent = (e: MouseEvent) => {
       const L = this.L;
       const { offsetX: x, offsetY: y } = e;
@@ -129,15 +129,18 @@ class BackgammonGame extends Game {
     this.$canvas.addEventListener("contextmenu", (e) => e.preventDefault());
   }
 
-  protected onStop(): void {
+  public onStop(): void {
     this.$canvas.removeEventListener("mousemove", this.moveEvent);
   }
 
-  protected _setStep(data: any) {
+  public _setStep(data: any) {
     const { type, step } = data;
     switch (type) {
       case "dice":
-        this.setDice(data.dice.split("").map((x: string) => parseInt(x)), step);
+        this.setDice(
+          data.dice.split("").map((x: string) => parseInt(x)),
+          step
+        );
         break;
       case "move":
         this.moveChess(data.from, data.to, step);
@@ -149,10 +152,9 @@ class BackgammonGame extends Game {
         this.turn(step);
         break;
     }
-    return this;
   }
 
-  protected _prepare(options: {
+  public _prepare(options: {
     mode: "single" | "multi" | "record";
     initData: any;
   }): this {
@@ -180,12 +182,14 @@ class BackgammonGame extends Game {
   }
 
   private setDice(dice: number[], step: string) {
-    const oldDice = this.dice.map(die => die.getJson())
+    const oldDice = this.dice.map((die) => die.getJson());
     this.dice.forEach((die) => die.destroy());
     this.dice = dice.map((x, i) => new Die(this, i, this.cur, x));
     this.memo(step, () => {
-      this.dice.forEach(die => die.destroy());
-      this.dice = oldDice.map((die: any) => new Die(this, die.idx, die.id, die.num));
+      this.dice.forEach((die) => die.destroy());
+      this.dice = oldDice.map(
+        (die: any) => new Die(this, die.idx, die.id, die.num)
+      );
     });
   }
 
@@ -225,7 +229,7 @@ class BackgammonGame extends Game {
     if (!isEaten) {
       // 骰子
       if (to === 26 || to === 27) to = 25 * (1 - chess.id);
-      const len = Math.abs(to - from)
+      const len = Math.abs(to - from);
       let idx = this.dice.findIndex((die) => die.num === len);
       if (idx === -1) idx = 0;
       this.dice[idx].destroy();

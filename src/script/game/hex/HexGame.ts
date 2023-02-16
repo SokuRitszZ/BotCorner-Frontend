@@ -14,8 +14,8 @@ class HexGame extends Game {
   public lastPut: { r: number; c: number } = { r: -1, c: -1 };
 
   private map: GameMap = new GameMap(this);
-  private clickEvent: (e: MouseEvent) => void = (e) => {};
-  private moveEvent: (e: MouseEvent) => void = (e) => {};
+  private clickEvent: (e: MouseEvent) => void = () => {};
+  private moveEvent: (e: MouseEvent) => void = () => {};
   private cur: number = 0; // 0红1蓝
   private chess: Chess[] = [];
   private currentChess: Chess = new Chess(this, -1, -1, this.cur, 0.7);
@@ -39,38 +39,36 @@ class HexGame extends Game {
     new Array(11).fill(0).forEach((_, i) => {
       new Array(11).fill(0).forEach((_, j) => {
         const p = this.getPosition(i, j);
-        const d = C.distance(p, {x, y});
-        if (d < 0.8) ret = {x: i, y: j};
+        const d = C.distance(p, { x, y });
+        if (d < 0.8) ret = { x: i, y: j };
       });
     });
     return ret;
   }
 
-  protected onStart(): void {
+  onStart(): void {
     this.clickEvent = (e: MouseEvent) => {
       const p = HexGame.findPosition(e.offsetY / this.L, e.offsetX / this.L);
-      if (!p) return ;
+      if (!p) return;
       if (this.mode === "single") {
         this.emit("click", {
           id: this.cur,
           ...p,
         });
-      }
-      else if (this.mode === "multi")
-        this.emit("click", { ...p });
+      } else if (this.mode === "multi") this.emit("click", { ...p });
     };
     this.moveEvent = (e: MouseEvent) => {
       const L = this.L;
-      if (!L) return ;
+      if (!L) return;
       const p = HexGame.findPosition(e.offsetY / L, e.offsetX / L);
       if (!p) this.setCurrentChess();
-      else this.setCurrentChess(p)
+      else this.setCurrentChess(p);
     };
     this.$canvas.addEventListener("click", this.clickEvent);
     this.$canvas.addEventListener("mousemove", this.moveEvent);
   }
 
-  protected onStop(): void {
+  onStop(): void {
     this.$canvas.removeEventListener("click", this.clickEvent);
     this.$canvas.removeEventListener("mousemove", this.moveEvent);
   }
@@ -83,24 +81,23 @@ class HexGame extends Game {
 
   public parseAndAct(data: string): void {
     "r.c";
-    const [r, c] = data.split("").map(x => parseInt(x, 36));
+    const [r, c] = data.split("").map((x) => parseInt(x, 36));
     this.setStep({ id: 0, r, c, step: data });
   }
 
-  protected _setStep(data: { id: number; r: number; c: number, step: string }) {
-    const { id, r, c, step } = data;
+  _setStep(data: { id: number; r: number; c: number; step: string }) {
+    const { r, c, step } = data;
     this.putChess(r, c, step);
     return this;
   }
 
-  protected _prepare(options: {
+  _prepare(options: {
     mode: "single" | "multi" | "record";
     initData: any;
   }): this {
-    const { mode, initData } = options;
+    const { mode } = options;
     this.mode = mode;
     this.setScreen([20, 32]);
-    let k = 0;
     return this;
   }
 

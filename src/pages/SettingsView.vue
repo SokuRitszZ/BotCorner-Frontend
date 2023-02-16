@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { updateAvatarApi } from '@/api/account';
-import Cropper from '@/components/Cropper.vue';
-import SokuButton from '@/components/SokuButton.vue';
-import SokuWindow from '@/components/SokuWindow.vue';
-import useUserStore from '@/store/userStore';
-import { throttle } from 'lodash';
-import { ref } from 'vue';
+import { updateAvatarApi } from "@/api/account";
+import Cropper from "@/components/CropperVue.vue";
+import SokuButton from "@/components/SokuButton.vue";
+import SokuWindow from "@/components/SokuWindow.vue";
+import useUserStore from "@/store/userStore";
+import { throttle } from "lodash";
+import { ref } from "vue";
 
 const userStore = useUserStore();
 
@@ -23,17 +23,22 @@ const upload = throttle((data: any) => {
       userStore.updateAvatar(data.url);
       $window.value.close();
     })
-    .catch(error => window._alert("danger", error));
+    .catch((error) => window._alert("danger", error));
 }, 3000);
 
 defineExpose({
-  open: () => $window.value.open()
+  open: () => $window.value.open(),
 });
 </script>
 
 <template>
   <SokuWindow ref="$window" title="个人设置">
-    <Cropper @crop="upload" ref="$cropper" class="w-full text-center mt-3" :default-src="userStore.avatar" />
+    <Cropper
+      @crop="upload"
+      ref="$cropper"
+      class="w-full text-center mt-3"
+      :default-src="userStore.avatar"
+    />
     <div class="w-full flex justify-center mt-3">
       <soku-button @click="updateAvatar" class="p-2 text-3xl">更换</soku-button>
     </div>

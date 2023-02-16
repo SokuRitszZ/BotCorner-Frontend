@@ -21,26 +21,32 @@ class Screen extends GameObject {
   }
 
   protected onStart() {
-    this.addUpdater("get scale", new Updater(() => {
-      const c = G.context;
-      const {clientHeight: height, clientWidth: width} = this.$container;
-      this.L = Math.min(
-        width / this.screenOptions[0],
-        height / this.screenOptions[1]
-      );
-      this.L = Math.floor(this.L);
-      c.canvas.width = this.L * this.screenOptions[0];
-      c.canvas.height = this.L * this.screenOptions[1];
-    }));
-    this.addUpdater("render screen", new Updater(() => {
-      const L = this.L;
-      G.Rect({
-        x: 0,
-        y: 0,
-        lx: L * this.screenOptions[0],
-        ly: L * this.screenOptions[1],
-      });
-    }));
+    this.addUpdater(
+      "get scale",
+      new Updater(() => {
+        const c = G.context;
+        const { clientHeight: height, clientWidth: width } = this.$container;
+        this.L = Math.min(
+          width / this.screenOptions[0],
+          height / this.screenOptions[1]
+        );
+        this.L = Math.floor(this.L);
+        c.canvas.width = this.L * this.screenOptions[0];
+        c.canvas.height = this.L * this.screenOptions[1];
+      })
+    );
+    this.addUpdater(
+      "render screen",
+      new Updater(() => {
+        const L = this.L;
+        G.Rect({
+          x: 0,
+          y: 0,
+          lx: L * this.screenOptions[0],
+          ly: L * this.screenOptions[1],
+        });
+      })
+    );
   }
 }
 

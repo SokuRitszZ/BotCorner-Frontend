@@ -1,8 +1,14 @@
 <template>
   <div class="fixed w-80 h-fit z-50 left-0 top-24 pl-4">
     <TransitionGroup>
-      <div :key="alert.id" class="overflow-visible mb-2" v-for="alert in alerts">
-        <div @click="remove(alert)" class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex gap-5 justify-between items-center"
+      <div
+        :key="alert.id"
+        class="overflow-visible mb-2"
+        v-for="alert in alerts"
+      >
+        <div
+          @click="remove(alert)"
+          class="opacity-100 w-full h-fit rounded-lg p-3 inner text-white shadow-lg flex gap-5 justify-between items-center"
           :class="{
             'bg-blue-500': alert.type === 'primary',
             'bg-red-600': alert.type === 'danger',
@@ -10,7 +16,7 @@
             'bg-yellow-400': alert.type === 'warning',
           }"
         >
-          <Icon :type="alert.type" :size="20"/>
+          <Icon :type="alert.type" :size="20" />
           <div class="overflow-scroll whitespace-nowrap">
             {{ alert.message }}
           </div>
@@ -21,14 +27,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { nanoid } from 'nanoid';
-import Icon from './Icon.vue';
-import { AlertFunction, AlertType, IAlert } from '@/utils/alert';
+import { onMounted, ref } from "vue";
+import { nanoid } from "nanoid";
+import Icon from "./BootstrapIcon.vue";
+import { AlertFunction, AlertType, IAlert } from "@/utils/alert";
 
 const alerts = ref<IAlert[]>([]);
 
-const alert: AlertFunction = (type: AlertType, message: string, ms: number = 1000) => {
+const alert: AlertFunction = (
+  type: AlertType,
+  message: string,
+  ms: number = 1000
+) => {
   const newAlert: IAlert = {
     id: nanoid(11),
     type,
@@ -43,7 +53,7 @@ const alert: AlertFunction = (type: AlertType, message: string, ms: number = 100
 
 const remove = (theAlert: IAlert) => {
   clearTimeout(theAlert.timer!);
-  alerts.value = alerts.value.filter(alert => alert.id !== theAlert.id);
+  alerts.value = alerts.value.filter((alert) => alert.id !== theAlert.id);
 };
 
 // const test = (ms: number) => {
@@ -56,7 +66,6 @@ onMounted(() => {
   window._alert = alert;
   // test(5000);
 });
-
 </script>
 
 <style scoped lang="scss">

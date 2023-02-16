@@ -36,7 +36,8 @@ const useGameStore = defineStore("GameStore", {
     ) {
       this.game = GameBuilder(game)($parent, $canvas);
       this.events.forEach((event) => {
-        this.game!.on(event.tag, event.callback);
+        if (!this.game) return;
+        this.game.on(event.tag, event.callback);
       });
       return this;
     },

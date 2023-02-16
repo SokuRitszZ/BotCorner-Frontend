@@ -45,8 +45,8 @@ class GameMap extends GameObject {
             y0: (i + 1) * L,
             x1: 15 * L,
             y1: (i + 1) * L,
-            width: 0
-          })
+            width: 0,
+          });
         });
       })
     );

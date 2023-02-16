@@ -10,7 +10,7 @@ type IAction = {
 
 type IMode = "single" | "multi" | "record" | "watch";
 
-class Game {
+abstract class Game {
   public mode: IMode = "single";
 
   protected $parent: HTMLDivElement;
@@ -36,12 +36,10 @@ class Game {
     this.screen = new Screen(this, $parent);
   }
 
-  public next(cur: { v: number }, record: IRecord) {
-    return "";
-  }
+  abstract next(cur: { v: number }, record: IRecord): string;
 
-  public upend(cur: { v: number }, record: IRecord) {
-    if (!this.stack.length) return ;
+  public upend(cur: { v: number }): void {
+    if (!this.stack.length) return;
     const action = this.stack.pop();
     cur.v -= action!.step.length;
     action!.fn();
@@ -57,12 +55,9 @@ class Game {
     this.callbacks[tag].forEach((fn) => fn(...args));
   }
 
-  public parseAndAct(data: any) {}
+  abstract parseAndAct(step: string): void;
 
-  public prepare(options: {
-    mode: IMode;
-    initData: any;
-  }) {
+  public prepare(options: { mode: IMode; initData: any }) {
     this.mode = options.mode;
     this._prepare(options);
     this.emit("prepare", options);
@@ -122,24 +117,16 @@ class Game {
     return this;
   }
 
-  protected _setStep(data: any) {
-    return this;
-  }
+  abstract _setStep(data: any): void;
 
-  protected _prepare(options: {
-    mode: IMode;
-    initData: any;
-  }) {
-    // abstract
-    return this;
-  }
+  abstract _prepare(options: { mode: IMode; initData: any }): void;
 
-  protected onStart() {}
+  abstract onStart(): void;
 
-  protected onStop() {}
+  abstract onStop(): void;
 
   protected memo(step: string, fn: Function) {
-    this.stack.push({step, fn});
+    this.stack.push({ step, fn });
   }
 }
 

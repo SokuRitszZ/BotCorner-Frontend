@@ -3,14 +3,14 @@ import { defineStore } from "pinia";
 import useCacheStore from "./cacheStore";
 
 export type IUser = {
-  id: number
-  username: string
-  avatar: string
+  id: number;
+  username: string;
+  avatar: string;
 };
 
 export type IAuthUser = IUser & {
-  token: string 
-}
+  token: string;
+};
 
 type IUserStore = IAuthUser & {
   status: "not logged in" | "logging in" | "logged in";
@@ -30,9 +30,9 @@ const useUserStore = defineStore("UserStore", {
   state: (): IUserStore => ({ ...initState }),
   getters: {
     getToken(): string {
-      this.token = localStorage.getItem('token') || "";
+      this.token = localStorage.getItem("token") || "";
       return this.token;
-    }
+    },
   },
   actions: {
     /**
@@ -42,17 +42,20 @@ const useUserStore = defineStore("UserStore", {
      */
     addAfterLoginCallback(name: string, fn: Function) {
       this.callbacks[name] = fn;
-      if (this.status === "logged in")
-        setTimeout(() => fn());
+      if (this.status === "logged in") setTimeout(() => fn());
     },
     removeAfterLoginCallback(name: string) {
       delete this.callbacks[name];
     },
     setToken(token: string) {
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       this.token = token;
     },
-    async register(username: string, password: string, confirmed_password: string) {
+    async register(
+      username: string,
+      password: string,
+      confirmed_password: string
+    ) {
       return registerApi(username, password, confirmed_password)
         .then(() => {
           window._alert("success", `注册成功，将自动登录`);
@@ -60,7 +63,7 @@ const useUserStore = defineStore("UserStore", {
         })
         .catch((error) => {
           window._alert("danger", `注册失败：${error}`);
-        })
+        });
     },
     /**
      * 获取Token
@@ -100,7 +103,7 @@ const useUserStore = defineStore("UserStore", {
           this.status = "logged in";
           Object.values(this.callbacks).forEach((fn) => fn());
         })
-        .catch((error) => {
+        .catch(() => {
           window._alert("danger", "登录失败：Token无效", 2000);
           this.status = "not logged in";
           localStorage.removeItem("token");
@@ -118,8 +121,8 @@ const useUserStore = defineStore("UserStore", {
     },
     async updateAvatar(url: string) {
       this.avatar = "";
-      setTimeout(() => this.avatar = url);
-    }
+      setTimeout(() => (this.avatar = url));
+    },
   },
 });
 

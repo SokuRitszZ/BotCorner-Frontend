@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { IUser } from '@/store/userStore';
-import leftpad from '@/utils/leftpad';
-import { onMounted, ref } from 'vue';
-import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
-import GameWebSocket from '@/utils/GameWebSocket';
+import { IUser } from "@/store/userStore";
+import leftpad from "@/utils/leftpad";
+import { onMounted, ref } from "vue";
+import ImageHoverDetail from "@/components/ImageHoverDetail.vue";
+import GameWebSocket from "@/utils/GameWebSocket";
 
 type PropsType = {
-  class?: string
-  promise_server: Promise<GameWebSocket>
+  class?: string;
+  promise_server: Promise<GameWebSocket>;
 };
 const props = defineProps<PropsType>();
 const user_list = ref<IUser[]>([]);
@@ -16,22 +16,22 @@ onMounted(async () => {
   (await props.promise_server)
     .on({
       action: "init",
-      callback: data => {
+      callback: (data) => {
         user_list.value = data.users;
-      }
+      },
     })
     .on({
       action: "join",
-      callback: data => {
-        user_list.value.push(data)
-      }
+      callback: (data) => {
+        user_list.value.push(data);
+      },
     })
     .on({
       action: "leave",
-      callback: data => {
-        user_list.value = user_list.value.filter(u => u.id !== data.id)
-      }
-    })
+      callback: (data) => {
+        user_list.value = user_list.value.filter((u) => u.id !== data.id);
+      },
+    });
 });
 </script>
 
@@ -39,10 +39,14 @@ onMounted(async () => {
   <div :class="[props.class, 'p-3 flex justify-center']">
     <div class="h-[50px]"></div>
     <TransitionGroup>
-      <ImageHoverDetail :key="u.id" v-for="u in user_list" :src="u.avatar"
-        :class="['w-[50px] h-[50px] border-gray-500 p-1']">
-        <div> {{ '#' + leftpad(8, u.id.toString()) }} </div>
-        <div> {{ u.username }} </div>
+      <ImageHoverDetail
+        :key="u.id"
+        v-for="u in user_list"
+        :src="u.avatar"
+        :class="['w-[50px] h-[50px] border-gray-500 p-1']"
+      >
+        <div>{{ "#" + leftpad(8, u.id.toString()) }}</div>
+        <div>{{ u.username }}</div>
       </ImageHoverDetail>
     </TransitionGroup>
   </div>
@@ -54,13 +58,13 @@ onMounted(async () => {
 }
 
 .v-move {
-  transition: .4s
+  transition: 0.4s;
 }
 
 .v-enter-active,
 .v-leave-active {
   overflow: hidden;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .v-enter-from,

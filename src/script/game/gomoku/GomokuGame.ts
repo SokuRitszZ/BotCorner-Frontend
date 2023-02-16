@@ -13,8 +13,8 @@ class GomokuGame extends Game {
   public lastPut: { r: number; c: number } = { r: -1, c: -1 };
 
   private map: GameMap = new GameMap(this);
-  private clickEvent: (e: MouseEvent) => void = (e) => {};
-  private moveEvent: (e: MouseEvent) => void = (e) => {};
+  private clickEvent: (e: MouseEvent) => void = () => {};
+  private moveEvent: (e: MouseEvent) => void = () => {};
   private chessboard: ChessBoard = new ChessBoard(this, this.g);
   private cur: number = 0; // 0黑1白
 
@@ -22,27 +22,28 @@ class GomokuGame extends Game {
     super($parent, $canvas);
   }
 
-  protected onStart(): void {
+  public onStart(): void {
     this.clickEvent = (e: MouseEvent) => {
-      const p = {r: Math.floor(e.offsetY / this.L - 0.5), c: Math.floor(e.offsetX / this.L - 0.5)};
+      const p = {
+        r: Math.floor(e.offsetY / this.L - 0.5),
+        c: Math.floor(e.offsetX / this.L - 0.5),
+      };
       if (this.mode === "single") {
         this.emit("click", {
           id: this.cur,
           ...p,
         });
-      }
-      else if (this.mode === "multi")
-        this.emit("click", { ...p });
+      } else if (this.mode === "multi") this.emit("click", { ...p });
     };
-    this.moveEvent = (e: MouseEvent) => {
+    this.moveEvent = () => {
       const L = this.L;
-      if (!L) return ;
+      if (!L) return;
     };
     this.$canvas.addEventListener("click", this.clickEvent);
     this.$canvas.addEventListener("mousemove", this.moveEvent);
   }
 
-  protected onStop(): void {
+  public onStop(): void {
     this.$canvas.removeEventListener("click", this.clickEvent);
     this.$canvas.removeEventListener("mousemove", this.moveEvent);
   }
@@ -55,24 +56,23 @@ class GomokuGame extends Game {
 
   public parseAndAct(data: string): void {
     "r.c";
-    const [r, c] = data.split("").map(x => parseInt(x, 36));
+    const [r, c] = data.split("").map((x) => parseInt(x, 36));
     this.setStep({ id: this.cur, r, c, step: data });
   }
 
-  protected _setStep(data: { id: number; r: number; c: number, step: string }) {
-    const { id, r, c, step } = data;
+  _setStep(data: { id: number; r: number; c: number; step: string }) {
+    const { r, c, step } = data;
     this.putChess(r, c, step);
     return this;
   }
 
-  protected _prepare(options: {
+  _prepare(options: {
     mode: "single" | "multi" | "record";
     initData: any;
   }): this {
-    const { mode, initData } = options;
+    const { mode } = options;
     this.mode = mode;
     this.setScreen([16, 16]);
-    let k = 0;
     for (let i = 0; i < 15; ++i) {
       this.g[i] = [];
       for (let j = 0; j < 15; ++j) {
@@ -86,7 +86,7 @@ class GomokuGame extends Game {
     this.g[r][c] = this.cur;
     this.cur ^= 1;
     const lastLastPut = this.chessboard.lastPut;
-    this.chessboard.lastPut = {x: r, y: c};
+    this.chessboard.lastPut = { x: r, y: c };
 
     this.memo(step, () => {
       this.g[r][c] = 2;

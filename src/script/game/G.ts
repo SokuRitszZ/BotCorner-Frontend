@@ -66,7 +66,7 @@ class G {
         x1: cur[0],
         y1: cur[1],
         width: width,
-        color: color
+        color: color,
       });
       return cur;
     });
@@ -106,12 +106,12 @@ class G {
   }
 
   static Hex(options: {
-    x: number,
-    y: number,
-    radius: number,
-    color?: string,
+    x: number;
+    y: number;
+    radius: number;
+    color?: string;
   }) {
-    const {x, y, radius, color} = options;
+    const { x, y, radius, color } = options;
     const v = new Vector(-radius, 0);
     const lst: [number, number][] = [];
     new Array(6).fill(0).forEach(() => {
@@ -126,13 +126,13 @@ class G {
   }
 
   static StrokeHex(options: {
-    x: number,
-    y: number,
-    radius: number,
-    width?: number,
-    color?: string,
+    x: number;
+    y: number;
+    radius: number;
+    width?: number;
+    color?: string;
   }) {
-    const {x, y, radius, width, color} = options;
+    const { x, y, radius, width, color } = options;
     const v = new Vector(-radius, 0);
     const lst: [number, number][] = [];
     new Array(6).fill(0).forEach(() => {

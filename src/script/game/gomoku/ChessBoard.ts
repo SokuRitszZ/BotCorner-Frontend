@@ -11,7 +11,7 @@ class ChessBoard extends GameObject {
 
   constructor(root: GomokuGame, chessboard: number[][]) {
     super(root);
-    
+
     this.chessboard = chessboard;
   }
 
@@ -27,7 +27,7 @@ class ChessBoard extends GameObject {
                 x: (j + 1) * L,
                 y: (i + 1) * L,
                 radius: 0.4 * L,
-                color: _ ? "#fff" : "#000"
+                color: _ ? "#fff" : "#000",
               });
             }
           });
@@ -35,19 +35,21 @@ class ChessBoard extends GameObject {
       })
     );
 
-    this.addUpdater("render put", new Updater(() => {
-      const L = this.root.L;
-      if (!this.lastPut) return ;
-      const { x, y } = this.lastPut;
-      G.Cir({
-        x: (y + 1) * L,
-        y: (x + 1) * L,
-        radius: 0.1 * L,
-        color: "#f00"
-      });
-    }));
+    this.addUpdater(
+      "render put",
+      new Updater(() => {
+        const L = this.root.L;
+        if (!this.lastPut) return;
+        const { x, y } = this.lastPut;
+        G.Cir({
+          x: (y + 1) * L,
+          y: (x + 1) * L,
+          radius: 0.1 * L,
+          color: "#f00",
+        });
+      })
+    );
   }
-
 }
 
 export default ChessBoard;

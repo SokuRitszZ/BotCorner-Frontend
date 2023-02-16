@@ -6,7 +6,15 @@ export type IRecord = {
 type IInitFunc = (initData: any) => void;
 type INextFunc = (cur: { v: number }, record: IRecord) => string;
 type IUpendFunc = (cur: { v: number }, record: IRecord) => void;
-type ITag = "load" | "play" | "next" | "upend" | "stop" | "pause" | "continue" | "set speed";
+type ITag =
+  | "load"
+  | "play"
+  | "next"
+  | "upend"
+  | "stop"
+  | "pause"
+  | "continue"
+  | "set speed";
 
 /**
  * 录像播放器
@@ -47,7 +55,7 @@ class RecordPlayer {
     this.speed = 1;
     this.step = 0;
 
-    const cur = {v: 0};
+    const cur = { v: 0 };
     let cnt = 0;
 
     while (cur.v < this.record.steps.length) {
@@ -57,7 +65,7 @@ class RecordPlayer {
 
     clearTimeout(this.timer);
     this.emit("load", {
-      max: cnt
+      max: cnt,
     });
     return this;
   }
@@ -151,7 +159,7 @@ class RecordPlayer {
   }
 
   public continue() {
-    if (!this.record) return ;
+    if (!this.record) return;
     const act = () => {
       this.next();
       this.timer = setTimeout(() => {

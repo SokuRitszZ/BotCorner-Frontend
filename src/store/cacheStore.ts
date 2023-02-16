@@ -149,13 +149,16 @@ const useCacheStore = defineStore("CacheStore", {
       };
     },
     getLang() {
-      return (langId: number) => this.langs.find((lang) => lang.id === langId)!.lang;
+      return (langId: number) =>
+        this.langs.find((lang) => lang.id === langId)!.lang;
     },
     getGame() {
-      return (gameId: number) => this.games.find((game) => game.id === gameId)!.name;
+      return (gameId: number) =>
+        this.games.find((game) => game.id === gameId)!.name;
     },
     getGameId() {
-      return (title: string) => this.games.find((game) => game.title === title)!.id;
+      return (title: string) =>
+        this.games.find((game) => game.title === title)!.id;
     },
   },
   actions: {

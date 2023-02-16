@@ -51,6 +51,7 @@ export function updateBotApi(
 
 export function changeVisibleApi(id: number, visible: boolean) {
   return api.put("/bot/visible", {
-    id, visible
+    id,
+    visible,
   });
 }

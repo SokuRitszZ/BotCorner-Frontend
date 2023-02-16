@@ -8,8 +8,8 @@ class GameObject {
 
   protected root: Game;
 
-  private updaters: {[key: string]: Updater} = {};
-  
+  private updaters: { [key: string]: Updater } = {};
+
   get dTime() {
     return this.trulyDeltaTime / 1000;
   }
@@ -32,16 +32,16 @@ class GameObject {
   }
 
   public start() {
-    if (this.started) return ;
+    if (this.started) return;
     this.onStart();
-    
+
     this.started = true;
-    
+
     this.afterStart();
   }
 
-  public destroy() { 
-    if (this.destroyed) return ;
+  public destroy() {
+    if (this.destroyed) return;
     this.onDestroy();
 
     this.root.removeObj(this);
@@ -50,25 +50,17 @@ class GameObject {
     this.afterDestroy();
   }
 
-  protected onStart() {
+  protected onStart() {}
 
-  }
-
-  protected afterStart() {
-
-  }
+  protected afterStart() {}
 
   public update() {
-    Object.values(this.updaters).forEach(upd => upd.fn());
+    Object.values(this.updaters).forEach((upd) => upd.fn());
   }
 
-  protected onDestroy() {
+  protected onDestroy() {}
 
-  }
-
-  protected afterDestroy() {
-
-  }
+  protected afterDestroy() {}
 }
 
 export default GameObject;

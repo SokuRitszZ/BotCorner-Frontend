@@ -6,15 +6,15 @@ import BackgammonGame from "./BackgammonGame";
 
 class Chess extends GameObject {
   public isInHome = false;
-  public  id: number;
+  public id: number;
 
   private p: IPosition;
   private tp: IPosition | null = null;
   private a: number = 0;
   private v: number = 0;
 
-  static calcPos(i: number, count: number, id?: number) {
-    let result = {x: 0, y: 0};
+  static calcPos(i: number, count: number) {
+    let result = { x: 0, y: 0 };
     if (1 <= i && i <= 12) {
       const y = 13.5 - i - (i > 6 ? 1 : 0);
       let x = 0.5;
@@ -77,20 +77,18 @@ class Chess extends GameObject {
 
   constructor(root: BackgammonGame, id: number, x: number, y: number) {
     super(root);
-    
+
     this.id = id;
     this.p = { x, y };
   }
 
   public moveTo(to: number, count: number) {
     this.root.removeObj(this);
-    const tp = Chess.calcPos(to, count, this.id);
-    
+    const tp = Chess.calcPos(to, count);
+
     const shift = C.spdShift(this.p, tp, 0.5);
     this.a = shift.a;
     this.v = shift.v;
-    const dx = tp.x - this.p.x;
-    const dy = tp.y - this.p.y;
     this.tp = tp;
     if (to === 26 + this.id) this.isInHome = true;
     else this.isInHome = false;
@@ -141,21 +139,21 @@ class Chess extends GameObject {
     this.addUpdater(
       "move chess",
       new Updater(() => {
-        if (!this.tp) return ;
+        if (!this.tp) return;
         const move_dist = this.v * this.dTime;
         const dist = C.distance(this.p, this.tp);
-        if (dist === 0) return ;
+        if (dist === 0) return;
         const actual_move = Math.min(move_dist, dist);
         const dx = this.tp.x - this.p.x;
         const dy = this.tp.y - this.p.y;
-        this.p.x += actual_move * dx / dist;
-        this.p.y += actual_move * dy / dist;
+        this.p.x += (actual_move * dx) / dist;
+        this.p.y += (actual_move * dy) / dist;
         this.v -= this.a * this.dTime;
         this.v = Math.max(this.v, 0);
         if (this.v === 0) this.tp = null;
       })
     );
   }
-};
+}
 
 export default Chess;

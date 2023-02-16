@@ -29,7 +29,7 @@ class GameMap extends GameObject {
         const L = this.root.L;
         new Array(11).fill(0).forEach((_, i) => {
           new Array(11).fill(0).forEach((_, j) => {
-            const {x, y} = HexGame.getPosition(i, j);
+            const { x, y } = HexGame.getPosition(i, j);
             G.StrokeHex({
               x: x * L,
               y: y * L,
@@ -88,7 +88,7 @@ class GameMap extends GameObject {
         lst = [];
         new Array(11).fill(0).forEach((_, idx) => {
           lst.push(
-            [(idx * 1.5) * L, (10 - idx * 0.866) * L],
+            [idx * 1.5 * L, (10 - idx * 0.866) * L],
             [(0.5 + idx * 1.5) * L, (10 - (idx + 1) * 0.866) * L]
           );
         });
@@ -111,10 +111,10 @@ class GameMap extends GameObject {
           y: y * L,
           radius: 0.8 * L,
           width: 0.4 * L,
-          color: "#912"
+          color: "#912",
         });
       })
-    )
+    );
   }
 }
 

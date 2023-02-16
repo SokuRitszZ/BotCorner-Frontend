@@ -17,20 +17,25 @@ const getHeader = () => {
 };
 
 // interceptors
-api.interceptors.request.use((config) => {
-  const newHeaders = { ...config.headers, ...getHeader() };
-  config.headers = newHeaders;
-  return config;
-}, error => {
-  return Promise.reject(error);
-});
+api.interceptors.request.use(
+  (config) => {
+    const newHeaders = { ...config.headers, ...getHeader() };
+    // @ts-ignore
+    config.headers = newHeaders;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-api.interceptors.response.use(response => {
-  // console.log(response);
-  const data = response.data;
-  if (data.result === "fail")
-    return Promise.reject(data.message);
-  return data.data;
-}, error => Promise.reject("未登录 没有权限"));
+api.interceptors.response.use(
+  (response) => {
+    const data = response.data;
+    if (data.result === "fail") return Promise.reject(data.message);
+    return data.data;
+  },
+  () => Promise.reject("未登录 没有权限")
+);
 
 export default api;

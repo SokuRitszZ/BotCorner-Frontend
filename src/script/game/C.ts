@@ -5,11 +5,15 @@ class C {
     return Math.sqrt(dr * dr + dc * dc);
   }
 
-  static spdShift(p1: IPosition, p2: IPosition, t: number): {a: number, v: number} {
+  static spdShift(
+    p1: IPosition,
+    p2: IPosition,
+    t: number
+  ): { a: number; v: number } {
     const d = this.distance(p1, p2);
     return {
-      v: 2 * d / t,
-      a: 2 * d / (t * t),
+      v: (2 * d) / t,
+      a: (2 * d) / (t * t),
     };
   }
 }
@@ -35,13 +39,10 @@ class Vector {
   }
 
   public rot(deg: number) {
-    const {x, y} = this;
-    const {
-      nx,
-      ny
-    } = {
+    const { x, y } = this;
+    const { nx, ny } = {
       nx: x * Math.cos(deg) + y * Math.sin(deg),
-      ny: -x * Math.sin(deg) + y * Math.cos(deg)
+      ny: -x * Math.sin(deg) + y * Math.cos(deg),
     };
     this.x = nx;
     this.y = ny;
