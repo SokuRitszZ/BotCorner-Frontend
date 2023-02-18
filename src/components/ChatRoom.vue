@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
-import SokuWindow from "./SokuWindow.vue";
-import SokuButton from "./SokuButton.vue";
-import dayjs from "dayjs";
+import { nextTick, ref } from 'vue';
+import SokuWindow from './SokuWindow.vue';
+import SokuButton from './SokuButton.vue';
+import dayjs from 'dayjs';
 
 const $window = ref();
 const $input = ref<HTMLInputElement>();
 const $container = ref<HTMLDivElement>();
 
-const emit = defineEmits(["send"]);
+const emit = defineEmits(['send']);
 
 const showWindow = () => {
   $window.value.open();
 };
 
 const send = () => {
-  emit("send", $input.value!.value);
-  $input.value!.value = "";
+  emit('send', $input.value!.value);
+  $input.value!.value = '';
 };
 
 const addMessage = (message: IMessage) => {
@@ -26,7 +26,7 @@ const addMessage = (message: IMessage) => {
       top: $container.value.scrollHeight,
     });
   });
-  if ($window.value.getStatus() === "zooming") $window.value.act();
+  if ($window.value.getStatus() === 'zooming') $window.value.act();
 };
 
 defineExpose({
@@ -39,10 +39,10 @@ type IMessage = {
   time: Date;
 } & (
   | {
-      type: "notification";
+      type: 'notification';
     }
   | {
-      type: "talk";
+      type: 'talk';
       sender: string;
     }
 );
@@ -68,7 +68,7 @@ const messages = ref<IMessage[]>([]);
               "
               class="bg-gray-700 opacity-60 m-auto w-fit text-white px-2 rounded-full"
             >
-              {{ dayjs(message.time).format("YYYY-MM-DD hh:mm:ss") }}
+              {{ dayjs(message.time).format('YYYY-MM-DD hh:mm:ss') }}
             </div>
             <div
               v-if="message.type === 'talk'"
@@ -77,7 +77,7 @@ const messages = ref<IMessage[]>([]);
               <div class="text-gray-700 flex items-center justify-between">
                 <div>{{ message.sender }}</div>
                 <div>
-                  {{ dayjs(message.time).format("YYYY-MM-DD hh:mm:ss") }}
+                  {{ dayjs(message.time).format('YYYY-MM-DD hh:mm:ss') }}
                 </div>
               </div>
               <div>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import useCacheStore, { IGame } from "@/store/cacheStore";
-import { isNumber } from "lodash";
-import { onMounted, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import useCacheStore, { IGame } from '@/store/cacheStore';
+import { isNumber } from 'lodash';
+import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 type PropsType = {
   class?: string;
@@ -25,14 +25,14 @@ const $slider = ref<HTMLDivElement>();
 const animating = ref<boolean>(false);
 const ptr = ref<number>(0);
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
 watch(
   () => props.modelValue,
   (newV) => {
     if (!isNumber(newV)) return;
     ptr.value = newV;
-    emit("update:modelValue", newV);
+    emit('update:modelValue', newV);
   }
 );
 
@@ -51,7 +51,7 @@ function slideTo(index: number) {
 watch(ptr, (newV, oldV) => {
   if (newV === oldV) return;
   if (!$slider.value) return;
-  $slider.value.style.setProperty("--movedX", `-${props.width * newV}px`);
+  $slider.value.style.setProperty('--movedX', `-${props.width * newV}px`);
 });
 
 defineExpose({

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc && vite build",
+    "prettier": "pnpx prettier --write .",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "upload": "scp -r dist root-andrew:/home/andrew/",
     "preview": "vite preview"

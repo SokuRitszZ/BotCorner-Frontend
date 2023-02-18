@@ -1,7 +1,7 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import Game from "../Game";
-import ChessBoard from "./ChessBoard";
-import GameMap from "./GameMap";
+import { IRecord } from '@/utils/RecordPlayer';
+import Game from '../Game';
+import ChessBoard from './ChessBoard';
+import GameMap from './GameMap';
 
 class GomokuGame extends Game {
   private static dx = [-1, -1, -1, 0, 1, 1, 1, 0];
@@ -28,24 +28,24 @@ class GomokuGame extends Game {
         r: Math.floor(e.offsetY / this.L - 0.5),
         c: Math.floor(e.offsetX / this.L - 0.5),
       };
-      if (this.mode === "single") {
-        this.emit("click", {
+      if (this.mode === 'single') {
+        this.emit('click', {
           id: this.cur,
           ...p,
         });
-      } else if (this.mode === "multi") this.emit("click", { ...p });
+      } else if (this.mode === 'multi') this.emit('click', { ...p });
     };
     this.moveEvent = () => {
       const L = this.L;
       if (!L) return;
     };
-    this.$canvas.addEventListener("click", this.clickEvent);
-    this.$canvas.addEventListener("mousemove", this.moveEvent);
+    this.$canvas.addEventListener('click', this.clickEvent);
+    this.$canvas.addEventListener('mousemove', this.moveEvent);
   }
 
   public onStop(): void {
-    this.$canvas.removeEventListener("click", this.clickEvent);
-    this.$canvas.removeEventListener("mousemove", this.moveEvent);
+    this.$canvas.removeEventListener('click', this.clickEvent);
+    this.$canvas.removeEventListener('mousemove', this.moveEvent);
   }
 
   public next(cur: { v: number }, record: IRecord) {
@@ -55,8 +55,8 @@ class GomokuGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "r.c";
-    const [r, c] = data.split("").map((x) => parseInt(x, 36));
+    'r.c';
+    const [r, c] = data.split('').map((x) => parseInt(x, 36));
     this.setStep({ id: this.cur, r, c, step: data });
   }
 
@@ -67,7 +67,7 @@ class GomokuGame extends Game {
   }
 
   _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: 'single' | 'multi' | 'record';
     initData: any;
   }): this {
     const { mode } = options;

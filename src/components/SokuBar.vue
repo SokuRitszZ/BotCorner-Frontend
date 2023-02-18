@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { isNumber } from "lodash";
-import { nextTick, onMounted, ref, toRaw, watch } from "vue";
+import { isNumber } from 'lodash';
+import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
 
 type PropsType = {
   list: string[];
@@ -22,13 +22,13 @@ function animate() {
 }
 
 const ptr = ref<number>(-1);
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 watch(
   () => props.modelValue,
   (newV) => {
     if (!isNumber(newV)) return;
     slideTo(newV);
-    emit("update:modelValue", newV);
+    emit('update:modelValue', newV);
   }
 );
 
@@ -36,11 +36,11 @@ watch(ptr, async (newV, oldV) => {
   if (newV === oldV) return;
   await nextTick();
   const option = toRaw($options.value)[newV];
-  emit("update:modelValue", newV);
+  emit('update:modelValue', newV);
   if (!option) return;
-  $slug.value?.style.setProperty("height", `${option.clientHeight}px`);
-  $slug.value?.style.setProperty("width", `${option.clientWidth}px`);
-  $slug.value?.style.setProperty("--movedX", `${option.offsetLeft}px`);
+  $slug.value?.style.setProperty('height', `${option.clientHeight}px`);
+  $slug.value?.style.setProperty('width', `${option.clientWidth}px`);
+  $slug.value?.style.setProperty('--movedX', `${option.offsetLeft}px`);
 });
 
 function slideTo(index: number) {

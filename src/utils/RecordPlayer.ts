@@ -7,14 +7,14 @@ type IInitFunc = (initData: any) => void;
 type INextFunc = (cur: { v: number }, record: IRecord) => string;
 type IUpendFunc = (cur: { v: number }, record: IRecord) => void;
 type ITag =
-  | "load"
-  | "play"
-  | "next"
-  | "upend"
-  | "stop"
-  | "pause"
-  | "continue"
-  | "set speed";
+  | 'load'
+  | 'play'
+  | 'next'
+  | 'upend'
+  | 'stop'
+  | 'pause'
+  | 'continue'
+  | 'set speed';
 
 /**
  * 录像播放器
@@ -64,7 +64,7 @@ class RecordPlayer {
     }
 
     clearTimeout(this.timer);
-    this.emit("load", {
+    this.emit('load', {
       max: cnt,
     });
     return this;
@@ -118,7 +118,7 @@ class RecordPlayer {
     this.timer = setTimeout(() => {
       act();
     }, Math.floor(1000 / this.speed));
-    this.emit("play");
+    this.emit('play');
     return this;
   }
 
@@ -130,7 +130,7 @@ class RecordPlayer {
     if (!this.record) return;
     const step = this._next(this.cur, this.record);
     ++this.step;
-    this.emit("next", this.cur.v, step, this.step);
+    this.emit('next', this.cur.v, step, this.step);
     if (this.cur.v >= this.record.steps.length) this.stop();
     return this;
   }
@@ -144,7 +144,7 @@ class RecordPlayer {
     if (!this.step) return;
     this._upend(this.cur, this.record);
     --this.step;
-    this.emit("upend", this.cur.v, this.step);
+    this.emit('upend', this.cur.v, this.step);
     return this;
   }
 
@@ -154,7 +154,7 @@ class RecordPlayer {
    */
   public pause() {
     clearTimeout(this.timer);
-    this.emit("pause");
+    this.emit('pause');
     return this;
   }
 
@@ -169,7 +169,7 @@ class RecordPlayer {
     this.timer = setTimeout(() => {
       act();
     }, Math.floor(1000 / this.speed));
-    this.emit("continue");
+    this.emit('continue');
   }
 
   /**
@@ -179,7 +179,7 @@ class RecordPlayer {
   public stop() {
     this.record = null;
     clearTimeout(this.timer);
-    this.emit("stop");
+    this.emit('stop');
     return this;
   }
 
@@ -190,7 +190,7 @@ class RecordPlayer {
    */
   public setSpeed(speed: number) {
     this.speed = speed;
-    this.emit("set speed", speed);
+    this.emit('set speed', speed);
     return this;
   }
 }

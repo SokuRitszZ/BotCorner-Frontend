@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 export type IEntry<T = number> = {
   key: string;
@@ -55,26 +55,26 @@ type PropsType = {
 };
 const props = defineProps<PropsType>();
 
-type IStatus = "open" | "close";
+type IStatus = 'open' | 'close';
 
-const status = ref<IStatus>("close");
+const status = ref<IStatus>('close');
 
 const toggle = () => {
-  return (status.value = status.value === "close" ? "open" : "close");
+  return (status.value = status.value === 'close' ? 'open' : 'close');
 };
 
 const currentKey = ref<string>(
-  (props.list[0] && props.list[0].key) || "这里没有任何选项"
+  (props.list[0] && props.list[0].key) || '这里没有任何选项'
 );
 const currentValue = ref<any>(props.modelValue);
 // https://cn.vuejs.org/guide/components/events.html#usage-with-v-model
 // defineProps(['modelValue']);
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
 const select = (item: IEntry<any>) => {
   currentKey.value = item.key;
   currentValue.value = item.value;
-  emit("update:modelValue", item.value);
+  emit('update:modelValue', item.value);
 };
 </script>
 

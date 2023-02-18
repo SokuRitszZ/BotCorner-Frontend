@@ -30,16 +30,16 @@
 </template>
 
 <script setup lang="ts">
-import useCacheStore from "@/store/cacheStore";
-import useGameStore from "@/store/gameStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import { onMounted, ref } from "vue";
-import RecordList from "./RecordList.vue";
-import RecordPlayerVue from "@/components/RecordPlayer.vue";
-import { IRecord } from "@/utils/RecordPlayer";
-import Bar from "@/components/SokuBar.vue";
-import PlayingList, { IPlaying } from "./PlayingList.vue";
-import { useRouter } from "vue-router";
+import useCacheStore from '@/store/cacheStore';
+import useGameStore from '@/store/gameStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import { onMounted, ref } from 'vue';
+import RecordList from './RecordList.vue';
+import RecordPlayerVue from '@/components/RecordPlayer.vue';
+import { IRecord } from '@/utils/RecordPlayer';
+import Bar from '@/components/SokuBar.vue';
+import PlayingList, { IPlaying } from './PlayingList.vue';
+import { useRouter } from 'vue-router';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
@@ -58,13 +58,13 @@ const show_under = ref<number>(0);
 const $recordPlayer = ref();
 
 const prepare = (options: {
-  mode: "single" | "multi" | "record" | "watch";
+  mode: 'single' | 'multi' | 'record' | 'watch';
   initData: any;
 }) => {
   if (!$parent.value || !$canvas.value || !$middle.value) return;
   $canvas.value.remove();
-  $canvas.value = document.createElement("canvas");
-  $parent.value.innerHTML = "";
+  $canvas.value = document.createElement('canvas');
+  $parent.value.innerHTML = '';
   $parent.value.append($canvas.value);
   gameStore.createGame(name_game.value, $parent.value, $canvas.value);
   gameStore.game
@@ -84,7 +84,7 @@ const playRecord = (record: IRecord) => {
 function toWatch(uuid: string) {
   if (!server.value) return;
   server.value.sendMessage({
-    action: "to watch",
+    action: 'to watch',
     data: {
       uuid,
     },
@@ -94,32 +94,32 @@ function toWatch(uuid: string) {
 onMounted(async () => {
   (await props.promise_server)
     .on({
-      action: "init",
+      action: 'init',
       callback: (data) => {
         list_play.value = data.matches;
       },
     })
     .on({
-      action: "one game start",
+      action: 'one game start',
       callback: (data) => {
         list_play.value.push(data);
       },
     })
     .on({
-      action: "one game over",
+      action: 'one game over',
       callback: (data) => {
         list_play.value = list_play.value.filter((p) => p.uuid !== data.uuid);
       },
     })
     .on({
-      action: "get current",
+      action: 'get current',
       callback: (data: any) => {
         if (!data) {
-          window._alert("danger", "该比赛已经结束，请到录像区查看");
+          window._alert('danger', '该比赛已经结束，请到录像区查看');
           return;
         }
         prepare({
-          mode: "watch",
+          mode: 'watch',
           initData: data.initData,
         });
         data.steps.forEach((step: string) => {
@@ -141,14 +141,14 @@ onMounted(async () => {
 
   gameStore
     .createGame(name_game.value, $parent.value!, $canvas.value!)
-    .on("prepare", (data: any) => {
-      if (data.mode !== "record") $recordPlayer.value.getRecordPlayer().stop();
-      window._alert("warning", "等待游戏开始...");
+    .on('prepare', (data: any) => {
+      if (data.mode !== 'record') $recordPlayer.value.getRecordPlayer().stop();
+      window._alert('warning', '等待游戏开始...');
     });
 
   server.value = (await props.promise_server)
     .on({
-      action: "start single game",
+      action: 'start single game',
       callback: (data) => {
         if (data.error) {
           return;
@@ -158,7 +158,7 @@ onMounted(async () => {
       },
     })
     .on({
-      action: "start multi game",
+      action: 'start multi game',
       callback: (data) => {
         if (data.error) {
           return;
@@ -168,24 +168,24 @@ onMounted(async () => {
       },
     })
     .on({
-      action: "set step truly",
+      action: 'set step truly',
       callback: (data) => {
         const step = data.step;
         gameStore.game?.parseAndAct(step);
       },
     })
     .on({
-      action: "play record",
+      action: 'play record',
       callback: (data) => {
-        window._alert("warning", "开始播放录像");
+        window._alert('warning', '开始播放录像');
         prepare(data);
       },
     })
     .on({
-      action: "allow to control",
+      action: 'allow to control',
       callback: () => {
         server.value?.sendMessage({
-          action: "start game",
+          action: 'start game',
           data: undefined,
         });
       },

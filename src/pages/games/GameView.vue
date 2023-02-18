@@ -30,15 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import useUserStore from "@/store/userStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import { onMounted, onUnmounted, ref } from "vue";
-import LeftSubPage from "./LeftSubPage.vue";
-import MiddleSubPage from "./MiddleSubPage.vue";
-import { ws_url, mode } from "@/config.json";
-import { useRoute } from "vue-router";
-import ShowOnline from "./ShowOnline.vue";
-import useGameStore from "@/store/gameStore";
+import useUserStore from '@/store/userStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import { onMounted, onUnmounted, ref } from 'vue';
+import LeftSubPage from './LeftSubPage.vue';
+import MiddleSubPage from './MiddleSubPage.vue';
+import { ws_url, mode } from '@/config.json';
+import { useRoute } from 'vue-router';
+import ShowOnline from './ShowOnline.vue';
+import useGameStore from '@/store/gameStore';
 
 const userStore = useUserStore();
 const gameStore = useGameStore();
@@ -48,7 +48,7 @@ const server = ref<GameWebSocket>();
 const promise_server = ref<Promise<GameWebSocket>>(
   new Promise((resolve) => {
     const game = route.name?.toString();
-    userStore.addAfterLoginCallback("connect to ws", () => {
+    userStore.addAfterLoginCallback('connect to ws', () => {
       server.value = new GameWebSocket(
         `${ws_url[mode]}/${game}/${userStore.token}`
       );
@@ -61,34 +61,34 @@ onMounted(async () => {
   server.value = await promise_server.value;
   server.value
     .on({
-      action: "tell result",
+      action: 'tell result',
       callback: (data: any) => {
-        window._alert("success", `游戏结束：${data.result}`, 10000);
-        window._alert("primary", `战败原因：${data.reason}`, 10000);
+        window._alert('success', `游戏结束：${data.result}`, 10000);
+        window._alert('primary', `战败原因：${data.reason}`, 10000);
       },
     })
     .on({
-      action: "nothing",
+      action: 'nothing',
       callback: () => {},
     })
     .on({
-      action: "start game",
+      action: 'start game',
       callback: () => {
-        window._alert("warning", "游戏开始");
+        window._alert('warning', '游戏开始');
       },
     })
     .on({
-      action: "make match",
+      action: 'make match',
       callback: (data: any) => {
         gameStore.users = data.userData;
       },
     })
     .on({
-      action: "get current",
+      action: 'get current',
       callback: () => {},
     })
     .on({
-      action: "allow to control",
+      action: 'allow to control',
       callback: () => {
         gameStore.users = Array.from({ length: 2 }).map(() => ({
           username: userStore.username,
@@ -102,9 +102,9 @@ onMounted(async () => {
 onUnmounted(() => {
   gameStore.clearEmit();
   if (!server.value) return;
-  userStore.removeAfterLoginCallback("connect to ws");
+  userStore.removeAfterLoginCallback('connect to ws');
   server.value.close();
-  userStore.removeAfterLoginCallback("get record list");
+  userStore.removeAfterLoginCallback('get record list');
 });
 </script>
 

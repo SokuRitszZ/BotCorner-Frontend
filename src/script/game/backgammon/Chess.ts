@@ -1,8 +1,8 @@
-import C, { IPosition } from "../C";
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import BackgammonGame from "./BackgammonGame";
+import C, { IPosition } from '../C';
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import BackgammonGame from './BackgammonGame';
 
 class Chess extends GameObject {
   public isInHome = false;
@@ -97,7 +97,7 @@ class Chess extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render chess",
+      'render chess',
       new Updater(() => {
         const L = this.root.L;
         const { x, y } = this.p;
@@ -106,13 +106,13 @@ class Chess extends GameObject {
             y: x * L,
             x: y * L,
             radius: L / 2,
-            color: "#222",
+            color: '#222',
           });
           G.Cir({
             y: x * L,
             x: y * L,
             radius: (L / 2) * 0.95,
-            color: this.id ? "#900" : "#ccc",
+            color: this.id ? '#900' : '#ccc',
           });
         } else {
           G.Rect({
@@ -120,7 +120,7 @@ class Chess extends GameObject {
             x: y * L,
             ly: 0.33 * L,
             lx: L,
-            color: this.id ? "#900" : "#ccc",
+            color: this.id ? '#900' : '#ccc',
           });
           G.StrokePoly({
             ps: [
@@ -129,7 +129,7 @@ class Chess extends GameObject {
               [(x + 0.33) * L, (y + 1) * L],
               [(x + 0.33) * L, y * L],
             ],
-            color: "000",
+            color: '000',
             width: 0.05 * L,
           });
         }
@@ -137,7 +137,7 @@ class Chess extends GameObject {
     );
 
     this.addUpdater(
-      "move chess",
+      'move chess',
       new Updater(() => {
         if (!this.tp) return;
         const move_dist = this.v * this.dTime;

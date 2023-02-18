@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import HexGame from "./HexGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import HexGame from './HexGame';
 
 class GameMap extends GameObject {
   constructor(root: HexGame) {
@@ -10,7 +10,7 @@ class GameMap extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "render background",
+      'render background',
       new Updater(() => {
         const L = this.root.L;
         G.Rect({
@@ -18,13 +18,13 @@ class GameMap extends GameObject {
           x: 0,
           ly: 32 * L,
           lx: 20 * L,
-          color: "#cca",
+          color: '#cca',
         });
       })
     );
 
     this.addUpdater(
-      "render grid",
+      'render grid',
       new Updater(() => {
         const L = this.root.L;
         new Array(11).fill(0).forEach((_, i) => {
@@ -35,7 +35,7 @@ class GameMap extends GameObject {
               y: y * L,
               radius: 1 * L,
               width: 0.1 * L,
-              color: "#111",
+              color: '#111',
             });
           });
         });
@@ -43,7 +43,7 @@ class GameMap extends GameObject {
     );
 
     this.addUpdater(
-      "render border",
+      'render border',
       new Updater(() => {
         const L = this.root.L;
         let lst: [number, number][] = [];
@@ -57,7 +57,7 @@ class GameMap extends GameObject {
         G.Segs({
           ps: lst,
           width: 0.2 * L,
-          color: "#f00",
+          color: '#f00',
         });
         lst = [];
         new Array(11).fill(0).forEach((_, idx) => {
@@ -70,7 +70,7 @@ class GameMap extends GameObject {
         G.Segs({
           ps: lst,
           width: 0.2 * L,
-          color: "#f00",
+          color: '#f00',
         });
         lst = [];
         new Array(11).fill(0).forEach((_, idx) => {
@@ -83,7 +83,7 @@ class GameMap extends GameObject {
         G.Segs({
           ps: lst,
           width: 0.2 * L,
-          color: "#00f",
+          color: '#00f',
         });
         lst = [];
         new Array(11).fill(0).forEach((_, idx) => {
@@ -96,13 +96,13 @@ class GameMap extends GameObject {
         G.Segs({
           ps: lst,
           width: 0.2 * L,
-          color: "#00f",
+          color: '#00f',
         });
       })
     );
 
     this.addUpdater(
-      "render first",
+      'render first',
       new Updater(() => {
         const L = this.root.L;
         const { x, y } = HexGame.getPosition(1, 2);
@@ -111,7 +111,7 @@ class GameMap extends GameObject {
           y: y * L,
           radius: 0.8 * L,
           width: 0.4 * L,
-          color: "#912",
+          color: '#912',
         });
       })
     );

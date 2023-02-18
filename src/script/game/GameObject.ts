@@ -1,5 +1,5 @@
-import Game from "./Game";
-import Updater from "./Updater";
+import Game from './Game';
+import Updater from './Updater';
 
 class GameObject {
   public started: boolean = false;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
+import { nextTick, ref } from 'vue';
 
 type PropsType = {
   src: string;
@@ -9,20 +9,20 @@ type PropsType = {
 const props = defineProps<PropsType>();
 const $img = ref<HTMLImageElement>();
 const $board = ref<HTMLDivElement>();
-const status = ref<"show" | "hide">("hide");
+const status = ref<'show' | 'hide'>('hide');
 
 const hover = async () => {
-  status.value = "show";
+  status.value = 'show';
   await nextTick();
   if (!$img.value || !$board.value) return;
   const top = $img.value.getBoundingClientRect().bottom;
   const left = $img.value.getBoundingClientRect().left;
-  $board.value.style.setProperty("top", `${top}px`);
-  $board.value.style.setProperty("left", `${left}px`);
+  $board.value.style.setProperty('top', `${top}px`);
+  $board.value.style.setProperty('left', `${left}px`);
 };
 
 const leave = () => {
-  status.value = "hide";
+  status.value = 'hide';
 };
 </script>
 

@@ -1,10 +1,10 @@
-import GameObject from "../GameObject";
-import SnakeGame from "./SnakeGame";
-import Updater from "../Updater";
-import C, { IPosition } from "../C";
-import G from "../G";
+import GameObject from '../GameObject';
+import SnakeGame from './SnakeGame';
+import Updater from '../Updater';
+import C, { IPosition } from '../C';
+import G from '../G';
 
-export type IStatus = "alive" | "die";
+export type IStatus = 'alive' | 'die';
 
 class Snake extends GameObject {
   static dx: number[] = [-1, 0, 1, 0];
@@ -12,7 +12,7 @@ class Snake extends GameObject {
 
   public cells: IPosition[] = [];
 
-  private status: IStatus = "alive";
+  private status: IStatus = 'alive';
   private mqTimer: NodeJS.Timer | undefined = undefined;
   private mqCallback: () => void = () => {};
   private mq: [number, boolean, IStatus, boolean][] = [];
@@ -30,7 +30,7 @@ class Snake extends GameObject {
   public addNextStep(
     d: number,
     incr: boolean,
-    status: "alive" | "die",
+    status: 'alive' | 'die',
     dir: boolean
   ) {
     this.mq.push([d, incr, status, dir]);
@@ -38,9 +38,9 @@ class Snake extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render cells",
+      'render cells',
       new Updater(() => {
-        if (this.status === "die") this.color === "#ffffff";
+        if (this.status === 'die') this.color === '#ffffff';
         const L = this.root.L;
         this.cells.forEach((cell) => {
           G.Cir({
@@ -54,13 +54,13 @@ class Snake extends GameObject {
           x: (this.cells[0].y + 0.5) * L,
           y: (this.cells[0].x + 0.5) * L,
           radius: L * 0.2,
-          color: "#000000",
+          color: '#000000',
         });
       })
     );
 
     this.addUpdater(
-      "render body",
+      'render body',
       new Updater(() => {
         const L = this.root.L;
 
@@ -99,8 +99,8 @@ class Snake extends GameObject {
       250
     );
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
         clearInterval(this.mqTimer);
       } else {
         this.mqTimer = setInterval(this.mqCallback, 250);
@@ -126,7 +126,7 @@ class Snake extends GameObject {
         this.cells.map((x) => ({ ...x } as IPosition))
       );
       this.addUpdater(
-        "next step",
+        'next step',
         new Updater(() => {
           const dr = nextCell.x - this.cells[0].x;
           const dc = nextCell.y - this.cells[0].y;
@@ -135,7 +135,7 @@ class Snake extends GameObject {
           if (dist < move_dist) {
             this.cells[0] = nextCell;
             if (!incr) this.cells.pop();
-            this.delUpdater("next step");
+            this.delUpdater('next step');
           } else {
             this.cells[0].x += (move_dist * dr) / dist;
             this.cells[0].y += (move_dist * dc) / dist;
@@ -152,7 +152,7 @@ class Snake extends GameObject {
         })
       );
     } else {
-      this.delUpdater("next step");
+      this.delUpdater('next step');
       this.cells = this.stateStack.pop()!;
     }
   }

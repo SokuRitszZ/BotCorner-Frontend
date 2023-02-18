@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import ChatRoom from "@/components/ChatRoom.vue";
-import ImageHoverDetail from "@/components/ImageHoverDetail.vue";
-import Select from "@/components/SokuSelect.vue";
-import { IEntry } from "@/components/SokuSelect.vue";
-import useCacheStore from "@/store/cacheStore";
-import useUserStore, { IUser } from "@/store/userStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import leftpad from "@/utils/leftpad";
-import { nanoid } from "nanoid";
-import { computed, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import ChatRoom from '@/components/ChatRoom.vue';
+import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
+import Select from '@/components/SokuSelect.vue';
+import { IEntry } from '@/components/SokuSelect.vue';
+import useCacheStore from '@/store/cacheStore';
+import useUserStore, { IUser } from '@/store/userStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import leftpad from '@/utils/leftpad';
+import { nanoid } from 'nanoid';
+import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-type IMode = "single" | "multi";
-type IStatus = "to start" | "starting" | "started";
-type IMatchStatus = "to match" | "matching" | "matched" | "waiting";
+type IMode = 'single' | 'multi';
+type IStatus = 'to start' | 'starting' | 'started';
+type IMatchStatus = 'to match' | 'matching' | 'matched' | 'waiting';
 
-const mode = ref<IMode>("single");
-const status = ref<IStatus>("to start");
-const match_status = ref<IMatchStatus>("to match");
-const botList = ref<IEntry<number>[]>([{ key: "亲自出马", value: 0 }]);
+const mode = ref<IMode>('single');
+const status = ref<IStatus>('to start');
+const match_status = ref<IMatchStatus>('to match');
+const botList = ref<IEntry<number>[]>([{ key: '亲自出马', value: 0 }]);
 const single_botId = ref<(number | undefined)[]>([undefined, undefined]);
 const multi_botId = ref<number>(0);
 const multi_userData = ref<IUser[]>([]);
@@ -37,64 +37,64 @@ onMounted(async () => {
   server.value = await props.promise_server;
   server.value
     .on({
-      action: "start single game",
+      action: 'start single game',
       callback: (data) => {
         if (data.error) {
-          window._alert("danger", data.error);
-          status.value = "to start";
+          window._alert('danger', data.error);
+          status.value = 'to start';
           return;
         } else {
-          status.value = "started";
+          status.value = 'started';
         }
       },
     })
     .on({
-      action: "start multi game",
+      action: 'start multi game',
       callback: () => {
-        match_status.value = "waiting";
+        match_status.value = 'waiting';
         multi_isOk.value = [false, false];
       },
     })
     .on({
-      action: "make match",
+      action: 'make match',
       callback: (data) => {
         multi_userData.value = data.userData;
-        match_status.value = "matched";
+        match_status.value = 'matched';
         multi_isOk.value = [false, false];
       },
     })
     .on({
-      action: "allow to control",
+      action: 'allow to control',
       callback: () => {
-        status.value = "started";
-        match_status.value = "to match";
+        status.value = 'started';
+        match_status.value = 'to match';
       },
     })
     .on({
-      action: "tell result",
+      action: 'tell result',
       callback: () => {
-        status.value = "to start";
-        match_status.value = "to match";
+        status.value = 'to start';
+        match_status.value = 'to match';
       },
     })
     .on({
-      action: "start match", // 确认帧
+      action: 'start match', // 确认帧
       callback: () => {
         clearTimeout(match_timer.value);
       },
     })
     .on({
-      action: "exit match",
+      action: 'exit match',
       callback: (data) => {
         const id = data.id;
         if (id !== getMe()) {
-          window._alert("primary", "对方退出");
-          match_status.value = "matching";
+          window._alert('primary', '对方退出');
+          match_status.value = 'matching';
         }
       },
     })
     .on({
-      action: "toggle match",
+      action: 'toggle match',
       callback: (data) => {
         multi_isOk.value[data.id] = data.isOk;
       },
@@ -102,10 +102,10 @@ onMounted(async () => {
 });
 
 const startSingleMode = () => {
-  status.value = "starting";
+  status.value = 'starting';
   props.promise_server.then((server) => {
     server.sendMessage({
-      action: "start single game",
+      action: 'start single game',
       data: {
         botIds: single_botId.value.map((x) => x || 0),
       },
@@ -119,25 +119,25 @@ const getMe = () => {
 
 const match_timer = ref();
 const startMatching = () => {
-  status.value = "starting";
-  match_status.value = "matching";
+  status.value = 'starting';
+  match_status.value = 'matching';
   server.value?.sendMessage({
-    action: "start match",
+    action: 'start match',
     data: {
       botId: multi_botId.value,
     },
   });
   match_timer.value = setTimeout(() => {
-    match_status.value = "to match";
+    match_status.value = 'to match';
     clearTimeout(match_timer.value);
   }, 5000);
 };
 
 const exitMatching = () => {
-  status.value = "to start";
-  match_status.value = "to match";
+  status.value = 'to start';
+  match_status.value = 'to match';
   server.value?.sendMessage({
-    action: "exit match",
+    action: 'exit match',
     data: {
       id: getMe(),
     },
@@ -147,7 +147,7 @@ const exitMatching = () => {
 const ok = (id: number) => {
   if (getMe() !== id) return false;
   server.value?.sendMessage({
-    action: "toggle match",
+    action: 'toggle match',
     data: {
       isOk: !multi_isOk.value[id],
     },
@@ -155,29 +155,29 @@ const ok = (id: number) => {
 };
 
 const disabled_single = computed(
-  () => mode.value !== "single" || status.value !== "to start"
+  () => mode.value !== 'single' || status.value !== 'to start'
 );
 
 const disabled_multi = computed(
-  () => mode.value !== "multi" || status.value !== "to start"
+  () => mode.value !== 'multi' || status.value !== 'to start'
 );
 
 const disabled_exit = computed(
   () =>
-    mode.value !== "multi" ||
-    status.value !== "starting" ||
-    match_status.value === "to match"
+    mode.value !== 'multi' ||
+    status.value !== 'starting' ||
+    match_status.value === 'to match'
 );
 
 const name_game = ref<string>(useRouter().currentRoute.value.name!.toString());
 
 onMounted(() => {
-  userStore.addAfterLoginCallback("get bot list by game id", () => {
+  userStore.addAfterLoginCallback('get bot list by game id', () => {
     cacheStore.getBots.then((list) => {
       botList.value.push(
         ...list
           .filter((bot) => bot.gameId === cacheStore.getGameId(name_game.value))
-          .map((bot) => ({ key: bot.title + "#" + bot.id, value: bot.id }))
+          .map((bot) => ({ key: bot.title + '#' + bot.id, value: bot.id }))
       );
     });
   });
@@ -186,7 +186,7 @@ onMounted(() => {
 const send = (content: string) => {
   if (!content.length) return;
   server.value?.sendMessage({
-    action: "send talk",
+    action: 'send talk',
     data: {
       sender: userStore.username,
       content,
@@ -198,11 +198,11 @@ const $chatroom = ref();
 
 onMounted(async () => {
   (await props.promise_server).on({
-    action: "send talk",
+    action: 'send talk',
     callback: (data) => {
       $chatroom.value.addMessage({
         ...data,
-        type: "talk",
+        type: 'talk',
         id: nanoid(11),
       });
     },

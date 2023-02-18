@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Icon from "@/components/BootstrapIcon.vue";
-import { IUser } from "@/store/cacheStore";
-import useGameStore from "@/store/gameStore";
+import Icon from '@/components/BootstrapIcon.vue';
+import { IUser } from '@/store/cacheStore';
+import useGameStore from '@/store/gameStore';
 export type IPlaying = {
   uuid: string;
   bots: any[];
@@ -13,7 +13,7 @@ type PropsType = {
 };
 const props = defineProps<PropsType>();
 
-const emit = defineEmits(["watch"]);
+const emit = defineEmits(['watch']);
 const gameStore = useGameStore();
 
 function toWatch(uuid: string) {
@@ -24,7 +24,7 @@ function toWatch(uuid: string) {
   const users = playing.users;
   if (users.length === 1) users.unshift(users[0]);
   gameStore.users = users;
-  emit("watch", uuid);
+  emit('watch', uuid);
 }
 </script>
 
@@ -46,8 +46,8 @@ function toWatch(uuid: string) {
       >
         <h1 class="text-lg text-purple-300">
           {{
-            playing.users.map((u) => " " + u.username + " ").join("与") +
-            "在进行一场比赛"
+            playing.users.map((u) => ' ' + u.username + ' ').join('与') +
+            '在进行一场比赛'
           }}
         </h1>
         <Icon

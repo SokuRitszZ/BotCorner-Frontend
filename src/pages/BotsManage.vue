@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from "vue";
-import BotDetail from "./BotDetail.vue";
-import { debounce, throttle } from "lodash";
-import AddBot from "./AddBot.vue";
-import Icon from "@/components/BootstrapIcon.vue";
-import useUserStore from "@/store/userStore";
+import { onMounted, onUnmounted, ref, watch } from 'vue';
+import BotDetail from './BotDetail.vue';
+import { debounce, throttle } from 'lodash';
+import AddBot from './AddBot.vue';
+import Icon from '@/components/BootstrapIcon.vue';
+import useUserStore from '@/store/userStore';
 
-import leftpad from "@/utils/leftpad";
-import useCacheStore, { IBot } from "@/store/cacheStore";
-import toWord from "@/utils/toWord";
-import { changeVisibleApi, deleteBotApi } from "@/api/bots";
-import Select, { IEntry } from "@/components/SokuSelect.vue";
+import leftpad from '@/utils/leftpad';
+import useCacheStore, { IBot } from '@/store/cacheStore';
+import toWord from '@/utils/toWord';
+import { changeVisibleApi, deleteBotApi } from '@/api/bots';
+import Select, { IEntry } from '@/components/SokuSelect.vue';
 
 const userStore = useUserStore();
 const cacheStore = useCacheStore();
@@ -18,7 +18,7 @@ const cacheStore = useCacheStore();
 const bots = ref<(IBot & { isMarked: boolean })[]>([]);
 
 onMounted(() => {
-  userStore.addAfterLoginCallback("get bot", async () => {
+  userStore.addAfterLoginCallback('get bot', async () => {
     const list = await cacheStore.getBots;
     (list as (IBot & { isMarked: boolean })[]).sort(
       (a, b) => +new Date(b.modifyTime) - +new Date(a.modifyTime)
@@ -30,7 +30,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  userStore.removeAfterLoginCallback("get bot");
+  userStore.removeAfterLoginCallback('get bot');
 });
 
 const toggle = (id: number, visible: boolean) => {
@@ -45,20 +45,20 @@ const changeVisible = debounce((id: number, visible: boolean) => {
   return changeVisibleApi(id, visible);
 }, 1000);
 
-const showing = ref<"empty" | "detail" | "new">("empty");
+const showing = ref<'empty' | 'detail' | 'new'>('empty');
 const selectedBot = ref<IBot | null>(null);
 
 const selectBot = throttle((bot: IBot) => {
-  if (bot === selectedBot.value && showing.value === "detail") {
+  if (bot === selectedBot.value && showing.value === 'detail') {
     selectedBot.value = null;
-    showing.value = "empty";
-  } else if (showing.value === "empty") {
+    showing.value = 'empty';
+  } else if (showing.value === 'empty') {
     selectedBot.value = bot;
-    showing.value = "detail";
+    showing.value = 'detail';
   } else {
     selectedBot.value = bot;
-    showing.value = "empty";
-    setTimeout(() => (showing.value = "detail"), 500);
+    showing.value = 'empty';
+    setTimeout(() => (showing.value = 'detail'), 500);
   }
 }, 1000);
 
@@ -66,38 +66,38 @@ const deleteBot = () => {
   deleteBotApi(selectedBot.value!.id)
     .then(() => {
       // success
-      showing.value = "empty";
+      showing.value = 'empty';
       bots.value = bots.value.filter((bot) => bot !== selectedBot.value);
-      window._alert("success", "删除成功", 2000);
+      window._alert('success', '删除成功', 2000);
     })
     .catch(() => {
       // fail
-      window._alert("danger", "删除失败", 2000);
+      window._alert('danger', '删除失败', 2000);
     });
 };
 
 const addBot = (bot: IBot) => {
   bots.value.unshift({ ...bot, isMarked: false });
-  showing.value = "empty";
+  showing.value = 'empty';
 };
 
 const toAddBot = () => {
-  if (showing.value === "new") showing.value = "empty";
-  else if (showing.value === "empty") showing.value = "new";
+  if (showing.value === 'new') showing.value = 'empty';
+  else if (showing.value === 'empty') showing.value = 'new';
   else {
-    showing.value = "empty";
-    setTimeout(() => (showing.value = "new"), 500);
+    showing.value = 'empty';
+    setTimeout(() => (showing.value = 'new'), 500);
   }
 };
 
 type IComparer = (l: IBot, r: IBot) => number;
 
 const comparersList = ref<IEntry<IComparer>[]>([
-  { key: "名称", value: (l, r) => l.title.localeCompare(r.title) },
-  { key: "日期", value: (l, r) => +l.modifyTime - +r.modifyTime },
-  { key: "游戏", value: (l, r) => l.gameId - r.gameId },
-  { key: "语言", value: (l, r) => l.langId - r.langId },
-  { key: "可见", value: (l, r) => (l.visible ? 0 : 1) - (r.visible ? 0 : 1) },
+  { key: '名称', value: (l, r) => l.title.localeCompare(r.title) },
+  { key: '日期', value: (l, r) => +l.modifyTime - +r.modifyTime },
+  { key: '游戏', value: (l, r) => l.gameId - r.gameId },
+  { key: '语言', value: (l, r) => l.langId - r.langId },
+  { key: '可见', value: (l, r) => (l.visible ? 0 : 1) - (r.visible ? 0 : 1) },
 ]);
 
 const comparer = ref<IComparer>((l, r) => +l.modifyTime - +r.modifyTime);

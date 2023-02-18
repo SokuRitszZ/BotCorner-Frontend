@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import HexGame from "./GomokuGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import HexGame from './GomokuGame';
 
 class GameMap extends GameObject {
   constructor(root: HexGame) {
@@ -10,7 +10,7 @@ class GameMap extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "render background",
+      'render background',
       new Updater(() => {
         const L = this.root.L;
         G.Rect({
@@ -18,7 +18,7 @@ class GameMap extends GameObject {
           x: 0,
           ly: 32 * L,
           lx: 20 * L,
-          color: "#cca",
+          color: '#cca',
         });
         G.Cir({
           x: 8 * L,
@@ -29,7 +29,7 @@ class GameMap extends GameObject {
     );
 
     this.addUpdater(
-      "render border",
+      'render border',
       new Updater(() => {
         const L = this.root.L;
         new Array(15).fill(0).forEach((_, i) => {

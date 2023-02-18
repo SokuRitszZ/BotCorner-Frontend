@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import useCacheStore, { IBot, IGame, ILang } from "@/store/cacheStore";
-import leftpad from "@/utils/leftpad";
-import { ref } from "vue";
-import toWord from "@/utils/toWord";
-import { getCodeApi, updateBotApi } from "@/api/bots";
+import useCacheStore, { IBot, IGame, ILang } from '@/store/cacheStore';
+import leftpad from '@/utils/leftpad';
+import { ref } from 'vue';
+import toWord from '@/utils/toWord';
+import { getCodeApi, updateBotApi } from '@/api/bots';
 
 type PropsType = {
   bot: IBot | undefined;
@@ -26,29 +26,29 @@ async function getCode() {
     isGettingCode.value = true;
     try {
       const code = ((await getCodeApi(props.bot.id)) as any).code as string;
-      $editor.value.value = code || "";
+      $editor.value.value = code || '';
       // eslint-disable-next-line vue/no-mutating-props
-      props.bot.code = code || "";
-      window._alert("success", "获取成功");
+      props.bot.code = code || '';
+      window._alert('success', '获取成功');
     } catch (error) {
-      window._alert("danger", `获取失败：${error}`);
+      window._alert('danger', `获取失败：${error}`);
     }
     isGettingCode.value = false;
   }
 }
 
 function reset() {
-  $editor.value.value = "";
+  $editor.value.value = '';
 }
 
 defineExpose({
   reset,
 });
 
-const uploadStatus = ref<"to upload" | "uploading">("to upload");
+const uploadStatus = ref<'to upload' | 'uploading'>('to upload');
 
 const changeCode = () => {
-  uploadStatus.value = "uploading";
+  uploadStatus.value = 'uploading';
   const code = $editor.value.getContent();
   updateBotApi(props.bot!.id, {
     code,
@@ -56,13 +56,13 @@ const changeCode = () => {
     .then((info: any) => {
       props.bot!.code = code;
       props.bot!.modifyTime = info.modifyTime;
-      window._alert("success", "修改成功");
+      window._alert('success', '修改成功');
     })
     .catch((error) => {
-      window._alert("danger", `修改失败：${error}`);
+      window._alert('danger', `修改失败：${error}`);
     })
     .finally(() => {
-      uploadStatus.value = "to upload";
+      uploadStatus.value = 'to upload';
     });
 };
 
@@ -76,11 +76,11 @@ const changeTitle = async (e: Event, bot: IBot) => {
       // success
       bot.title = newTitle;
       bot.modifyTime = info.modifyTime;
-      window._alert("success", "修改成功");
+      window._alert('success', '修改成功');
     })
     .catch((error) => {
       // fail
-      window._alert("danger", `修改失败：${error}`);
+      window._alert('danger', `修改失败：${error}`);
     });
 };
 
@@ -94,15 +94,15 @@ const changeDescription = (e: Event, bot: IBot) => {
       // success
       bot.description = newDescription;
       bot.modifyTime = info.modifyTime;
-      window._alert("success", "修改成功");
+      window._alert('success', '修改成功');
     })
     .catch((error) => {
       // fail
-      window._alert("danger", `修改失败：${error}`);
+      window._alert('danger', `修改失败：${error}`);
     });
 };
 
-const emit = defineEmits(["delete"]);
+const emit = defineEmits(['delete']);
 
 const isDeleting = ref<boolean>(false);
 const deleteInputValue = ref<string>();
@@ -113,11 +113,11 @@ const toDelete = (bot?: IBot) => {
   else {
     if (deleteInputValue.value === bot.title) {
       // success
-      emit("delete");
+      emit('delete');
     } else {
       // fail
       isDeleting.value = false;
-      window._alert("danger", "删除失败 输入名称不一致", 2000);
+      window._alert('danger', '删除失败 输入名称不一致', 2000);
     }
   }
 };
@@ -246,7 +246,7 @@ const toDelete = (bot?: IBot) => {
 </template>
 
 <style scoped lang="scss">
-input[type="radio"]:checked + label {
+input[type='radio']:checked + label {
   @apply bg-purple-500 text-gray-100 border-0;
 }
 

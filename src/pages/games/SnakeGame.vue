@@ -64,12 +64,12 @@
 </template>
 
 <script setup lang="ts">
-import DirectionController from "@/components/DirectionController.vue";
-import Icon from "@/components/BootstrapIcon.vue";
-import useGameStore from "@/store/gameStore";
-import useUserStore from "@/store/userStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import { onMounted, ref } from "vue";
+import DirectionController from '@/components/DirectionController.vue';
+import Icon from '@/components/BootstrapIcon.vue';
+import useGameStore from '@/store/gameStore';
+import useUserStore from '@/store/userStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import { onMounted, ref } from 'vue';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
@@ -96,22 +96,22 @@ const disabledController = (id: number) =>
 const getType = (d: number) => {
   switch (d) {
     case 0:
-      return "up";
+      return 'up';
     case 1:
-      return "right";
+      return 'right';
     case 2:
-      return "down";
+      return 'down';
     case 3:
-      return "left";
+      return 'left';
     default:
-      return "primary";
+      return 'primary';
   }
 };
 
 const control = (id: number, d: number) => {
   if (!server.value) return;
   server.value?.sendMessage({
-    action: "set step",
+    action: 'set step',
     data: { id, d },
   });
 };
@@ -120,48 +120,48 @@ onMounted(async () => {
   server.value = await props.promise_server;
   server.value
     .on({
-      action: "set step",
+      action: 'set step',
       callback: (data) => {
         const id = data.id;
         ok.value[id] = true;
       },
     })
     .on({
-      action: ["start single game", "start multi game"],
+      action: ['start single game', 'start multi game'],
       callback: (data) => {
         botIds.value = data.botIds;
       },
     })
     .on({
-      action: "allow to control",
+      action: 'allow to control',
       callback: () => {
         ok.value = [false, false];
       },
     })
     .on({
-      action: "set step truly",
+      action: 'set step truly',
       callback: () => {
         ok.value = ok.value.map(() => false);
       },
     })
     .on({
-      action: "tell result",
+      action: 'tell result',
       callback: () => {
         botIds.value = [1, 1];
       },
     })
     .on({
-      action: "upend",
+      action: 'upend',
       callback: () => {
         [0, 1].forEach((x) => chose.value[x].shift());
       },
     });
   gameStore
-    .on("set step", (data: any) => {
+    .on('set step', (data: any) => {
       const { id, d } = data;
       chose.value[id].unshift(d);
     })
-    .on("prepare", () => {
+    .on('prepare', () => {
       ok.value = [true, true];
       chose.value = [[], []];
     });

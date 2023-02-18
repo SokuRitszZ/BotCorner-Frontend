@@ -31,9 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-import Profile from "./ProfileIcon.vue";
-import Icon from "./BootstrapIcon.vue";
+import { RouterLink } from 'vue-router';
+import Profile from './ProfileIcon.vue';
+import Icon from './BootstrapIcon.vue';
 
 export type IUrl = {
   path: string;

@@ -1,6 +1,6 @@
-import { getInfoApi, getTokenApi, registerApi } from "@/api/account";
-import { defineStore } from "pinia";
-import useCacheStore from "./cacheStore";
+import { getInfoApi, getTokenApi, registerApi } from '@/api/account';
+import { defineStore } from 'pinia';
+import useCacheStore from './cacheStore';
 
 export type IUser = {
   id: number;
@@ -13,24 +13,24 @@ export type IAuthUser = IUser & {
 };
 
 type IUserStore = IAuthUser & {
-  status: "not logged in" | "logging in" | "logged in";
+  status: 'not logged in' | 'logging in' | 'logged in';
   callbacks: { [key: string]: Function };
 };
 
 const initState: IUserStore = {
   id: 0,
-  username: "",
-  avatar: "",
-  token: "",
-  status: "not logged in",
+  username: '',
+  avatar: '',
+  token: '',
+  status: 'not logged in',
   callbacks: {},
 };
 
-const useUserStore = defineStore("UserStore", {
+const useUserStore = defineStore('UserStore', {
   state: (): IUserStore => ({ ...initState }),
   getters: {
     getToken(): string {
-      this.token = localStorage.getItem("token") || "";
+      this.token = localStorage.getItem('token') || '';
       return this.token;
     },
   },
@@ -42,13 +42,13 @@ const useUserStore = defineStore("UserStore", {
      */
     addAfterLoginCallback(name: string, fn: Function) {
       this.callbacks[name] = fn;
-      if (this.status === "logged in") setTimeout(() => fn());
+      if (this.status === 'logged in') setTimeout(() => fn());
     },
     removeAfterLoginCallback(name: string) {
       delete this.callbacks[name];
     },
     setToken(token: string) {
-      localStorage.setItem("token", token);
+      localStorage.setItem('token', token);
       this.token = token;
     },
     async register(
@@ -58,11 +58,11 @@ const useUserStore = defineStore("UserStore", {
     ) {
       return registerApi(username, password, confirmed_password)
         .then(() => {
-          window._alert("success", `注册成功，将自动登录`);
+          window._alert('success', `注册成功，将自动登录`);
           this.getTokenByApi(username, password);
         })
         .catch((error) => {
-          window._alert("danger", `注册失败：${error}`);
+          window._alert('danger', `注册失败：${error}`);
         });
     },
     /**
@@ -71,7 +71,7 @@ const useUserStore = defineStore("UserStore", {
      * @param password
      */
     async getTokenByApi(username: string, password: string) {
-      this.status = "logging in";
+      this.status = 'logging in';
 
       type InfoType = {
         token: string;
@@ -80,33 +80,33 @@ const useUserStore = defineStore("UserStore", {
       return getTokenApi(username, password)
         .then((info: any) => {
           this.setToken((info as InfoType).token);
-          localStorage.setItem("token", info.token);
+          localStorage.setItem('token', info.token);
           this.getInfo();
         })
         .catch((error) => {
-          window._alert("danger", `登录失败：${error}`, 2000);
-          this.status = "not logged in";
+          window._alert('danger', `登录失败：${error}`, 2000);
+          this.status = 'not logged in';
         });
     },
     /**
      * 获取信息
      */
     async getInfo() {
-      if (!this.getToken) return Promise.reject("没有Token");
+      if (!this.getToken) return Promise.reject('没有Token');
 
-      this.status = "logging in";
+      this.status = 'logging in';
 
       return getInfoApi()
         .then((info: any) => {
-          window._alert("success", "登录成功 欢迎回来", 2000);
+          window._alert('success', '登录成功 欢迎回来', 2000);
           this.$patch({ ...info });
-          this.status = "logged in";
+          this.status = 'logged in';
           Object.values(this.callbacks).forEach((fn) => fn());
         })
         .catch(() => {
-          window._alert("danger", "登录失败：Token无效", 2000);
-          this.status = "not logged in";
-          localStorage.removeItem("token");
+          window._alert('danger', '登录失败：Token无效', 2000);
+          this.status = 'not logged in';
+          localStorage.removeItem('token');
         });
     },
     /**
@@ -116,11 +116,11 @@ const useUserStore = defineStore("UserStore", {
       this.$patch({ ...initState });
       useCacheStore().emptyBots();
       useCacheStore().emptyMyRating();
-      localStorage.removeItem("token");
-      window._alert("success", "成功退出登录", 1000);
+      localStorage.removeItem('token');
+      window._alert('success', '成功退出登录', 1000);
     },
     async updateAvatar(url: string) {
-      this.avatar = "";
+      this.avatar = '';
       setTimeout(() => (this.avatar = url));
     },
   },

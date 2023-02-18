@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import ReversiGame from "./ReversiGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import ReversiGame from './ReversiGame';
 
 class GameMap extends GameObject {
   constructor(root: ReversiGame) {
@@ -10,7 +10,7 @@ class GameMap extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "render map",
+      'render map',
       new Updater(() => {
         const L = this.root.L;
         const { rows, cols } = this.root as ReversiGame;
@@ -20,7 +20,7 @@ class GameMap extends GameObject {
           x: 0,
           ly: rows * L,
           lx: cols * L,
-          color: "#008800",
+          color: '#008800',
         });
 
         for (let i = 0; i <= rows; ++i) {
@@ -30,7 +30,7 @@ class GameMap extends GameObject {
             y1: i * L,
             x1: cols * L,
             width: 0.01 * L,
-            color: "#000000",
+            color: '#000000',
           });
         }
 
@@ -41,14 +41,14 @@ class GameMap extends GameObject {
             y1: rows * L,
             x1: i * L,
             width: 0.01 * L,
-            color: "#000000",
+            color: '#000000',
           });
         }
       })
     );
 
     this.addUpdater(
-      "render chess",
+      'render chess',
       new Updater(() => {
         const L = this.root.L;
         (this.root as ReversiGame).g.forEach((_, i) => {
@@ -58,13 +58,13 @@ class GameMap extends GameObject {
                 y: (i + 0.53) * L,
                 x: (j + 0.5) * L,
                 radius: 0.4 * L,
-                color: x ? "#000000" : "#ffffff",
+                color: x ? '#000000' : '#ffffff',
               });
               G.Cir({
                 y: (i + 0.5) * L,
                 x: (j + 0.5) * L,
                 radius: 0.4 * L,
-                color: x ? "#ffffff" : "#000000",
+                color: x ? '#ffffff' : '#000000',
               });
             }
           });
@@ -73,7 +73,7 @@ class GameMap extends GameObject {
     );
 
     this.addUpdater(
-      "render last put",
+      'render last put',
       new Updater(() => {
         const L = this.root.L;
         const { r, c } = (this.root as ReversiGame).lastPut;
@@ -83,7 +83,7 @@ class GameMap extends GameObject {
           x: (c + 0.4) * L,
           ly: 0.2 * L,
           lx: 0.2 * L,
-          color: "#000088",
+          color: '#000088',
         });
       })
     );

@@ -1,8 +1,8 @@
-import { IPosition } from "../C";
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import HexGame from "./HexGame";
+import { IPosition } from '../C';
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import HexGame from './HexGame';
 
 class Chess extends GameObject {
   private p: IPosition;
@@ -40,7 +40,7 @@ class Chess extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render chess",
+      'render chess',
       new Updater(() => {
         const L = this.root.L;
         const { x, y } = this.p;
@@ -50,7 +50,7 @@ class Chess extends GameObject {
           x: nx * L,
           y: ny * L,
           radius: this.radius * L,
-          color: this.id ? "#00f" : "#f00",
+          color: this.id ? '#00f' : '#f00',
         });
       })
     );

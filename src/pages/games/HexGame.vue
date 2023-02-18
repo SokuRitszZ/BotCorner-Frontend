@@ -31,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import useGameStore from "@/store/gameStore";
-import useUserStore from "@/store/userStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import { onMounted, ref } from "vue";
+import useGameStore from '@/store/gameStore';
+import useUserStore from '@/store/userStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import { onMounted, ref } from 'vue';
 
 const userStore = useUserStore();
 const gameStore = useGameStore();
@@ -50,24 +50,24 @@ type PropsType = {
 const props = defineProps<PropsType>();
 onMounted(async () => {
   const server = (await props.promise_server).on({
-    action: "set step truly",
+    action: 'set step truly',
     callback: () => {
       turn.value ^= 1;
     },
   });
   gameStore
-    .on("prepare", () => {
+    .on('prepare', () => {
       turn.value = 0;
     })
-    .on("click", (data: any) => {
-      if (gameStore.game!.mode === "single") {
+    .on('click', (data: any) => {
+      if (gameStore.game!.mode === 'single') {
         server.sendMessage({
-          action: "set step",
+          action: 'set step',
           data,
         });
-      } else if (gameStore.game!.mode === "multi") {
+      } else if (gameStore.game!.mode === 'multi') {
         server.sendMessage({
-          action: "set step",
+          action: 'set step',
           data: {
             ...data,
             id: gameStore.users.findIndex((user) => user.id === userStore.id),

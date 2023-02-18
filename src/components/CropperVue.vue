@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import "cropperjs/dist/cropper.min.css";
-import "cropperjs/dist/cropper.min";
-import TCropper from "cropperjs";
-import { onMounted, ref } from "vue";
+import 'cropperjs/dist/cropper.min.css';
+import 'cropperjs/dist/cropper.min';
+import TCropper from 'cropperjs';
+import { onMounted, ref } from 'vue';
 
 type PropsType = {
   defaultSrc: string;
@@ -15,7 +15,7 @@ const $img = ref<HTMLImageElement>();
 
 const cropper = ref<TCropper>();
 
-const emit = defineEmits(["crop"]);
+const emit = defineEmits(['crop']);
 
 const crop = () => {
   if (cropper.value) {
@@ -24,7 +24,7 @@ const crop = () => {
         width: 100,
         height: 100,
       })
-      .toBlob((data: any) => emit("crop", data));
+      .toBlob((data: any) => emit('crop', data));
   }
 };
 
@@ -54,7 +54,7 @@ const handleChangeImg = () => {
   const file = $input.value.files![0];
   if (!file.type) return;
   if (!/image\/.*/.test(file.type))
-    return window._alert("danger", "文件必须是图片");
+    return window._alert('danger', '文件必须是图片');
   const url = URL.createObjectURL(file);
   $img.value!.src = url;
   cropper.value!.destroy();

@@ -16,10 +16,10 @@ class GameWebSocket {
     this.server = new WebSocket(url);
     this.callbackMap = {};
 
-    this.server.onopen = () => window._alert("success", "WebSocket连接成功");
-    this.server.onclose = () => window._alert("primary", "WebSocket已关闭");
+    this.server.onopen = () => window._alert('success', 'WebSocket连接成功');
+    this.server.onclose = () => window._alert('primary', 'WebSocket已关闭');
     this.server.onerror = (error) =>
-      window._alert("danger", `WebSocket出错：${error}`);
+      window._alert('danger', `WebSocket出错：${error}`);
     this.server.onmessage = (message) => this.emit(JSON.parse(message.data));
   }
 

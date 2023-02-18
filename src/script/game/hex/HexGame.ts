@@ -1,8 +1,8 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import C, { IPosition, Vector } from "../C";
-import Game from "../Game";
-import Chess from "./Chess";
-import GameMap from "./GameMap";
+import { IRecord } from '@/utils/RecordPlayer';
+import C, { IPosition, Vector } from '../C';
+import Game from '../Game';
+import Chess from './Chess';
+import GameMap from './GameMap';
 
 class HexGame extends Game {
   private static dx = [-1, -1, -1, 0, 1, 1, 1, 0];
@@ -50,12 +50,12 @@ class HexGame extends Game {
     this.clickEvent = (e: MouseEvent) => {
       const p = HexGame.findPosition(e.offsetY / this.L, e.offsetX / this.L);
       if (!p) return;
-      if (this.mode === "single") {
-        this.emit("click", {
+      if (this.mode === 'single') {
+        this.emit('click', {
           id: this.cur,
           ...p,
         });
-      } else if (this.mode === "multi") this.emit("click", { ...p });
+      } else if (this.mode === 'multi') this.emit('click', { ...p });
     };
     this.moveEvent = (e: MouseEvent) => {
       const L = this.L;
@@ -64,13 +64,13 @@ class HexGame extends Game {
       if (!p) this.setCurrentChess();
       else this.setCurrentChess(p);
     };
-    this.$canvas.addEventListener("click", this.clickEvent);
-    this.$canvas.addEventListener("mousemove", this.moveEvent);
+    this.$canvas.addEventListener('click', this.clickEvent);
+    this.$canvas.addEventListener('mousemove', this.moveEvent);
   }
 
   onStop(): void {
-    this.$canvas.removeEventListener("click", this.clickEvent);
-    this.$canvas.removeEventListener("mousemove", this.moveEvent);
+    this.$canvas.removeEventListener('click', this.clickEvent);
+    this.$canvas.removeEventListener('mousemove', this.moveEvent);
   }
 
   public next(cur: { v: number }, record: IRecord) {
@@ -80,8 +80,8 @@ class HexGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "r.c";
-    const [r, c] = data.split("").map((x) => parseInt(x, 36));
+    'r.c';
+    const [r, c] = data.split('').map((x) => parseInt(x, 36));
     this.setStep({ id: 0, r, c, step: data });
   }
 
@@ -92,7 +92,7 @@ class HexGame extends Game {
   }
 
   _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: 'single' | 'multi' | 'record';
     initData: any;
   }): this {
     const { mode } = options;

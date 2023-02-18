@@ -1,4 +1,4 @@
-import { Vector } from "./C";
+import { Vector } from './C';
 
 class G {
   static context: CanvasRenderingContext2D;
@@ -13,7 +13,7 @@ class G {
     const { x, y, lx, ly, color } = options;
     const c = G.context;
 
-    c.fillStyle = color || "#000";
+    c.fillStyle = color || '#000';
     c.fillRect(x, y, lx, ly);
   }
 
@@ -26,7 +26,7 @@ class G {
     const { x, y, radius, color } = options;
     const c = G.context;
 
-    c.fillStyle = color || "#000";
+    c.fillStyle = color || '#000';
     c.beginPath();
     c.arc(x, y, radius, 0, Math.PI * 2);
     c.fill();
@@ -44,7 +44,7 @@ class G {
     const c = G.context;
     c.save();
     c.lineWidth = width;
-    c.strokeStyle = color || "#000";
+    c.strokeStyle = color || '#000';
     c.beginPath();
     c.moveTo(y0, x0);
     c.lineTo(y1, x1);
@@ -81,7 +81,7 @@ class G {
       else c.lineTo(y, x);
     });
     c.closePath();
-    c.fillStyle = color || "#000000";
+    c.fillStyle = color || '#000000';
     c.fill();
   }
 
@@ -99,7 +99,7 @@ class G {
       else c.lineTo(y, x);
     });
     c.closePath();
-    c.strokeStyle = color || "#000000";
+    c.strokeStyle = color || '#000000';
     c.lineWidth = width || 1;
     c.stroke();
     c.restore();

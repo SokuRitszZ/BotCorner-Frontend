@@ -1,8 +1,8 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import BackgammonGame from "./BackgammonGame";
-import Updater from "../Updater";
-import C, { IPosition } from "../C";
+import G from '../G';
+import GameObject from '../GameObject';
+import BackgammonGame from './BackgammonGame';
+import Updater from '../Updater';
+import C, { IPosition } from '../C';
 
 class Selector extends GameObject {
   private p: IPosition = { x: -1, y: -1 };
@@ -16,7 +16,7 @@ class Selector extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render selector",
+      'render selector',
       new Updater(() => {
         const L = this.root.L;
         const { x, y } = this.p;
@@ -29,13 +29,13 @@ class Selector extends GameObject {
             [(x + 5) * L, y * L],
           ],
           width: 0.05 * L,
-          color: "#008",
+          color: '#008',
         });
       })
     );
 
     this.addUpdater(
-      "move selector",
+      'move selector',
       new Updater(() => {
         if (!this.tp) return;
         const move_dist = this.v * this.dTime;

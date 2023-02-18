@@ -1,6 +1,6 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import Game from "../Game";
-import GameMap from "./GameMap";
+import { IRecord } from '@/utils/RecordPlayer';
+import Game from '../Game';
+import GameMap from './GameMap';
 
 class ReversiGame extends Game {
   private static dx = [-1, -1, -1, 0, 1, 1, 1, 0];
@@ -25,20 +25,20 @@ class ReversiGame extends Game {
         r: Math.floor(e.offsetY / this.L),
         c: Math.floor(e.offsetX / this.L),
       };
-      if (this.mode === "single") {
-        this.emit("click", {
+      if (this.mode === 'single') {
+        this.emit('click', {
           id: this.cur,
           ...pos,
         });
-      } else if (this.mode === "multi") {
-        this.emit("click", { ...pos });
+      } else if (this.mode === 'multi') {
+        this.emit('click', { ...pos });
       }
     };
-    this.$canvas.addEventListener("click", this.clickEvent);
+    this.$canvas.addEventListener('click', this.clickEvent);
   }
 
   onStop(): void {
-    this.$canvas.removeEventListener("click", this.clickEvent);
+    this.$canvas.removeEventListener('click', this.clickEvent);
   }
 
   public next(cur: { v: number }, record: IRecord) {
@@ -48,8 +48,8 @@ class ReversiGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "id.r.c";
-    const [id, r, c] = data.split("").map((x) => parseInt(x));
+    'id.r.c';
+    const [id, r, c] = data.split('').map((x) => parseInt(x));
     this.setStep({ id, r, c, step: data });
   }
 
@@ -60,7 +60,7 @@ class ReversiGame extends Game {
   }
 
   _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: 'single' | 'multi' | 'record';
     initData: any;
   }): this {
     const { mode, initData } = options;
@@ -108,7 +108,7 @@ class ReversiGame extends Game {
       }
     }
     this.cur ^= 1;
-    this.emit("put chess", {
+    this.emit('put chess', {
       id,
       r,
       c,
@@ -132,7 +132,7 @@ class ReversiGame extends Game {
 
   private pass(step: string) {
     this.cur ^= 1;
-    this.emit("pass", this.cur ^ 1);
+    this.emit('pass', this.cur ^ 1);
     this.memo(step, () => (this.cur ^= 1));
   }
 

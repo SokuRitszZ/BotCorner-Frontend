@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 type PropsType = {
   class?: string;
@@ -54,7 +54,7 @@ type PropsType = {
 };
 const props = defineProps<PropsType>();
 const current = ref<number>(0);
-const emit = defineEmits(["control"]);
+const emit = defineEmits(['control']);
 
 const isActive = (id: number) => {
   return current.value === id || props.allActive;

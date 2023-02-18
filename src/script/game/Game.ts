@@ -1,17 +1,17 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import G from "./G";
-import GameObject from "./GameObject";
-import Screen from "./Screen";
+import { IRecord } from '@/utils/RecordPlayer';
+import G from './G';
+import GameObject from './GameObject';
+import Screen from './Screen';
 
 type IAction = {
   step: string;
   fn: Function;
 };
 
-type IMode = "single" | "multi" | "record" | "watch";
+type IMode = 'single' | 'multi' | 'record' | 'watch';
 
 abstract class Game {
-  public mode: IMode = "single";
+  public mode: IMode = 'single';
 
   protected $parent: HTMLDivElement;
   protected $canvas: HTMLCanvasElement;
@@ -32,7 +32,7 @@ abstract class Game {
     this.$parent = $parent;
     this.$canvas = $canvas;
 
-    G.context = $canvas.getContext("2d")!;
+    G.context = $canvas.getContext('2d')!;
     this.screen = new Screen(this, $parent);
   }
 
@@ -60,13 +60,13 @@ abstract class Game {
   public prepare(options: { mode: IMode; initData: any }) {
     this.mode = options.mode;
     this._prepare(options);
-    this.emit("prepare", options);
+    this.emit('prepare', options);
     return this;
   }
 
   public setStep(data: any) {
     this._setStep(data);
-    this.emit("set step", data);
+    this.emit('set step', data);
     return this;
   }
 

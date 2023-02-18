@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import BackgammonGame from "./BackgammonGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import BackgammonGame from './BackgammonGame';
 
 class GameMap extends GameObject {
   constructor(root: BackgammonGame) {
@@ -10,7 +10,7 @@ class GameMap extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "render map",
+      'render map',
       new Updater(() => {
         const L = this.root.L;
         const { rows, cols } = this.root as BackgammonGame;
@@ -19,12 +19,12 @@ class GameMap extends GameObject {
           x: 0,
           ly: rows * L,
           lx: cols * L,
-          color: "#e3ac72",
+          color: '#e3ac72',
         });
       })
     );
     this.addUpdater(
-      "render triangle",
+      'render triangle',
       new Updater(() => {
         const L = this.root.L;
 
@@ -37,7 +37,7 @@ class GameMap extends GameObject {
               [0, y + L],
               [5 * L, y + 0.5 * L],
             ],
-            color: i % 2 ? "#800" : "#ddd",
+            color: i % 2 ? '#800' : '#ddd',
           });
           G.Poly({
             ps: [
@@ -45,7 +45,7 @@ class GameMap extends GameObject {
               [0, y + 8 * L],
               [5 * L, y + 7.5 * L],
             ],
-            color: i % 2 ? "#800" : "#ddd",
+            color: i % 2 ? '#800' : '#ddd',
           });
 
           // 下方
@@ -55,7 +55,7 @@ class GameMap extends GameObject {
               [11 * L, y + L],
               [6 * L, y + 0.5 * L],
             ],
-            color: i % 2 ? "#ddd" : "#800",
+            color: i % 2 ? '#ddd' : '#800',
           });
           G.Poly({
             ps: [
@@ -63,14 +63,14 @@ class GameMap extends GameObject {
               [11 * L, y + 8 * L],
               [6 * L, y + 7.5 * L],
             ],
-            color: i % 2 ? "#ddd" : "#800",
+            color: i % 2 ? '#ddd' : '#800',
           });
         }
       })
     );
 
     this.addUpdater(
-      "render slot",
+      'render slot',
       new Updater(() => {
         const L = this.root.L;
         G.StrokePoly({
@@ -81,7 +81,7 @@ class GameMap extends GameObject {
             [5 * L, 13 * L],
           ],
           width: 0.05 * L,
-          color: "#800",
+          color: '#800',
         });
         G.StrokePoly({
           ps: [
@@ -91,7 +91,7 @@ class GameMap extends GameObject {
             [11 * L, 13 * L],
           ],
           width: 0.05 * L,
-          color: "#ddd",
+          color: '#ddd',
         });
       })
     );

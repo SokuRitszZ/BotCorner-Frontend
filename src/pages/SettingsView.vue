@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { updateAvatarApi } from "@/api/account";
-import Cropper from "@/components/CropperVue.vue";
-import SokuButton from "@/components/SokuButton.vue";
-import SokuWindow from "@/components/SokuWindow.vue";
-import useUserStore from "@/store/userStore";
-import { throttle } from "lodash";
-import { ref } from "vue";
+import { updateAvatarApi } from '@/api/account';
+import Cropper from '@/components/CropperVue.vue';
+import SokuButton from '@/components/SokuButton.vue';
+import SokuWindow from '@/components/SokuWindow.vue';
+import useUserStore from '@/store/userStore';
+import { throttle } from 'lodash';
+import { ref } from 'vue';
 
 const userStore = useUserStore();
 
@@ -19,11 +19,11 @@ const updateAvatar = () => {
 const upload = throttle((data: any) => {
   updateAvatarApi(data)
     .then((data: any) => {
-      window._alert("success", "更换头像成功");
+      window._alert('success', '更换头像成功');
       userStore.updateAvatar(data.url);
       $window.value.close();
     })
-    .catch((error) => window._alert("danger", error));
+    .catch((error) => window._alert('danger', error));
 }, 3000);
 
 defineExpose({

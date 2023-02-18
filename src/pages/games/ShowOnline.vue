@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { IUser } from "@/store/userStore";
-import leftpad from "@/utils/leftpad";
-import { onMounted, ref } from "vue";
-import ImageHoverDetail from "@/components/ImageHoverDetail.vue";
-import GameWebSocket from "@/utils/GameWebSocket";
+import { IUser } from '@/store/userStore';
+import leftpad from '@/utils/leftpad';
+import { onMounted, ref } from 'vue';
+import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
+import GameWebSocket from '@/utils/GameWebSocket';
 
 type PropsType = {
   class?: string;
@@ -15,19 +15,19 @@ const user_list = ref<IUser[]>([]);
 onMounted(async () => {
   (await props.promise_server)
     .on({
-      action: "init",
+      action: 'init',
       callback: (data) => {
         user_list.value = data.users;
       },
     })
     .on({
-      action: "join",
+      action: 'join',
       callback: (data) => {
         user_list.value.push(data);
       },
     })
     .on({
-      action: "leave",
+      action: 'leave',
       callback: (data) => {
         user_list.value = user_list.value.filter((u) => u.id !== data.id);
       },
@@ -45,7 +45,7 @@ onMounted(async () => {
         :src="u.avatar"
         :class="['w-[50px] h-[50px] border-gray-500 p-1']"
       >
-        <div>{{ "#" + leftpad(8, u.id.toString()) }}</div>
+        <div>{{ '#' + leftpad(8, u.id.toString()) }}</div>
         <div>{{ u.username }}</div>
       </ImageHoverDetail>
     </TransitionGroup>

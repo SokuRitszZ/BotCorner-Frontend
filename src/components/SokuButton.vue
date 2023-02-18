@@ -5,10 +5,10 @@ type PropsType = {
   style?: string;
 };
 const props = defineProps<PropsType>();
-const emit = defineEmits(["click"]);
+const emit = defineEmits(['click']);
 
 const emitClick = (e: MouseEvent) => {
-  emit("click", e);
+  emit('click', e);
 };
 </script>
 

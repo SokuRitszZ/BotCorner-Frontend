@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import Settings from "@/pages/SettingsView.vue";
-import useCacheStore from "@/store/cacheStore";
-import useUserStore from "@/store/userStore";
-import { throttle } from "lodash";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import SokuButton from "./SokuButton.vue";
-import SokuWindow from "./SokuWindow.vue";
+import Settings from '@/pages/SettingsView.vue';
+import useCacheStore from '@/store/cacheStore';
+import useUserStore from '@/store/userStore';
+import { throttle } from 'lodash';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import SokuButton from './SokuButton.vue';
+import SokuWindow from './SokuWindow.vue';
 
 const isShownUserMenu = ref<boolean>(false);
 const userStore = useUserStore();
 const cacheStore = useCacheStore();
-const username = ref<string>("");
-const password = ref<string>("");
+const username = ref<string>('');
+const password = ref<string>('');
 const router = useRouter();
 
 const login = throttle(() => {
@@ -22,7 +22,7 @@ const login = throttle(() => {
 const logout = () => {
   userStore.logout();
   cacheStore.emptyBots();
-  router.push("/");
+  router.push('/');
 };
 
 onMounted(() => {
@@ -40,9 +40,9 @@ const register_info = ref<{
   password: string;
   confirmed_password: string;
 }>({
-  username: "",
-  password: "",
-  confirmed_password: "",
+  username: '',
+  password: '',
+  confirmed_password: '',
 });
 
 const register = throttle(() => {

@@ -1,4 +1,4 @@
-import { AlertFunction } from "./src/utils/alert";
+import { AlertFunction } from './src/utils/alert';
 
 declare global {
   interface Window {

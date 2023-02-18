@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 type PropsType = {
   title?: string;
@@ -20,20 +20,20 @@ const handleMouseDown_move = (e: MouseEvent) => {
   };
 };
 
-window.addEventListener("mousemove", (e) => {
+window.addEventListener('mousemove', (e) => {
   if (!$window.value) return;
   if (!shouldMove.value) return;
   $window.value.style.setProperty(
-    "--movedX",
+    '--movedX',
     `${e.clientX - offset.value.x}px`
   );
   $window.value.style.setProperty(
-    "--movedY",
+    '--movedY',
     `${e.clientY - offset.value.y}px`
   );
 });
 
-window.addEventListener("mouseup", () => {
+window.addEventListener('mouseup', () => {
   shouldMove.value = false;
 });
 
@@ -43,76 +43,76 @@ const handleMouseDown_resize = () => {
   shouldResize.value = true;
 };
 
-window.addEventListener("mousemove", (e) => {
+window.addEventListener('mousemove', (e) => {
   if (!$window.value || !shouldResize.value) return;
   $window.value.style.setProperty(
-    "width",
+    'width',
     `${e.clientX - $window.value.getBoundingClientRect().left}px`
   );
-  if (status.value === "zooming") return;
+  if (status.value === 'zooming') return;
   $window.value.style.setProperty(
-    "height",
+    'height',
     `${e.clientY - $window.value.getBoundingClientRect().top}px`
   );
 });
 
-window.addEventListener("mouseup", () => {
+window.addEventListener('mouseup', () => {
   shouldResize.value = false;
 });
 
 const open = () => {
-  if (status.value !== "hidden") return;
-  status.value = "open";
-  emit("open");
+  if (status.value !== 'hidden') return;
+  status.value = 'open';
+  emit('open');
 };
 
 const close = () => {
-  if (status.value === "hidden") return;
-  status.value = "hidden";
-  $window.value?.classList.remove("active");
-  emit("close");
+  if (status.value === 'hidden') return;
+  status.value = 'hidden';
+  $window.value?.classList.remove('active');
+  emit('close');
 };
 
 const backup_height = ref<string>();
-const status = ref<"open" | "zooming" | "hidden">("hidden");
+const status = ref<'open' | 'zooming' | 'hidden'>('hidden');
 const isActive = ref<boolean>(false);
 
 const emit = defineEmits([
-  "open",
-  "fold",
-  "unfold",
-  "enactive",
-  "dis-enactive",
-  "close",
+  'open',
+  'fold',
+  'unfold',
+  'enactive',
+  'dis-enactive',
+  'close',
 ]);
 
 const zoom = () => {
   if (!$window.value) return;
-  if (status.value === "zooming") {
-    status.value = "open";
-    $window.value.style.setProperty("height", backup_height.value!);
+  if (status.value === 'zooming') {
+    status.value = 'open';
+    $window.value.style.setProperty('height', backup_height.value!);
     unact();
-    emit("unfold");
+    emit('unfold');
   } else {
-    status.value = "zooming";
+    status.value = 'zooming';
     backup_height.value = $window.value.style.height;
-    $window.value.style.setProperty("height", "32px");
-    emit("fold");
+    $window.value.style.setProperty('height', '32px');
+    emit('fold');
   }
 };
 
 const act = () => {
   if (isActive.value) return;
   isActive.value = true;
-  $window.value?.classList.add("active");
-  emit("enactive");
+  $window.value?.classList.add('active');
+  emit('enactive');
 };
 
 const unact = () => {
   if (!isActive.value) return;
   isActive.value = false;
-  $window.value?.classList.remove("active");
-  emit("dis-enactive");
+  $window.value?.classList.remove('active');
+  emit('dis-enactive');
 };
 
 const getStatus = () => {
@@ -142,7 +142,7 @@ defineExpose({
         class="select-none p-1 px-4 rounded-t-xl bg-purple-700 flex justify-between items-center"
       >
         <span class="text-white">
-          {{ props.title || "TITLE" }}
+          {{ props.title || 'TITLE' }}
         </span>
         <div class="flex justify-end gap-2">
           <button

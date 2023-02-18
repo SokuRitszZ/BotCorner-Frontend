@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import SnakeGame from "./SnakeGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import SnakeGame from './SnakeGame';
 
 class GameMap extends GameObject {
   constructor(root: SnakeGame) {
@@ -10,7 +10,7 @@ class GameMap extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "render map",
+      'render map',
       new Updater(() => {
         const L = this.root.L;
 
@@ -21,7 +21,7 @@ class GameMap extends GameObject {
               x: j * L,
               lx: L,
               ly: L,
-              color: _ ? "#896c50" : ((i + j) & 1 && "#dddddd") || "#efefef",
+              color: _ ? '#896c50' : ((i + j) & 1 && '#dddddd') || '#efefef',
             });
           });
         });

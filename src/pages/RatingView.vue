@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import useCacheStore, { IGame, IRating } from "@/store/cacheStore";
-import useUserStore from "@/store/userStore";
-import leftpad from "@/utils/leftpad";
-import { onMounted, onUnmounted, ref } from "vue";
+import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
+import useUserStore from '@/store/userStore';
+import leftpad from '@/utils/leftpad';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const cacheStore = useCacheStore();
 const userStore = useUserStore();
 const games = ref<IGame[]>([]);
 const myRating = ref<IRating>({
   id: 0,
-  username: "NULL",
-  avatar: "https://sdfsdf.dev/500x500.png",
+  username: 'NULL',
+  avatar: 'https://sdfsdf.dev/500x500.png',
   score: 0,
 });
 
@@ -19,7 +19,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  userStore.removeAfterLoginCallback("get my rating");
+  userStore.removeAfterLoginCallback('get my rating');
 });
 
 const ratings = ref<IRating[]>([]);
@@ -29,7 +29,7 @@ const selectedGame = ref<IGame>();
 const setSelectedGame = (game: IGame) => {
   if (selectedGame.value === game) return;
   selectedGame.value = game;
-  userStore.addAfterLoginCallback("get my rating", () => {
+  userStore.addAfterLoginCallback('get my rating', () => {
     cacheStore.getMyRating(game.id).then((info) => {
       myRating.value = { ...info, ...userStore };
     });

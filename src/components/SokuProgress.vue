@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 type PropsType = {
   max: number;
@@ -12,14 +12,14 @@ const current_position = ref<number>(0);
 const $progress = ref<HTMLDivElement>();
 const $button = ref<HTMLDivElement>();
 const $line = ref<HTMLDivElement>();
-const emit = defineEmits(["change", "update:modelValue"]);
+const emit = defineEmits(['change', 'update:modelValue']);
 const max = ref<number>(0);
 const shouldEdit = ref<boolean>(false);
 
 const setButtonPosition = (newV: number) => {
   if (!$button.value) return;
   $button.value.style.setProperty(
-    "--moved",
+    '--moved',
     `${(newV / props.max) * props.width}px`
   );
 };
@@ -35,14 +35,14 @@ watch(
   () => props.modelValue,
   (newV) => {
     current_position.value = newV;
-    emit("update:modelValue", newV);
+    emit('update:modelValue', newV);
   }
 );
 
 onMounted(async () => {
   await nextTick();
   max.value = Math.max(props.max, props.width);
-  $line.value?.style.setProperty("width", `${props.width}px`);
+  $line.value?.style.setProperty('width', `${props.width}px`);
 });
 
 const shouldMove = ref<boolean>(false);
@@ -54,7 +54,7 @@ const handleMousedown = () => {
   oldV.value = current_position.value;
 };
 
-window.addEventListener("mousemove", (e) => {
+window.addEventListener('mousemove', (e) => {
   if (shouldMove.value) {
     const offsetX = $progress.value?.getBoundingClientRect().left;
     let newV = Math.floor((e.clientX - offsetX!) / (props.width / props.max));
@@ -62,10 +62,10 @@ window.addEventListener("mousemove", (e) => {
   }
 });
 
-window.addEventListener("mouseup", () => {
+window.addEventListener('mouseup', () => {
   if (!shouldMove.value) return;
   shouldMove.value = false;
-  emit("change", current_position.value, oldV.value);
+  emit('change', current_position.value, oldV.value);
 });
 
 const $input = ref<HTMLInputElement>();
@@ -83,7 +83,7 @@ const okEdit = () => {
   const value = parseInt($input.value.value);
   if (isNaN(value)) return;
   current_position.value = value;
-  emit("change", current_position.value, oldV.value);
+  emit('change', current_position.value, oldV.value);
 };
 </script>
 

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { mode, api_url } from "@/config.json";
+import { mode, api_url } from '@/config.json';
 
-import useUserStore from "@/store/userStore";
+import useUserStore from '@/store/userStore';
 
 const api = axios.create({
   baseURL: `${api_url[mode]}/api`,
@@ -32,10 +32,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     const data = response.data;
-    if (data.result === "fail") return Promise.reject(data.message);
+    if (data.result === 'fail') return Promise.reject(data.message);
     return data.data;
   },
-  () => Promise.reject("未登录 没有权限")
+  () => Promise.reject('未登录 没有权限')
 );
 
 export default api;

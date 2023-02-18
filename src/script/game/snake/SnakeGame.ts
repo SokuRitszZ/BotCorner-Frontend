@@ -1,7 +1,7 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import Game from "../Game";
-import GameMap from "./GameMap";
-import Snake, { IStatus } from "./Snake";
+import { IRecord } from '@/utils/RecordPlayer';
+import Game from '../Game';
+import GameMap from './GameMap';
+import Snake, { IStatus } from './Snake';
 
 class SnakeGame extends Game {
   public rows: number = 0;
@@ -26,10 +26,10 @@ class SnakeGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "d0.d1.incr.status0.status1";
+    'd0.d1.incr.status0.status1';
     const d = [parseInt(data[0]), parseInt(data[1])];
-    const incr = data[2] == "1";
-    const status = [data[3], data[4]].map((x) => (x == "1" ? "die" : "alive"));
+    const incr = data[2] == '1';
+    const status = [data[3], data[4]].map((x) => (x == '1' ? 'die' : 'alive'));
     [0, 1].forEach((x) =>
       this.setStep({
         id: x,
@@ -60,7 +60,7 @@ class SnakeGame extends Game {
   }
 
   _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: 'single' | 'multi' | 'record';
     initData: any;
   }): this {
     const { initData } = options;
@@ -89,7 +89,7 @@ class SnakeGame extends Game {
           x: 1,
           y: this.cols - 2,
         },
-        "#ff0000"
+        '#ff0000'
       ),
       new Snake(
         this,
@@ -97,7 +97,7 @@ class SnakeGame extends Game {
           x: this.rows - 2,
           y: 1,
         },
-        "#0000ff"
+        '#0000ff'
       ),
     ];
 

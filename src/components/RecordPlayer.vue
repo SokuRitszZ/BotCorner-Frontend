@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import useGameStore from "@/store/gameStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import RecordPlayer, { IRecord } from "@/utils/RecordPlayer";
-import { onMounted, onUnmounted, ref, toRaw, watch } from "vue";
-import Icon from "./BootstrapIcon.vue";
-import Progress from "./SokuProgress.vue";
-import { IEntry } from "./SokuSelect.vue";
-import Select from "./SokuSelect.vue";
-import repeat from "@/utils/repeat";
+import useGameStore from '@/store/gameStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
+import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
+import Icon from './BootstrapIcon.vue';
+import Progress from './SokuProgress.vue';
+import { IEntry } from './SokuSelect.vue';
+import Select from './SokuSelect.vue';
+import repeat from '@/utils/repeat';
 
 type PropsType = {
   promise_server: Promise<GameWebSocket>;
@@ -38,47 +38,47 @@ onMounted(async () => {
   recordPlayer.value = new RecordPlayer(
     (initData: any): void => {
       const data = {
-        mode: "record",
+        mode: 'record',
         initData,
       };
       server.value!.emit({
-        action: "play record",
+        action: 'play record',
         data,
       });
     },
     gameStore.game!.next,
     (cur) => gameStore.game!.upend(cur) /// !!!
   )
-    .on("next", (curV: number, step: string) => {
+    .on('next', (curV: number, step: string) => {
       server.value!.emit({
-        action: "set step truly",
+        action: 'set step truly',
         data: {
           step,
         },
       });
     })
-    .on("load", (data: any) => {
+    .on('load', (data: any) => {
       record_max.value = data.max;
-      status.value = "playing";
+      status.value = 'playing';
     })
-    .on("next", (curV: number, step: string, stepCnt: number) => {
+    .on('next', (curV: number, step: string, stepCnt: number) => {
       record_current.value = stepCnt;
     })
-    .on("upend", (curV: number, stepCnt: number) => {
+    .on('upend', (curV: number, stepCnt: number) => {
       record_current.value = stepCnt;
       server.value?.emit({
-        action: "upend",
+        action: 'upend',
         data: undefined,
       });
     })
-    .on("pause", () => {
-      status.value = "pausing";
+    .on('pause', () => {
+      status.value = 'pausing';
     })
-    .on("continue", () => {
-      status.value = "playing";
+    .on('continue', () => {
+      status.value = 'playing';
     })
-    .on("stop", () => {
-      status.value = "ready";
+    .on('stop', () => {
+      status.value = 'ready';
     });
 });
 
@@ -88,52 +88,52 @@ onUnmounted(async () => {
 
 const speed = ref<number>(1);
 const speedList = ref<IEntry[]>([
-  { key: "x1", value: 1 },
-  { key: "x2", value: 2 },
-  { key: "x4", value: 4 },
-  { key: "x8", value: 8 },
+  { key: 'x1', value: 1 },
+  { key: 'x2', value: 2 },
+  { key: 'x4', value: 4 },
+  { key: 'x8', value: 8 },
 ]);
 watch(speed, (newV) => {
   if (!recordPlayer.value) return;
   recordPlayer.value?.setSpeed(newV);
 });
 
-type IStatus = "ready" | "playing" | "pausing";
+type IStatus = 'ready' | 'playing' | 'pausing';
 
-const status = ref<IStatus>("ready");
+const status = ref<IStatus>('ready');
 
 const isStatus = (st: IStatus) => {
   return status.value === st;
 };
 
 const isRecord = () => {
-  return gameStore.game && gameStore.game.mode === "record";
+  return gameStore.game && gameStore.game.mode === 'record';
 };
 
 const _upend = () => {
   if (!isRecord()) return;
-  if (!isStatus("pausing")) return;
+  if (!isStatus('pausing')) return;
   if (!recordPlayer.value) return;
   recordPlayer.value.upend();
 };
 
 const _next = () => {
   if (!isRecord()) return;
-  if (!isStatus("pausing")) return;
+  if (!isStatus('pausing')) return;
   if (!recordPlayer.value) return;
   recordPlayer.value.next();
 };
 
 const _continue = () => {
   if (!isRecord()) return;
-  if (!isStatus("pausing")) return;
+  if (!isStatus('pausing')) return;
   if (!recordPlayer.value) return;
   recordPlayer.value.continue();
 };
 
 const _pause = () => {
   if (!isRecord()) return;
-  if (!isStatus("playing")) return;
+  if (!isStatus('playing')) return;
   if (!recordPlayer.value) return;
   recordPlayer.value.pause();
 };

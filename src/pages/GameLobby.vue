@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import Bar from "@/components/SokuBar.vue";
-import NewSlider from "@/components/NewSlider.vue";
-import useCacheStore, { IGame } from "@/store/cacheStore";
-import { onMounted, ref } from "vue";
+import Bar from '@/components/SokuBar.vue';
+import NewSlider from '@/components/NewSlider.vue';
+import useCacheStore, { IGame } from '@/store/cacheStore';
+import { onMounted, ref } from 'vue';
 
 const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
@@ -64,11 +64,11 @@ function handleClickBar() {
 }
 
 function autoSlide() {
-  (document.visibilityState === "hidden" && stop()) || start();
+  (document.visibilityState === 'hidden' && stop()) || start();
 }
 
 onMounted(() => {
-  document.addEventListener("visibilitychange", autoSlide);
+  document.addEventListener('visibilitychange', autoSlide);
 });
 </script>
 

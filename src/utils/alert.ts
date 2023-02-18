@@ -1,4 +1,4 @@
-export type AlertType = "primary" | "success" | "danger" | "warning";
+export type AlertType = 'primary' | 'success' | 'danger' | 'warning';
 
 export type IAlert = {
   id: string;

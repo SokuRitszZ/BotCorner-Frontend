@@ -1,7 +1,7 @@
-import G from "./G";
-import Game from "./Game";
-import GameObject from "./GameObject";
-import Updater from "./Updater";
+import G from './G';
+import Game from './Game';
+import GameObject from './GameObject';
+import Updater from './Updater';
 
 class Screen extends GameObject {
   private screenOptions: [number, number] = [8, 8];
@@ -22,7 +22,7 @@ class Screen extends GameObject {
 
   protected onStart() {
     this.addUpdater(
-      "get scale",
+      'get scale',
       new Updater(() => {
         const c = G.context;
         const { clientHeight: height, clientWidth: width } = this.$container;
@@ -36,7 +36,7 @@ class Screen extends GameObject {
       })
     );
     this.addUpdater(
-      "render screen",
+      'render screen',
       new Updater(() => {
         const L = this.L;
         G.Rect({

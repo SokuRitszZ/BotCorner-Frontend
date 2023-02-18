@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const props = defineProps({
   options: {
@@ -62,11 +62,11 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: "Options",
+    default: 'Options',
   },
 });
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(['change']);
 
 const isShown = ref<boolean>(false);
 
@@ -74,7 +74,7 @@ const current = ref<string>(props.title);
 
 const setCurrent = (value: string) => {
   current.value = value;
-  emit("change", value);
+  emit('change', value);
 };
 
 const getCurrent = () => {

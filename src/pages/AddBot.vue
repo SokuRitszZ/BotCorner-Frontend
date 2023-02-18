@@ -83,10 +83,10 @@
 </template>
 
 <script setup lang="ts">
-import { addBotApi } from "@/api/bots";
-import useCacheStore, { IGame, ILang } from "@/store/cacheStore";
-import toWord from "@/utils/toWord";
-import { ref } from "vue";
+import { addBotApi } from '@/api/bots';
+import useCacheStore, { IGame, ILang } from '@/store/cacheStore';
+import toWord from '@/utils/toWord';
+import { ref } from 'vue';
 
 const cacheStore = useCacheStore();
 
@@ -98,11 +98,11 @@ const description = ref<string>();
 const selectedGame = ref<number>();
 const selectedLang = ref<number>();
 const $editor = ref();
-const submitStatus = ref<"to submit" | "submitting">("to submit");
+const submitStatus = ref<'to submit' | 'submitting'>('to submit');
 
 const changeLang = () => {};
 
-const emit = defineEmits(["addBot"]);
+const emit = defineEmits(['addBot']);
 
 const submit = () => {
   const data: {
@@ -112,31 +112,31 @@ const submit = () => {
     langId: number;
     code: string;
   } = {
-    title: title.value?.trim() || "",
-    description: description.value?.trim() || "",
+    title: title.value?.trim() || '',
+    description: description.value?.trim() || '',
     gameId: selectedGame.value || 0,
     langId: selectedLang.value || 0,
     code: $editor.value.value.trim(),
   };
 
-  submitStatus.value = "submitting";
+  submitStatus.value = 'submitting';
   addBotApi(data)
     .then((returnData: any) => {
       const newBot = { ...data, ...returnData };
-      window._alert("success", `添加${data.title}成功`);
-      emit("addBot", newBot);
+      window._alert('success', `添加${data.title}成功`);
+      emit('addBot', newBot);
     })
     .catch((error) => {
-      window._alert("danger", `添加失败：${error}`);
+      window._alert('danger', `添加失败：${error}`);
     })
     .finally(() => {
-      submitStatus.value = "to submit";
+      submitStatus.value = 'to submit';
     });
 };
 </script>
 
 <style scoped lang="scss">
-input[type="radio"]:checked + label {
+input[type='radio']:checked + label {
   @apply bg-purple-500 text-gray-100 border-[1px] border-purple-500;
 }
 </style>

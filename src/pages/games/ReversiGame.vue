@@ -69,10 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import useGameStore from "@/store/gameStore";
-import useUserStore from "@/store/userStore";
-import GameWebSocket from "@/utils/GameWebSocket";
-import { onMounted, ref } from "vue";
+import useGameStore from '@/store/gameStore';
+import useUserStore from '@/store/userStore';
+import GameWebSocket from '@/utils/GameWebSocket';
+import { onMounted, ref } from 'vue';
 
 const userStore = useUserStore();
 const gameStore = useGameStore();
@@ -88,19 +88,19 @@ const props = defineProps<PropsType>();
 onMounted(async () => {
   const server = await props.promise_server;
   gameStore
-    .on("prepare", () => {
+    .on('prepare', () => {
       turn.value = -1;
       cnt.value = [0, 0];
     })
-    .on("click", (data: any) => {
-      if (gameStore.game!.mode === "single") {
+    .on('click', (data: any) => {
+      if (gameStore.game!.mode === 'single') {
         server.sendMessage({
-          action: "set step",
+          action: 'set step',
           data,
         });
-      } else if (gameStore.game!.mode === "multi") {
+      } else if (gameStore.game!.mode === 'multi') {
         server.sendMessage({
-          action: "set step",
+          action: 'set step',
           data: {
             ...data,
             id: gameStore.users.findIndex((user) => user.id === userStore.id),
@@ -108,12 +108,12 @@ onMounted(async () => {
         });
       }
     })
-    .on("put chess", (data) => {
+    .on('put chess', (data) => {
       cnt.value = data.cnt;
       turn.value = data.id ^ 1;
     })
-    .on("pass", (id) => {
-      window._alert("primary", `${id ? "白子" : "黑子"}跳过`);
+    .on('pass', (id) => {
+      window._alert('primary', `${id ? '白子' : '黑子'}跳过`);
       turn.value = id;
     });
 });

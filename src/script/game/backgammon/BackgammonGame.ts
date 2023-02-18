@@ -1,9 +1,9 @@
-import { IRecord } from "@/utils/RecordPlayer";
-import Game from "../Game";
-import Chess from "./Chess";
-import GameMap from "./GameMap";
-import Selector from "./Selector";
-import Die from "./Die";
+import { IRecord } from '@/utils/RecordPlayer';
+import Game from '../Game';
+import Chess from './Chess';
+import GameMap from './GameMap';
+import Selector from './Selector';
+import Die from './Die';
 
 class BackgammonGame extends Game {
   public readonly rows = 11;
@@ -23,22 +23,22 @@ class BackgammonGame extends Game {
   }
 
   public next(cur: { v: number }, record: IRecord) {
-    "v.from.to";
-    "d.12{34}";
-    "t";
-    "p";
-    let step = "";
+    'v.from.to';
+    'd.12{34}';
+    't';
+    'p';
+    let step = '';
     switch (record.steps[cur.v]) {
-      case "t":
-      case "p":
+      case 't':
+      case 'p':
         step = record.steps.slice(cur.v, cur.v + 1);
         cur.v += 1;
         break;
-      case "v":
+      case 'v':
         step = record.steps.slice(cur.v, cur.v + 3);
         cur.v += 3;
         break;
-      case "z":
+      case 'z':
         if (!isNaN(parseInt(record.steps[cur.v + 3]))) {
           step = record.steps.slice(cur.v, cur.v + 5);
           cur.v += 5;
@@ -52,35 +52,35 @@ class BackgammonGame extends Game {
   }
 
   public parseAndAct(data: string): void {
-    "v.from.to";
-    "d.12{34}";
-    "t";
-    "p";
+    'v.from.to';
+    'd.12{34}';
+    't';
+    'p';
     switch (data[0]) {
-      case "v":
+      case 'v':
         this.setStep({
-          type: "move",
+          type: 'move',
           from: parseInt(data[1], 36),
           to: parseInt(data[2], 36),
           step: data,
         });
         break;
-      case "z":
+      case 'z':
         this.setStep({
-          type: "dice",
+          type: 'dice',
           dice: data.slice(1),
           step: data,
         });
         break;
-      case "t":
+      case 't':
         this.setStep({
-          type: "turn",
+          type: 'turn',
           step: data,
         });
         break;
-      case "p":
+      case 'p':
         this.setStep({
-          type: "pass",
+          type: 'pass',
           step: data,
         });
         break;
@@ -96,7 +96,7 @@ class BackgammonGame extends Game {
         x: Math.floor(y / L),
       });
     };
-    this.$canvas.addEventListener("mousemove", this.moveEvent);
+    this.$canvas.addEventListener('mousemove', this.moveEvent);
 
     this.clickEvent = (e: MouseEvent) => {
       const L = this.L;
@@ -112,7 +112,7 @@ class BackgammonGame extends Game {
             y: Math.floor(x / L),
             x: Math.floor(y / L),
           });
-          this.emit("choose", {
+          this.emit('choose', {
             id: this.cur,
             from: this.selectedId,
             to: id,
@@ -125,37 +125,37 @@ class BackgammonGame extends Game {
         }
       }
     };
-    this.$canvas.addEventListener("mousedown", this.clickEvent);
-    this.$canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+    this.$canvas.addEventListener('mousedown', this.clickEvent);
+    this.$canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
   public onStop(): void {
-    this.$canvas.removeEventListener("mousemove", this.moveEvent);
+    this.$canvas.removeEventListener('mousemove', this.moveEvent);
   }
 
   public _setStep(data: any) {
     const { type, step } = data;
     switch (type) {
-      case "dice":
+      case 'dice':
         this.setDice(
-          data.dice.split("").map((x: string) => parseInt(x)),
+          data.dice.split('').map((x: string) => parseInt(x)),
           step
         );
         break;
-      case "move":
+      case 'move':
         this.moveChess(data.from, data.to, step);
         break;
-      case "pass":
+      case 'pass':
         this.pass(step);
         break;
-      case "turn":
+      case 'turn':
         this.turn(step);
         break;
     }
   }
 
   public _prepare(options: {
-    mode: "single" | "multi" | "record";
+    mode: 'single' | 'multi' | 'record';
     initData: any;
   }): this {
     const { mode, initData } = options;
@@ -163,7 +163,7 @@ class BackgammonGame extends Game {
 
     const { mask, start, dice } = initData;
     this.cur = start;
-    this.dice = dice.split("").map((x: string, i: number) => {
+    this.dice = dice.split('').map((x: string, i: number) => {
       return new Die(this, i, this.cur, parseInt(x));
     });
 
@@ -195,7 +195,7 @@ class BackgammonGame extends Game {
 
   private pass(step: string) {
     this.cur ^= 1;
-    this.emit("pass", this.cur);
+    this.emit('pass', this.cur);
     this.memo(step, () => {
       this.cur ^= 1;
     });
@@ -203,7 +203,7 @@ class BackgammonGame extends Game {
 
   private turn(step: string) {
     this.cur ^= 1;
-    this.emit("turn", this.cur);
+    this.emit('turn', this.cur);
     this.memo(step, () => {
       this.cur ^= 1;
     });

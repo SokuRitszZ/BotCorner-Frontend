@@ -1,8 +1,8 @@
-import { IPosition } from "../C";
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import GomokuGame from "./GomokuGame";
+import { IPosition } from '../C';
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import GomokuGame from './GomokuGame';
 
 class ChessBoard extends GameObject {
   public lastPut?: IPosition;
@@ -17,7 +17,7 @@ class ChessBoard extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render chess",
+      'render chess',
       new Updater(() => {
         const L = this.root.L;
         this.chessboard.forEach((_, i) => {
@@ -27,7 +27,7 @@ class ChessBoard extends GameObject {
                 x: (j + 1) * L,
                 y: (i + 1) * L,
                 radius: 0.4 * L,
-                color: _ ? "#fff" : "#000",
+                color: _ ? '#fff' : '#000',
               });
             }
           });
@@ -36,7 +36,7 @@ class ChessBoard extends GameObject {
     );
 
     this.addUpdater(
-      "render put",
+      'render put',
       new Updater(() => {
         const L = this.root.L;
         if (!this.lastPut) return;
@@ -45,7 +45,7 @@ class ChessBoard extends GameObject {
           x: (y + 1) * L,
           y: (x + 1) * L,
           radius: 0.1 * L,
-          color: "#f00",
+          color: '#f00',
         });
       })
     );

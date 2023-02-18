@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import Progress from "@/components/SokuProgress.vue";
-import Window from "@/components/SokuWindow.vue";
-import ChatRoom from "@/components/ChatRoom.vue";
-import Icon from "@/components/BootstrapIcon.vue";
+import { onMounted, ref } from 'vue';
+import Progress from '@/components/SokuProgress.vue';
+import Window from '@/components/SokuWindow.vue';
+import ChatRoom from '@/components/ChatRoom.vue';
+import Icon from '@/components/BootstrapIcon.vue';
 
 const val = ref<number>(0);
 const $window = ref();

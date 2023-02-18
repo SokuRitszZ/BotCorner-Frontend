@@ -1,7 +1,7 @@
-import Game from "@/script/game/Game";
-import { GameBuilder } from "@/script/game/GameBuilder";
-import { defineStore } from "pinia";
-import { IUser } from "./userStore";
+import Game from '@/script/game/Game';
+import { GameBuilder } from '@/script/game/GameBuilder';
+import { defineStore } from 'pinia';
+import { IUser } from './userStore';
 
 type IGameStore = {
   game: Game | null;
@@ -15,18 +15,18 @@ const initState: IGameStore = {
   users: [
     {
       id: 0,
-      username: "unknown",
-      avatar: "https://sdfsdf.dev/100x100.png",
+      username: 'unknown',
+      avatar: 'https://sdfsdf.dev/100x100.png',
     },
     {
       id: 0,
-      username: "unknown",
-      avatar: "https://sdfsdf.dev/100x100.png",
+      username: 'unknown',
+      avatar: 'https://sdfsdf.dev/100x100.png',
     },
   ],
 };
 
-const useGameStore = defineStore("GameStore", {
+const useGameStore = defineStore('GameStore', {
   state: (): IGameStore => ({ ...initState }),
   actions: {
     createGame(

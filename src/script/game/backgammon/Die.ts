@@ -1,7 +1,7 @@
-import G from "../G";
-import GameObject from "../GameObject";
-import Updater from "../Updater";
-import BackgammonGame from "./BackgammonGame";
+import G from '../G';
+import GameObject from '../GameObject';
+import Updater from '../Updater';
+import BackgammonGame from './BackgammonGame';
 
 class Die extends GameObject {
   static pos: number[] = [1, -1, 3, -3];
@@ -66,7 +66,7 @@ class Die extends GameObject {
 
   protected onStart(): void {
     this.addUpdater(
-      "render die",
+      'render die',
       new Updater(() => {
         const L = this.root.L;
         const ox = 5;
@@ -76,7 +76,7 @@ class Die extends GameObject {
           x: (oy + 0.1) * L,
           ly: 0.8 * L,
           lx: 0.8 * L,
-          color: this.id ? "#800" : "#ddd",
+          color: this.id ? '#800' : '#ddd',
         });
 
         Die.pss[this.num - 1].forEach((p) => {
@@ -84,7 +84,7 @@ class Die extends GameObject {
             y: (ox + p[0]) * L,
             x: (oy + p[1]) * L,
             radius: 0.07 * L,
-            color: this.id ? "#ddd" : "#800",
+            color: this.id ? '#ddd' : '#800',
           });
         });
       })

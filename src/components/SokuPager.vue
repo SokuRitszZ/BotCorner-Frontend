@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 type PropsType = {
   class?: string;
@@ -41,11 +41,11 @@ type PropsType = {
 const props = defineProps<PropsType>();
 const ptr = ref<number>(0);
 
-const emit = defineEmits(["change-page"]);
+const emit = defineEmits(['change-page']);
 
 const select = (idx: number) => {
   ptr.value = idx;
-  emit("change-page", idx);
+  emit('change-page', idx);
 };
 </script>
 
