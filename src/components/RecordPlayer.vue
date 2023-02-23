@@ -112,16 +112,14 @@ const isRecord = () => {
 
 const _upend = () => {
   if (!isRecord()) return;
-  if (!isStatus('pausing')) return;
-  if (!recordPlayer.value) return;
-  recordPlayer.value.upend();
+  recordPlayer.value?.pause();
+  recordPlayer.value?.upend();
 };
 
 const _next = () => {
   if (!isRecord()) return;
-  if (!isStatus('pausing')) return;
-  if (!recordPlayer.value) return;
-  recordPlayer.value.next();
+  recordPlayer.value?.pause();
+  recordPlayer.value?.next();
 };
 
 const _continue = () => {
@@ -138,7 +136,7 @@ const _pause = () => {
   recordPlayer.value.pause();
 };
 
-const change = (newV: number, oldV: number) => {
+function change(newV: number, oldV: number) {
   if (!isRecord()) return;
   if (newV !== oldV) {
     if (newV < oldV) {
@@ -147,16 +145,26 @@ const change = (newV: number, oldV: number) => {
       repeat(newV - oldV, () => recordPlayer.value?.next());
     }
   }
-};
+}
+
+function handleMousedown() {
+  recordPlayer.value?.pause();
+}
+
+function handleMouseup() {
+  recordPlayer.value?.continue();
+}
 </script>
 
 <template>
   <div class="w-full">
     <Progress
       @change="change"
+      @mousedown="handleMousedown"
+      @mouseup="handleMouseup"
       class="mt-3 bg-purple-500 text-purple-300"
       v-model="record_current"
-      :width="300"
+      :width="400"
       :max="record_max"
     />
     <div

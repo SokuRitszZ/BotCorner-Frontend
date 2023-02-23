@@ -177,7 +177,6 @@ class RecordPlayer {
    * @returns 链式调用
    */
   public stop() {
-    this.record = null;
     clearTimeout(this.timer);
     this.emit('stop');
     return this;

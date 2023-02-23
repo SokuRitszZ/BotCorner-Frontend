@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
+import leftpad from '@/utils/leftpad';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 type PropsType = {
   max: number;
@@ -8,11 +9,16 @@ type PropsType = {
   class?: string;
 };
 const props = defineProps<PropsType>();
-const current_position = ref<number>(0);
+const _positionCurrent = ref<number>(0);
 const $progress = ref<HTMLDivElement>();
 const $button = ref<HTMLDivElement>();
 const $line = ref<HTMLDivElement>();
-const emit = defineEmits(['change', 'update:modelValue']);
+const emit = defineEmits([
+  'change',
+  'update:modelValue',
+  'mouseup',
+  'mousedown',
+]);
 const max = ref<number>(0);
 const shouldEdit = ref<boolean>(false);
 
@@ -24,17 +30,17 @@ const setButtonPosition = (newV: number) => {
   );
 };
 
-watch(current_position, (newV) => {
+watch(_positionCurrent, (newV) => {
   newV = Math.min(newV, props.max);
   newV = Math.max(0, newV);
-  current_position.value = newV;
+  _positionCurrent.value = newV;
   setButtonPosition(newV);
 });
 
 watch(
   () => props.modelValue,
   (newV) => {
-    current_position.value = newV;
+    _positionCurrent.value = newV;
     emit('update:modelValue', newV);
   }
 );
@@ -49,72 +55,82 @@ const shouldMove = ref<boolean>(false);
 
 const oldV = ref<number>(0);
 
-const handleMousedown = () => {
+function handleMousedown() {
   shouldMove.value = true;
-  oldV.value = current_position.value;
-};
+  oldV.value = _positionCurrent.value;
+  emit('mousedown');
+}
+
+function handleMouseup() {
+  emit('mouseup');
+}
 
 window.addEventListener('mousemove', (e) => {
   if (shouldMove.value) {
     const offsetX = $progress.value?.getBoundingClientRect().left;
     let newV = Math.floor((e.clientX - offsetX!) / (props.width / props.max));
-    current_position.value = newV;
+    _positionCurrent.value = newV;
   }
 });
+
+const lenMax = computed(() => props.max.toString().length);
+
+const strPositionCurrent = computed(() =>
+  leftpad(lenMax.value, _positionCurrent.value)
+);
 
 window.addEventListener('mouseup', () => {
   if (!shouldMove.value) return;
   shouldMove.value = false;
-  emit('change', current_position.value, oldV.value);
+  emit('change', _positionCurrent.value, oldV.value);
 });
 
 const $input = ref<HTMLInputElement>();
 const edit = () => {
   shouldEdit.value = true;
-  oldV.value = current_position.value;
+  oldV.value = _positionCurrent.value;
   if (!$input.value) return;
-  $input.value.value = current_position.value.toString();
+  $input.value.value = _positionCurrent.value.toString();
   $input.value!.focus();
 };
 
 const okEdit = () => {
   shouldEdit.value = false;
   if (!$input.value) return;
-  const value = parseInt($input.value.value);
+  const value = Number($input.value.value);
   if (isNaN(value)) return;
-  current_position.value = value;
-  emit('change', current_position.value, oldV.value);
+  _positionCurrent.value = Math.min(value, props.max);
+  emit('change', _positionCurrent.value, oldV.value);
 };
 </script>
 
 <template>
   <div
     :class="props.class"
-    class="select-none w-fit m-auto pr-4 rounded-full relative flex items-center gap-1"
+    class="select-none w-fit m-auto rounded-full relative flex justify-between items-center px-2 gap-1"
   >
-    <div
-      v-if="!shouldEdit"
-      @click="edit"
-      class="px-2 w-fit mr-3 flex justify-end"
-    >
-      {{ current_position }} / {{ props.max }}
+    <div @click="edit" class="w-fit flex">
+      {{ strPositionCurrent }}
     </div>
     <input
-      v-else
+      v-if="shouldEdit"
       @keyup.enter="okEdit"
       @blur="okEdit"
       ref="$input"
-      type="number"
-      class="w-24 mr-3 bg-purple-400 rounded-xl px-3"
+      class="w-24 bg-purple-400 rounded-sm px-3 text-sm absolute left-0 top-full translate-y-1"
     />
-    <div ref="$progress" class="w-fit flex items-center">
+    <div ref="$progress" class="w-fit flex items-center mx-3">
       <div ref="$line" class="bg-purple-900 h-1 rounded-full" />
       <div
         @mousedown="handleMousedown"
+        @mouseup="handleMouseup"
         id="button"
         ref="$button"
         class="cursor-pointer w-[14px] h-[14px] bg-purple-700 rounded-full absolute"
       />
+    </div>
+    <div class="w-fit flex">
+      {{ props.max }}
     </div>
   </div>
 </template>
