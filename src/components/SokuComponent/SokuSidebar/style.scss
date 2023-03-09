@@ -1,0 +1,61 @@
+.--soku-sidebar {
+  @apply absolute z-40;
+  @apply w-[250px] h-screen;
+  @apply bg-white;
+  @apply shadow-2xl;
+  @apply select-none;
+
+  .header {
+    @apply w-full h-[150px];
+  }
+
+  .div_line {
+    @apply m-auto my-1;
+    @apply w-[200px] h-1 scale-y-50;
+    @apply bg-gray-200;
+  }
+
+  .main {
+    .list {
+      @apply transition;
+      .title {
+        @apply w-full h-[50px];
+        @apply pl-5;
+        @apply text-2xl;
+        @apply leading-[50px];
+        @apply transition;
+
+        &:hover {
+          @apply bg-slate-300;
+        }
+
+        &:active {
+          @apply bg-slate-400;
+        }
+      }
+
+      .item {
+        @apply flex items-center;
+        @apply w-full h-[50px];
+        @apply pl-11 py-1;
+        @apply text-xl font-thin;
+        @apply transition;
+
+        &:hover {
+          @apply bg-slate-300;
+        }
+
+        &:active,
+        &.router-link-active {
+          @apply bg-slate-400;
+        }
+      }
+    }
+  }
+
+  .footer {
+    @apply absolute bottom-0 left-0;
+    @apply w-full h-[100px];
+    @apply border-t-2 border-gray-100;
+  }
+}
