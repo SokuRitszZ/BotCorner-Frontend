@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavBar, { IUrl } from '@/components/NavBar.vue';
-import Alert from './components/SokuAlert.vue';
+import Alert from './components/SokuComponent/SokuAlert.vue';
 
 const urls: IUrl[] = [
   { path: '/', name: '首页' },

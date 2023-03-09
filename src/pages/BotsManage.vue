@@ -10,7 +10,7 @@ import leftpad from '@/utils/leftpad';
 import useCacheStore, { IBot } from '@/store/cacheStore';
 import toWord from '@/utils/toWord';
 import { changeVisibleApi, deleteBotApi } from '@/api/bots';
-import Select, { IEntry } from '@/components/SokuSelect.vue';
+import Select, { IEntry } from '@/components/SokuComponent/SokuSelect.vue';
 
 const userStore = useUserStore();
 const cacheStore = useCacheStore();

@@ -5,8 +5,8 @@ import useUserStore from '@/store/userStore';
 import { throttle } from 'lodash';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import SokuButton from './SokuButton.vue';
-import SokuWindow from './SokuWindow.vue';
+import SokuButton from './SokuComponent/SokuButton.vue';
+import SokuWindow from './SokuComponent/SokuWindow.vue';
 
 const isShownUserMenu = ref<boolean>(false);
 const userStore = useUserStore();

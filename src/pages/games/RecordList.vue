@@ -79,7 +79,7 @@ import useUserStore from '@/store/userStore';
 import leftpad from '@/utils/leftpad';
 import { onMounted, onUnmounted, ref } from 'vue';
 import dayjs from 'dayjs';
-import Pager from '@/components/SokuPager.vue';
+import Pager from '@/components/SokuComponent/SokuPager.vue';
 import { useRouter } from 'vue-router';
 
 type IRecordListItem = {

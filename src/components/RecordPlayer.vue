@@ -4,9 +4,9 @@ import GameWebSocket from '@/utils/GameWebSocket';
 import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
 import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
 import Icon from './BootstrapIcon.vue';
-import Progress from './SokuProgress.vue';
-import { IEntry } from './SokuSelect.vue';
-import Select from './SokuSelect.vue';
+import Progress from './SokuComponent/SokuProgress.vue';
+import { IEntry } from './SokuComponent/SokuSelect.vue';
+import Select from './SokuComponent/SokuSelect.vue';
 import repeat from '@/utils/repeat';
 
 type PropsType = {

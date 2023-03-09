@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import Bar from '@/components/SokuBar.vue';
+import Bar from '@/components/SokuComponent/SokuBar.vue';
 import NewSlider from '@/components/NewSlider.vue';
 import useCacheStore, { IGame } from '@/store/cacheStore';
 import { onMounted, ref } from 'vue';

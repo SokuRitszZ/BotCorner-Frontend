@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import ChatRoom from '@/components/ChatRoom.vue';
 import ImageHoverDetail from '@/components/ImageHoverDetail.vue';
-import Select from '@/components/SokuSelect.vue';
-import { IEntry } from '@/components/SokuSelect.vue';
+import Select from '@/components/SokuComponent/SokuSelect.vue';
+import { IEntry } from '@/components/SokuComponent/SokuSelect.vue';
 import useCacheStore from '@/store/cacheStore';
 import useUserStore, { IUser } from '@/store/userStore';
 import GameWebSocket from '@/utils/GameWebSocket';

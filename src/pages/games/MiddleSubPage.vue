@@ -37,7 +37,7 @@ import { onMounted, ref } from 'vue';
 import RecordList from './RecordList.vue';
 import RecordPlayerVue from '@/components/RecordPlayer.vue';
 import { IRecord } from '@/utils/RecordPlayer';
-import Bar from '@/components/SokuBar.vue';
+import Bar from '@/components/SokuComponent/SokuBar.vue';
 import PlayingList, { IPlaying } from './PlayingList.vue';
 import { useRouter } from 'vue-router';
 

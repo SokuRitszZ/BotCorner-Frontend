@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { updateAvatarApi } from '@/api/account';
 import Cropper from '@/components/CropperVue.vue';
-import SokuButton from '@/components/SokuButton.vue';
-import SokuWindow from '@/components/SokuWindow.vue';
+import SokuButton from '@/components/SokuComponent/SokuButton.vue';
+import SokuWindow from '@/components/SokuComponent/SokuWindow.vue';
 import useUserStore from '@/store/userStore';
 import { throttle } from 'lodash';
 import { ref } from 'vue';

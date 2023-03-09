@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { nanoid } from 'nanoid';
-import Icon from './BootstrapIcon.vue';
+import Icon from '../BootstrapIcon.vue';
 import { AlertFunction, AlertType, IAlert } from '@/utils/alert';
 
 const alerts = ref<IAlert[]>([]);

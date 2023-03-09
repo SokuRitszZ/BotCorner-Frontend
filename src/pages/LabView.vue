@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Progress from '@/components/SokuProgress.vue';
-import Window from '@/components/SokuWindow.vue';
+import Progress from '@/components/SokuComponent/SokuProgress.vue';
+import Window from '@/components/SokuComponent/SokuWindow.vue';
 import ChatRoom from '@/components/ChatRoom.vue';
 import Icon from '@/components/BootstrapIcon.vue';
 
