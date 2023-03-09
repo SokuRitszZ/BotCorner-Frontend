@@ -164,7 +164,7 @@ function handleMouseup() {
       @mouseup="handleMouseup"
       class="mt-3 bg-purple-500 text-purple-300"
       v-model="record_current"
-      :width="400"
+      :width="250"
       :max="record_max"
     />
     <div
