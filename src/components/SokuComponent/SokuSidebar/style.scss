@@ -1,6 +1,6 @@
 .--soku-sidebar {
-  @apply absolute z-40;
-  @apply w-[250px] h-screen;
+  @apply relative z-40;
+  @apply w-[250px] h-screen flex-shrink-0;
   @apply bg-white;
   @apply shadow-2xl;
   @apply select-none;

@@ -6,10 +6,20 @@ import Alert from './components/SokuComponent/SokuAlert.vue';
 
 <template>
   <Alert />
-  <RouteSidebar />
-  <div class="w-screen h-screen">
-    <router-view />
+  <div class="flex">
+    <RouteSidebar />
+    <div class="main-view">
+      <router-view />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.main-view {
+  width: calc(100vw - 250px);
+  min-width: 680px;
+  height: 100vh;
+  overflow: scroll;
+  @apply py-10;
+}
+</style>
