@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import SokuSkeleton from "@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue";
-import useUserStore from "@/store/userStore";
-import {faker} from "@faker-js/faker";
-import dayjs from "dayjs";
-import { computed, onMounted, ref } from "vue";
+import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
+import useUserStore from '@/store/userStore';
+import { faker } from '@faker-js/faker';
+import dayjs from 'dayjs';
+import { computed, onMounted, ref } from 'vue';
+
 
 const userStore = useUserStore();
 
@@ -17,7 +18,6 @@ onMounted(() => {
     testLoading.value = false;
   }, 3000);
 });
-
 </script>
 
 <template>
@@ -31,14 +31,10 @@ onMounted(() => {
       </div>
     </header>
     <div class="welcome-board">
-      <img src="https://sdfsdf.dev/100x100.png,123123,321321" alt="">
+      <img src="https://sdfsdf.dev/100x100.png,123123,321321" alt="" />
       <div class="title">
-        <template v-if="!isLogin">
-          欢迎来到BotCorner！
-        </template>
-        <template v-else>
-          你好，{{ name }}
-        </template>
+        <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
+        <template v-else> 你好，{{ name }} </template>
       </div>
       <div class="options">
         <template v-if="!isLogin">
@@ -53,18 +49,26 @@ onMounted(() => {
     </div>
     <main class="main">
       <div class="new-record-list">
-        <header class="title">
-          最近比赛
-        </header>
+        <header class="title">最近比赛</header>
         <main class="main">
           <SokuSkeleton :is-loading="testLoading">
             <div class="record-card">
               <h1 class="font-bold text-3xl text-center pt-4">盘蛇</h1>
               <div class="avatars">
-                <img class="avatar" src="https://sdfsdf.dev/100x100.png" alt="">
-                <img class="avatar" src="https://sdfsdf.dev/100x100.png" alt="">
+                <img
+                  class="avatar"
+                  src="https://sdfsdf.dev/100x100.png"
+                  alt=""
+                />
+                <img
+                  class="avatar"
+                  src="https://sdfsdf.dev/100x100.png"
+                  alt=""
+                />
               </div>
-              <div class="time">{{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}</div>
+              <div class="time">
+                {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
+              </div>
             </div>
           </SokuSkeleton>
           <SokuSkeleton :is-loading="true"></SokuSkeleton>
@@ -77,5 +81,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import url("./style.scss");
+@import url('./style.scss');
 </style>
