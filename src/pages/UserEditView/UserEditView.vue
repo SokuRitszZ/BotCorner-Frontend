@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import useTitle from '@/utils/useTitle';
+
+useTitle('修改资料 --BotCorner博弈小站');
 </script>
 
 <template>

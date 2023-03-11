@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useUserStore from '@/store/userStore';
+import useTitle from '@/utils/useTitle';
 import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import { computed, onMounted, ref } from 'vue';
 
+useTitle('首页 --BotCorner博弈小站');
 
 const userStore = useUserStore();
 

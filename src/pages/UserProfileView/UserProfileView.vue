@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import useTitle from '@/utils/useTitle';
 import { faker } from '@faker-js/faker';
+
+useTitle('个人主页 --BotCorner博弈小站');
 
 type INav = {
   title: string;
