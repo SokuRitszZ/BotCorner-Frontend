@@ -1,0 +1,43 @@
+.user-profile {
+  @apply px-10;
+
+  .-container {
+    @apply w-full max-w-[500px] h-fit;
+    @apply rounded-sm overflow-hidden;
+    @apply shadow-lg;
+    @apply mx-auto;
+    @apply bg-gray-100;
+    @apply p-5;
+
+    .avatar {
+      @apply rounded-full;
+      @apply mx-auto;
+    }
+
+    form {
+      label,
+      input {
+        @apply block;
+      }
+
+      input {
+        @apply w-full h-[40px];
+        @apply rounded-md;
+        @apply px-4;
+      }
+
+      label {
+        @apply py-3;
+        @apply text-xl;
+        @apply font-thin;
+      }
+    }
+    
+    .submit-btn {
+      @apply w-full;
+      @apply mt-4 p-2;
+      @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
+      @apply rounded-md;
+    }
+  }
+}
