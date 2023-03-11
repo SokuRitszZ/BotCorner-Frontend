@@ -17,6 +17,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/UserProfileView/UserProfileView.vue'),
   },
   {
+    path: '/user/profile/edit',
+    name: 'profile-edit',
+    component: () => import('@/pages/UserEditView/UserEditView.vue'),
+  },
+  {
     path: '/game',
     name: 'game lobby',
     component: () => import('@/pages/GameLobby.vue'),
