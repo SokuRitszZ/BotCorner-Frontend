@@ -15,7 +15,7 @@ const optionsInSidebar = [
     title: '使用',
     items: [
       { title: '首页', to: '/' },
-      { title: '游戏大厅', to: '/game/live' },
+      { title: '游戏大厅', to: '/game/lobby' },
       { title: '对战记录', to: '/game/record' },
       { title: '天梯排名', to: '/game/rating' },
     ],

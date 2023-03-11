@@ -22,9 +22,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/UserEditView/UserEditView.vue'),
   },
   {
-    path: '/game',
-    name: 'game lobby',
-    component: () => import('@/pages/GameLobby.vue'),
+    path: '/game/lobby',
+    name: 'game-lobby',
+    component: () => import('@/pages/GameLobby/GameLobby.vue'),
   },
   {
     path: '/bots',

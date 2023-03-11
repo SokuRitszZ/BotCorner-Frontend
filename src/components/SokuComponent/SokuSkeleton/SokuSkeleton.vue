@@ -27,7 +27,7 @@ const dom = ref<HTMLDivElement>();
 
 .v-enter-active,
 .v-leave-active {
-  transition: .2s;
+  transition: .5s;
 }
 .v-enter-from,
 .v-leave-to {
