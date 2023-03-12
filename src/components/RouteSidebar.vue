@@ -2,15 +2,26 @@
 import SokuSidebar from '@/components/SokuComponent/SokuSidebar/SokuSidebar.vue';
 import SidebarList from '@/components/SokuComponent/SokuSidebar/SidebarList.vue';
 import SidebarItem from '@/components/SokuComponent/SokuSidebar/SidebarItem.vue';
+import { computed, ref } from 'vue';
+import useUserStore from '@/store/userStore';
 
-const optionsInSidebar = [
-  {
+type IOption = {
+  title: string;
+  items: {
+    title: string;
+    to: string;
+  }[]
+};
+
+const userStore = useUserStore();
+const optionsInSidebar = computed(() => [
+  ...userStore.status === 'logged in' && [{
     title: '账号',
     items: [
       { title: '个人主页', to: '/user/profile' },
       { title: '修改资料', to: '/user/profile/edit' },
     ],
-  },
+  }] || [],
   {
     title: '使用',
     items: [
@@ -24,7 +35,8 @@ const optionsInSidebar = [
     title: '反馈',
     items: [{ title: '报Bug', to: '/feedback/bug' }],
   },
-];
+]);
+
 </script>
 
 <template>
