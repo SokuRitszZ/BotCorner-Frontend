@@ -6,15 +6,14 @@ import { onMounted, onUnmounted, ref } from 'vue';
 const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
 
-onMounted(() => {
-  cacheStore.getGames.then((list) => {
-    games.value = list;
-    startSliding();
-  });
+onMounted(async () => {
+  games.value = await cacheStore.getGames;
+  startSliding();
 });
 
 const domItemList = ref<HTMLDivElement>();
 const timerSliding = ref<any>();
+const timerNext = ref<any>();
 
 function _prev() {
   games.value.unshift(games.value.pop()!);
@@ -25,9 +24,9 @@ function _next() {
 }
 
 function next() {
-  clearTimeout(timerSliding.value);
+  clearTimeout(timerNext.value);
   domItemList.value!.classList.add('animate');
-  timerSliding.value = setTimeout(() => {
+  timerNext.value = setTimeout(() => {
     domItemList.value!.classList.remove('animate');
     _next();
   }, 7000);
@@ -35,7 +34,8 @@ function next() {
 
 function startSliding() {
   const act = () => {
-    timerSliding.value = setTimeout(async () => {
+    clearTimeout(timerSliding.value);
+    timerSliding.value = setTimeout(() => {
       next();
       act();
     }, 10000);
@@ -46,6 +46,7 @@ function startSliding() {
 
 onUnmounted(() => {
   clearTimeout(timerSliding.value);
+  clearTimeout(timerNext.value);
 });
 </script>
 
