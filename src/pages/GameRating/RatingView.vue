@@ -2,7 +2,6 @@
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
-import { faker } from '@faker-js/faker';
 import { onMounted, ref, watch } from 'vue';
 
 const cacheStore = useCacheStore();
@@ -37,15 +36,15 @@ watch(gameCur, async (newV) => {
     </div>
     <div v-if="ratings.length > 0" class="-container rating-list">
       <div class="top-3">
-        <div v-if="ratings.length > 0" class="medal runner-up">
-          <SokuImgSkeleton class="avatar" :url="ratings[0].avatar" />
-          <span>{{ ratings[0].username }}</span>
-          <span class="text-4xl">{{ ratings[0].score }}</span>
-        </div>
-        <div v-if="ratings.length > 1" class="medal champion">
+        <div v-if="ratings.length > 1" class="medal runner-up">
           <SokuImgSkeleton class="avatar" :url="ratings[1].avatar" />
           <span>{{ ratings[1].username }}</span>
           <span class="text-4xl">{{ ratings[1].score }}</span>
+        </div>
+        <div v-if="ratings.length > 0" class="medal champion">
+          <SokuImgSkeleton class="avatar" :url="ratings[0].avatar" />
+          <span>{{ ratings[0].username }}</span>
+          <span class="text-4xl">{{ ratings[0].score }}</span>
         </div>
         <div v-if="ratings.length > 2" class="medal third-place">
           <SokuImgSkeleton class="avatar" :url="ratings[2].avatar" />
