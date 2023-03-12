@@ -1,3 +1,29 @@
+.form-register,
+.form-login {
+  @apply w-full h-full;
+  @apply px-3;
+
+  label,
+  input {
+    @apply block rounded-md;
+  }
+
+  input {
+    @apply w-full h-[40px];
+    @apply pl-3;
+    @apply border-2;
+  }
+
+  .submit-btn {
+    @apply w-full;
+    @apply text-center;
+    @apply py-1 mt-3;
+    @apply rounded-md;
+    @apply bg-gray-100 hover:bg-gray-200 active:bg-gray-300;
+  }
+}
+
+
 .welcome-view {
   @apply px-10;
   .announce {
@@ -60,7 +86,7 @@
     }
 
     .title {
-      @apply mt-4 ml-10;
+      @apply mt-4;
       @apply text-4xl text-center;
     }
     
@@ -116,9 +142,14 @@
           @apply rounded-md;
           @apply cursor-pointer hover:shadow-md;
           
-          .record-card {
+          .one-announce {
             @apply w-full h-full;
+            @apply flex flex-col items-center justify-center;
             @apply bg-gray-100;
+
+            .title {
+              @apply w-fit;
+            }
 
             .avatars {
               @apply flex items-center justify-around;
