@@ -59,11 +59,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/GameRating/RatingView.vue'),
   },
   {
-    path: '/rating',
-    name: 'rating',
-    component: () => import('@/pages/RatingView.vue'),
-  },
-  {
     path: '/game',
     name: 'game',
     component: () => import('@/pages/games/GameView.vue'),

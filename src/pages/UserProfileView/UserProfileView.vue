@@ -12,9 +12,9 @@ type INav = {
   url: string;
 };
 const itemNav: INav[] = [
-  {title: '自制程序', url: '#'}, 
-  {title: '发表看法', url: '#'}, 
-  {title: '获得奖项', url: '#'}, 
+  {title: '自制程序', url: '/user/profile/bots'}, 
+  {title: '发表看法', url: '/user/profile/comments'}, 
+  {title: '获得奖项', url: '/user/profile/prize'}, 
 ];
 
 const userStore = useUserStore();
@@ -55,7 +55,6 @@ onMounted(() => {
         </ul>
       </nav>
       <div class="nav-view">
-        nav-view
         <router-view />
       </div>
     </div>
