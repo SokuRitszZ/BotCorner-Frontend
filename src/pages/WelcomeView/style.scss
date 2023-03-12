@@ -78,6 +78,7 @@
     @apply mt-4 p-9 mx-auto;
 
     .title-icon {
+      font-size: 75px;
       @apply w-[100px] h-[100px];
     }
 
@@ -117,7 +118,7 @@
     @apply mx-auto;
 
     .new-record-list {
-      @apply h-[600px] w-full max-w-[1000px];
+      @apply w-full max-w-[1000px];
       @apply bg-white;
       @apply shadow-2xl;
       @apply rounded-xl;
@@ -133,7 +134,8 @@
       }
       
       .main {
-        @apply xl:grid xl:grid-cols-3;
+        @apply grid grid-cols-2 gap-3;
+        @apply xl:grid-cols-3;
         @apply p-3;
 
         .--soku-skeleton {

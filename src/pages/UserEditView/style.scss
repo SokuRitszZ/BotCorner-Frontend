@@ -10,7 +10,9 @@
     @apply p-5;
 
     .avatar {
+      @apply w-[100px] h-[100px];
       @apply rounded-full;
+      @apply overflow-hidden;
       @apply mx-auto;
     }
 

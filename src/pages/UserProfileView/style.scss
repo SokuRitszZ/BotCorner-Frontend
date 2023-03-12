@@ -55,10 +55,12 @@
         @apply pb-3 pl-3;
         
         li {
-          @apply px-4 py-2;
-          @apply rounded-md;
-          @apply transition;
-          @apply hover:bg-gray-300;
+          a {
+            @apply rounded-md;
+            @apply transition;
+            @apply hover:bg-gray-300;
+            @apply px-4 py-2;
+          }
         }
       }
     }
@@ -69,4 +71,9 @@
       @apply bg-white;
     }
   }
+}
+
+.router-link-active {
+  @apply w-full h-full;
+  @apply bg-gray-400;
 }

@@ -118,10 +118,18 @@ const router = useRouter();
       </div>
     </header>
     <div class="welcome-board">
-      <SokuImgSkeleton
+      <div class="title-icon">
+        <template v-if="!isLogin">
+          😊
+        </template>
+        <template v-else>
+          🍾
+        </template>
+      </div>
+      <!-- <SokuImgSkeleton
         class="title-icon"
         url="https://sdfsdf.dev/100x100.png,123123,321321"
-      />
+      /> -->
       <div class="title">
         <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
         <template v-else> 你好，{{ name }}! </template>
@@ -133,7 +141,7 @@ const router = useRouter();
         </template>
         <template v-else>
           <button @click="() => router.push('/game/lobby')" class="option">游戏大厅</button>
-          <button @click="() => router.push('/user/profile')" class="option">代码管理</button>
+          <button @click="() => router.push('/user/profile/bots')" class="option">代码管理</button>
         </template>
       </div>
     </div>
