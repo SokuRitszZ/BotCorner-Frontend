@@ -7,7 +7,6 @@ type PropsType = {
 };
 const props = defineProps<PropsType>();
 const dom = ref<HTMLDivElement>();
-
 </script>
 
 <template>
@@ -16,11 +15,11 @@ const dom = ref<HTMLDivElement>();
     class="--soku-skeleton"
     :class="[props.class, (props.isLoading && 'loading') || '']"
   >
-  <transition>
-    <div class="w-full h-full" v-show="!props.isLoading">
-      <slot></slot>
-    </div>
-  </transition>
+    <transition>
+      <div class="w-full h-full" v-show="!props.isLoading">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -29,7 +28,7 @@ const dom = ref<HTMLDivElement>();
 
 .v-enter-active,
 .v-leave-active {
-  transition: .5s;
+  transition: 0.5s;
 }
 .v-enter-from,
 .v-leave-to {
