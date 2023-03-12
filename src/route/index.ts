@@ -32,9 +32,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/RecordList/RecordList.vue'),
   },
   {
+    path: '/game/rating',
+    name: 'game-rating',
+    component: () => import('@/pages/GameRating/RatingView.vue'),
+  },
+  {
     path: '/bots',
     name: 'botsmanage',
-    component: () => import('@/pages/BotsManage.vue'),
+    component: () => import('@/pages/GameRating/RatingView.vue'),
   },
   {
     path: '/rating',

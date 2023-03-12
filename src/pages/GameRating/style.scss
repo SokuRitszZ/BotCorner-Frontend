@@ -1,0 +1,86 @@
+.game-rating {
+  @apply px-10;
+
+  .-container {
+    @apply w-full max-w-[1000px] h-fit;
+    @apply rounded-sm overflow-hidden;
+    @apply shadow-lg;
+    @apply mx-auto;
+    @apply bg-gray-100;
+    @apply px-8 py-10;
+
+    form {
+      .search {
+        @apply w-full h-[40px];
+        @apply rounded-lg;
+        @apply px-4;
+      }
+
+      .options {
+        @apply flex items-center gap-2;
+        @apply mt-3;
+        @apply text-xl font-thin;
+      }
+    }
+  }
+
+  .rating-list {
+    @apply mt-5;
+
+    .top-3 {
+      @apply flex items-end justify-around;
+
+      .medal {
+        @apply flex flex-col items-center;
+
+        .avatar {
+          aspect-ratio: 1 / 1;
+          @apply overflow-hidden;
+          @apply rounded-md;
+        }
+      }
+
+      .champion {
+        .avatar {
+          box-shadow: 0 0 100px gold;
+          @apply w-[200px] h-[200px];
+        }
+      }
+
+      .runner-up {
+        .avatar {
+          box-shadow: 0 0 50px silver;
+          @apply w-[150px] h-[150px];
+        }
+      }
+
+      .third-place {
+        .avatar {
+          box-shadow: 0 0 25px brown;
+          @apply w-[100px] h-[100px];
+        }
+      }
+    }
+
+    .list {
+      @apply mt-10;
+      @apply grid grid-cols-1 gap-2;
+      @apply lg:grid lg:grid-cols-2 lg:gap-2;
+
+      .user {
+        @apply bg-gray-200;
+        @apply p-3;
+        @apply flex items-center gap-3;
+
+        .rating {
+          @apply w-[60px];
+          @apply text-3xl;
+        }
+
+        .avatar {
+          @apply w-[75px] h-[75px];
+        }
+      }
+    }
+  }
+}
