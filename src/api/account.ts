@@ -1,26 +1,19 @@
 import api from './api';
 
-export function getTokenApi(username: string, password: string) {
-  return api.post('/account/token/', {
-    username,
-    password,
-  });
+export function getTokenApi(payload: { username: string; password: string }) {
+  return api.post('/account/token/', payload);
 }
 
 export function getInfoApi() {
   return api.get('/account/getInfo');
 }
 
-export function registerApi(
-  username: string,
-  password: string,
-  confirmed_password: string
-) {
-  return api.post('/account/register/', {
-    username,
-    password,
-    confirmed_password,
-  });
+export function registerApi(payload: {
+  username: string;
+  password: string;
+  confirmed_password: string;
+}) {
+  return api.post('/account/register/', payload);
 }
 
 export function updateAvatarApi(blob: Blob) {

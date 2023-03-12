@@ -51,15 +51,15 @@ const useUserStore = defineStore('UserStore', {
       localStorage.setItem('token', token);
       this.token = token;
     },
-    async register(
+    async register(payload: {
       username: string,
       password: string,
       confirmed_password: string
-    ) {
-      return registerApi(username, password, confirmed_password)
+    }) {
+      return registerApi(payload)
         .then(() => {
           window._alert('success', `注册成功，将自动登录`);
-          this.getTokenByApi(username, password);
+          return this.getTokenByApi(payload);
         })
         .catch((error) => {
           window._alert('danger', `注册失败：${error}`);
@@ -70,18 +70,18 @@ const useUserStore = defineStore('UserStore', {
      * @param username
      * @param password
      */
-    async getTokenByApi(username: string, password: string) {
+    async getTokenByApi(payload: {username: string, password: string}) {
       this.status = 'logging in';
 
       type InfoType = {
         token: string;
       };
 
-      return getTokenApi(username, password)
+      return getTokenApi(payload)
         .then((info: any) => {
           this.setToken((info as InfoType).token);
           localStorage.setItem('token', info.token);
-          this.getInfo();
+          return this.getInfo();
         })
         .catch((error) => {
           window._alert('danger', `登录失败：${error}`, 2000);
