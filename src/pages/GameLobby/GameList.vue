@@ -7,7 +7,7 @@ const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
 
 onMounted(async () => {
-  games.value = await cacheStore.getGames;
+  games.value = [...await cacheStore.getGames];
   startSliding();
 });
 
