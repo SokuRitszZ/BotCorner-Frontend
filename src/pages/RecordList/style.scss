@@ -1,0 +1,67 @@
+.game-record {
+  @apply px-10;
+
+  .-container {
+    @apply w-full max-w-[1000px] h-fit; 
+    @apply rounded-sm overflow-hidden;
+    @apply shadow-lg;
+    @apply mx-auto;
+    @apply bg-gray-100;
+    @apply px-10 py-4;
+
+    form {
+      .search,
+      .title {
+        @apply block;
+      }
+
+      .title {
+        @apply text-xl font-bold;
+      }
+
+      .search {
+        @apply w-full h-[40px];
+        @apply rounded-md;
+        @apply px-3;
+      }
+
+      .options-for-game {
+        @apply flex gap-3;
+
+        .option {
+          @apply flex items-center gap-1;
+        }
+      }
+    }
+  }
+
+  .record-grid {
+    @apply grid grid-cols-1 gap-3;
+    @apply lg:grid lg:grid-cols-2 lg:gap-3;
+    @apply xl:grid xl:grid-cols-3 xl:gap-3;
+
+    .--soku-skeleton {
+      @apply w-full h-[200px];
+      @apply overflow-hidden;
+      @apply rounded-md;
+      @apply cursor-pointer hover:shadow-md;
+      
+      .record-card {
+        @apply w-full h-full;
+        @apply bg-gray-100;
+
+        .avatars {
+          @apply flex items-center justify-around;
+          .avatar {
+            @apply w-[75px] h-[75px];
+            @apply rounded-full;
+          }
+        }
+        .time {
+          @apply w-fit;
+          @apply mx-auto mt-4;
+        }
+      }
+    } 
+  }
+}
