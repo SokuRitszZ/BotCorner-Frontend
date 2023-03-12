@@ -1,0 +1,25 @@
+.--soku-modal-mask {
+  @apply transition;
+  @apply fixed top-0 left-0;
+  @apply w-screen h-screen;
+  @apply z-50;
+  background-color: rgba(0, 0, 0, .5);
+  
+  .modal {
+    @apply h-fit;
+    @apply mt-10 mx-auto;
+    @apply bg-white;
+    @apply rounded-md;
+    @apply overflow-hidden;
+
+    .title {
+      @apply text-xl font-thin;
+      @apply pl-5 py-1;
+      @apply bg-gray-100;
+    }
+
+    .main-container {
+      @apply py-3;
+    }
+  }
+}
