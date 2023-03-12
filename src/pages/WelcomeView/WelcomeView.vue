@@ -7,6 +7,7 @@ import useTitle from '@/utils/useTitle';
 import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 useTitle('首页 --BotCorner博弈小站');
 
@@ -70,6 +71,8 @@ async function submitLogin(e: Event) {
     isLoging.value = false;
   }
 }
+
+const router = useRouter();
 </script>
 
 <template>
@@ -129,8 +132,8 @@ async function submitLogin(e: Event) {
           <button @click="toLogin" class="option">现在登录</button>
         </template>
         <template v-else>
-          <button class="option">游戏大厅</button>
-          <button class="option">代码管理</button>
+          <button @click="() => router.push('/game/lobby')" class="option">游戏大厅</button>
+          <button @click="() => router.push('/user/profile')" class="option">代码管理</button>
         </template>
       </div>
     </div>

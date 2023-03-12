@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { getRatingsApi } from '@/api/ratings';
+import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
+import useUserStore from '@/store/userStore';
 import useTitle from '@/utils/useTitle';
-import { faker } from '@faker-js/faker';
+import { onMounted } from 'vue';
 
 useTitle('个人主页 --BotCorner博弈小站');
 
@@ -13,28 +16,34 @@ const itemNav: INav[] = [
   {title: '发表看法', url: '#'}, 
   {title: '获得奖项', url: '#'}, 
 ];
+
+const userStore = useUserStore();
+
+onMounted(() => {
+  getRatingsApi
+});
 </script>
 
 <template>
   <div class="user-profile w-full h-full">
     <div class="-container">
       <header class="header">
-        <img
+        <SokuImgSkeleton
           class="background"
-          src="https://sdfsdf.dev/100x100.png"
+          :url="userStore.avatar"
           alt="background-img"
         />
       </header>
       <div class="profiles">
         <div class="profiles-container">
-          <img
+          <SokuImgSkeleton
             class="avatar"
-            src="https://sdfsdf.dev/100x100.png"
+            :url="userStore.avatar"
             alt="avatar"
           />
           <div class="sign">
-            <div class="name">{{ faker.name.fullName() }}</div>
-            <div class="signature">{{ faker.lorem.sentence() }}</div>
+            <div class="name">{{ userStore.username }}</div>
+            <div class="signature">{{ '这个人很懒，什么都没留下。' }}</div>
           </div>
         </div>
       </div>
