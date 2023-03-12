@@ -15,6 +15,23 @@ const routes: RouteRecordRaw[] = [
     path: '/user/profile',
     name: 'profile',
     component: () => import('@/pages/UserProfileView/UserProfileView.vue'),
+    children: [
+      {
+        path: 'bots',
+        name: 'profile-bots',
+        component: () => import('@/pages/UserProfileView/BotList/BotList.vue'),
+      },
+      {
+        path: 'comments',
+        name: 'profile-comments',
+        component: () => import('@/pages/ForwardPreview.vue'),
+      },
+      {
+        path: 'prize',
+        name: 'profile-prize',
+        component: () => import('@/pages/ForwardPreview.vue'),
+      },
+    ]
   },
   {
     path: '/user/profile/edit',
