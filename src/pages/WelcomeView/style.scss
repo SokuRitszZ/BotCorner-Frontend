@@ -51,6 +51,10 @@
     @apply shadow-2xl;
     @apply mt-4 p-9 mx-auto;
 
+    .title-icon {
+      @apply w-[100px] h-[100px];
+    }
+
     * {
       @apply m-auto;
     }

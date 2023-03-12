@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useUserStore from '@/store/userStore';
 import useTitle from '@/utils/useTitle';
@@ -33,7 +34,7 @@ onMounted(() => {
       </div>
     </header>
     <div class="welcome-board">
-      <img src="https://sdfsdf.dev/100x100.png,123123,321321" alt="" />
+      <SokuImgSkeleton class="title-icon" url="https://sdfsdf.dev/100x100.png,123123,321321"/>
       <div class="title">
         <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
         <template v-else> 你好，{{ name }} </template>
