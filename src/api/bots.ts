@@ -19,7 +19,7 @@ export function addBotApi(bot: {
   title: string;
   langId: number;
   gameId: number;
-  description: string;
+  description?: string;
   code: string;
 }) {
   return api.post('/bot/add', {
