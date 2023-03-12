@@ -1,0 +1,8 @@
+.option {
+  @apply px-1 mx-1;
+  @apply rounded-md;
+}
+
+.active {
+  @apply bg-gray-300;
+}

@@ -5,6 +5,7 @@ import useCacheStore, { IGame } from '@/store/cacheStore';
 import useTitle from '@/utils/useTitle';
 import { onMounted, ref } from 'vue';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
+import SokuPager from '@/components/SokuComponent/SokuPager/SokuPager.vue';
 
 const cacheStore = useCacheStore();
 const games = ref<IGame[]>([]);
@@ -21,6 +22,8 @@ onMounted(() => {
     testLoading.value = false;
   }, 2000);
 });
+
+const pageCur = ref<number>(0);
 </script>
 
 <template>
@@ -37,27 +40,37 @@ onMounted(() => {
         </div>
       </form>
     </div>
-    <main class="-container record-grid mt-5">
-      <SokuSkeleton :is-loading="testLoading">
-        <div class="record-card">
-          <h1 class="font-bold text-3xl text-center pt-4">盘蛇</h1>
-          <div class="avatars">
-            <SokuImgSkeleton class="avatar" url="https://sdfsdf.dev/100x100.png" />
-            <SokuImgSkeleton class="avatar" url="https://sdfsdf.dev/100x100.png" alt="" />
+    <main class="-container mt-5">
+      <SokuPager v-model="pageCur" class="mx-auto mb-5" :max="20" />
+      <div class="record-grid">
+        <SokuSkeleton :is-loading="testLoading">
+          <div class="record-card">
+            <h1 class="font-bold text-3xl text-center pt-4">盘蛇</h1>
+            <div class="avatars">
+              <SokuImgSkeleton
+                class="avatar"
+                url="https://sdfsdf.dev/100x100.png"
+              />
+              <SokuImgSkeleton
+                class="avatar"
+                url="https://sdfsdf.dev/100x100.png"
+                alt=""
+              />
+            </div>
+            <div class="time">
+              {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
+            </div>
           </div>
-          <div class="time">
-            {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
-          </div>
-        </div>
-      </SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
-      <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        </SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+        <SokuSkeleton :is-loading="true"></SokuSkeleton>
+      </div>
     </main>
   </div>
 </template>
