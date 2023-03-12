@@ -17,7 +17,9 @@ const dom = ref<HTMLDivElement>();
     :class="[props.class, (props.isLoading && 'loading') || '']"
   >
   <transition>
-    <slot v-if="!props.isLoading"></slot>
+    <div v-show="!props.isLoading">
+      <slot></slot>
+    </div>
   </transition>
   </div>
 </template>
