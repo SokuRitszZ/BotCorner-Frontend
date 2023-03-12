@@ -1,10 +1,10 @@
 import api from './api';
 
-export function getRatingsApi(gameId: number) {
+export function getRatingsApi(payload: { gameId: number, count: number}) {
   return api({
     method: 'GET',
-    url: '/rating/top10',
-    params: { gameId },
+    url: '/rating/top',
+    params: payload,
   });
 }
 

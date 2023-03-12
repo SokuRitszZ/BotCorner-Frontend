@@ -130,22 +130,26 @@ const useCacheStore = defineStore('CacheStore', {
       };
     },
     getRatings() {
-      return (gameId: number) => {
-        const promiseMap = this.promises['ratings'] as IPromiseMap;
-        if (!this.ratings[gameId] && !promiseMap[gameId]) {
-          return (promiseMap[gameId] = getRatingsApi(gameId)
-            .then((info) => (info as any).ratings)
-            .then((ratings) => {
-              this.ratings[gameId] = [];
-              this.ratings[gameId].push(...ratings);
-              return this.ratings[gameId];
-            })).catch((error) => {
-            promiseMap[gameId] = null;
-            window._alert('danger', `获取排名失败：${error}`);
-          });
-        } else {
-          return promiseMap[gameId] as Promise<IRating[]>;
-        }
+      return async (gameId: number) => {
+        return (await getRatingsApi({
+          gameId,
+          count: 17,
+        }) as any).ratings;
+        // const promiseMap = this.promises['ratings'] as IPromiseMap;
+        // if (!this.ratings[gameId] && !promiseMap[gameId]) {
+        //   return (promiseMap[gameId] = getRatingsApi(gameId)
+        //     .then((info) => (info as any).ratings)
+        //     .then((ratings) => {
+        //       this.ratings[gameId] = [];
+        //       this.ratings[gameId].push(...ratings);
+        //       return this.ratings[gameId];
+        //     })).catch((error) => {
+        //     promiseMap[gameId] = null;
+        //     window._alert('danger', `获取排名失败：${error}`);
+        //   });
+        // } else {
+        //   return promiseMap[gameId] as Promise<IRating[]>;
+        // }
       };
     },
     getLang() {
