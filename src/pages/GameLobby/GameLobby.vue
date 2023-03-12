@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import GameList from "./GameList.vue";
-import GamePlaying from "./GamePlaying.vue";
-import GameRecent from "./GameRecent.vue";
+import useTitle from '@/utils/useTitle';
+import GameList from './GameList.vue';
+import GamePlaying from './GamePlaying.vue';
+import GameRecent from './GameRecent.vue';
 
+useTitle('游戏大厅 --BotCorner博弈小站');
 </script>
 
 <template>
