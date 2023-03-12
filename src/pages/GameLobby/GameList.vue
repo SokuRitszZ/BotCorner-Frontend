@@ -40,6 +40,7 @@ function startSliding() {
       act();
     }, 10000);
   };
+  next();
   act();
 }
 
