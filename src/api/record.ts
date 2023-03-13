@@ -23,3 +23,11 @@ export function getRecordJsonApi(id: number) {
     params: { id },
   });
 }
+
+export function getRecentRecordsApi() {
+  return api.get('/record/top');
+}
+
+export function getCurrentApi() {
+  return api.get('/record/current');
+}
