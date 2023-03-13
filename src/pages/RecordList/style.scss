@@ -2,7 +2,7 @@
   @apply px-10;
 
   .-container {
-    @apply w-full max-w-[1000px] h-fit; 
+    @apply w-full max-w-[1000px] h-fit;
     @apply rounded-sm overflow-hidden;
     @apply shadow-lg;
     @apply mx-auto;
@@ -45,16 +45,22 @@
       @apply overflow-hidden;
       @apply rounded-md;
       @apply cursor-pointer hover:shadow-md;
-      
+
       .record-card {
         @apply w-full h-full;
         @apply bg-gray-200;
 
         .avatars {
-          @apply flex items-center justify-around;
+          @apply flex items-center justify-between;
+          @apply w-[200px];
+          @apply bg-gray-300;
+          @apply mx-auto p-1;
+          @apply rounded-full;
+
           .avatar {
-            @apply w-[75px] h-[75px];
+            @apply w-[40px] h-[40px];
             @apply rounded-full;
+            @apply overflow-hidden;
           }
         }
         .time {
@@ -62,6 +68,6 @@
           @apply mx-auto mt-4;
         }
       }
-    } 
+    }
   }
 }

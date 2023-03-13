@@ -79,11 +79,16 @@
             @apply w-full h-full;
             @apply bg-gray-300;
             .avatars {
-              @apply flex justify-around items-center;
+              @apply flex justify-between items-center;
+              @apply bg-gray-400;
+              @apply w-[200px];
+              @apply p-1 mx-auto;
+              @apply rounded-full;
 
               .avatar {
-                @apply w-[75px] h-[75px];
+                @apply w-[40px] h-[40px];
                 @apply rounded-full;
+                @apply overflow-hidden;
               }
             }
           }
