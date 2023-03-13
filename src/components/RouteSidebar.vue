@@ -37,7 +37,7 @@ const optionsInSidebar = computed(() => [
   <SokuSidebar>
     <template v-slot:header>
       <div class="w-full h-full flex justify-center items-center">
-        <img src="https://sdfsdf.dev/100x100.png" alt="" />
+        <img src="http://localhost:3000/100x100.png" alt="" />
       </div>
     </template>
     <template v-slot:main>

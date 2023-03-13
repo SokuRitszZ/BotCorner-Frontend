@@ -72,7 +72,7 @@ onUnmounted(() => {
             <button class="item">
               <img
                 class="rounded-sm"
-                src="https://sdfsdf.dev/100x100.png"
+                src="http://localhost:3000/100x100.png"
                 alt=""
               />
               <span class="text-xl mt-1">
