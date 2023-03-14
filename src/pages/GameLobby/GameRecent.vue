@@ -37,7 +37,7 @@ onMounted(async () => {
     <main class="game-grid">
       <SokuSkeleton v-for="record in records" :key="record.id" class="skeleton" :is-loading="false">
         <button class="card">
-          <h1 class="font-bold text-3xl text-center">{{ cacheStore.getGame(record.gameId) }}</h1>
+          <h1 class="font-bold text-3xl text-center">{{ cacheStore.getGame(record.gameId).name }}</h1>
           <div class="avatars">
             <SokuImgSkeleton class="avatar" :url="record.users[0].avatar" alt="avatar" />
             {{ record.result }}

@@ -73,7 +73,7 @@ function toModifyBot(bot: IBot) {
         {{ bot.title }}
       </h1>
       <div class="game-and-lang">
-        <div class="game">{{ cacheStore.getGame(bot.gameId) }}</div>
+        <div class="game">{{ cacheStore.getGame(bot.gameId).title }}</div>
         <div class="lang">{{ cacheStore.getLang(bot.langId) }}</div>
       </div>
       <div class="time">
