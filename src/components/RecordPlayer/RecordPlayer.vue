@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import useGameStore from '@/store/gameStore';
-import GameWebSocket from '@/utils/GameWebSocket';
 import RecordPlayer, { IRecord } from '@/utils/RecordPlayer';
 import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
-import Icon from './BootstrapIcon.vue';
-import Progress from './SokuComponent/SokuProgress.vue';
-import { IEntry } from './SokuComponent/SokuSelect.vue';
-import Select from './SokuComponent/SokuSelect.vue';
+import Icon from '../BootstrapIcon.vue';
+import Progress from '../SokuComponent/SokuProgress/SokuProgress.vue';
+import { IEntry } from '../SokuComponent/SokuSelect.vue';
 import repeat from '@/utils/repeat';
-
-type PropsType = {
-  promise_server: Promise<GameWebSocket>;
-};
-const props = defineProps<PropsType>();
+import useMatchStore from '@/store/matchStore';
 
 const recordPlayer = ref<RecordPlayer>();
 const record_max = ref<number>(1);
@@ -30,10 +24,10 @@ defineExpose({
 });
 
 const gameStore = useGameStore();
-const server = ref<GameWebSocket>();
+const matchStore = useMatchStore();
 
-onMounted(async () => {
-  server.value = await props.promise_server;
+async function prepare() {
+  const server = matchStore.server!;
 
   recordPlayer.value = new RecordPlayer(
     (initData: any): void => {
@@ -41,20 +35,14 @@ onMounted(async () => {
         mode: 'record',
         initData,
       };
-      server.value!.emit({
-        action: 'play record',
-        data,
-      });
+      server.emit('play record', data);
     },
     gameStore.game!.next,
     (cur) => gameStore.game!.upend(cur) /// !!!
   )
     .on('next', (curV: number, step: string) => {
-      server.value!.emit({
-        action: 'set step truly',
-        data: {
-          step,
-        },
+      server.emit('set step truly', {
+        step,
       });
     })
     .on('load', (data: any) => {
@@ -66,10 +54,7 @@ onMounted(async () => {
     })
     .on('upend', (curV: number, stepCnt: number) => {
       record_current.value = stepCnt;
-      server.value?.emit({
-        action: 'upend',
-        data: undefined,
-      });
+      server.emit('upend');
     })
     .on('pause', () => {
       status.value = 'pausing';
@@ -80,6 +65,18 @@ onMounted(async () => {
     .on('stop', () => {
       status.value = 'ready';
     });
+}
+
+onMounted(() => {
+  const record = gameStore.record!;
+
+  gameStore.on('prepare', () => {
+    prepare();
+  });
+
+  gameStore.on('start', () => {
+    playRecord(record);
+  });
 });
 
 onUnmounted(async () => {
@@ -157,20 +154,17 @@ function handleMouseup() {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="record-player">
     <Progress
       @change="change"
       @mousedown="handleMousedown"
       @mouseup="handleMouseup"
-      class="mt-3 bg-purple-500 text-purple-300"
+      class="mt-2"
       v-model="record_current"
-      :width="250"
       :max="record_max"
+      :width="400"
     />
-    <div
-      id="controllers"
-      class="select-none w-fit px-4 py-2 bg-purple-400 m-auto mt-3 rounded-full flex justify-center items-center gap-3"
-    >
+    <div class="controllers">
       <Icon @click="_upend" class="icon" type="skip-rev" :size="28" />
       <Icon
         @click="_continue"
@@ -181,17 +175,22 @@ function handleMouseup() {
       />
       <Icon @click="_pause" v-else class="icon" type="pause" :size="28" />
       <Icon @click="_next" class="icon" type="skip" :size="28" />
-      <Select
+      <select
         v-model="speed"
         class="rounded-xl w-full p-2 py-1 h-7"
         :list="speedList"
-      />
+      >
+        <option v-for="kv in speedList" :value="kv.value" :key="kv.key">
+          {{ kv.key }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+@import url('./style.scss');
 .icon {
-  @apply hover:text-purple-800 active:text-purple-900;
+  @apply hover:text-gray-800 active:text-gray-900;
 }
 </style>

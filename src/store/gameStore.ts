@@ -1,5 +1,6 @@
 import Game from '@/script/game/Game';
 import { GameBuilder } from '@/script/game/GameBuilder';
+import { IRecord } from '@/utils/RecordPlayer';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -34,7 +35,10 @@ const useGameStore = defineStore('GameStore', () => {
     events.value[tag] = fns;
   }
 
+  const record = ref<IRecord>();
+
   return {
+    record,
     game,
     createGame,
     clearEvents,

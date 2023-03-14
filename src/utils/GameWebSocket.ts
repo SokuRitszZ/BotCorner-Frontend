@@ -64,8 +64,9 @@ class GameWebSocket {
   }
 
   public sendMessage(action: string, payload: any) {
+    if (!this.server) return;
     try {
-      this.server!.send(
+      this.server.send(
         JSON.stringify({
           action,
           data: payload,
@@ -77,8 +78,9 @@ class GameWebSocket {
   }
 
   public close() {
+    if (!this.server) return;
     try {
-      this.server!.close();
+      this.server.close();
     } catch (e) {
       window._alert('danger', '预期外的错误，请报Bug：1103');
     }

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import RecordPlayer from '@/components/RecordPlayer/RecordPlayer.vue';
 import useBindEvent from '@/hooks/useBindEvent';
 import useGameStore from '@/store/gameStore';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import GameScreen from '../GameScreen/GameScreen.vue';
 
 useBindEvent('tell result', (data: any) => {
@@ -14,11 +15,25 @@ const gameStore = useGameStore();
 onMounted(() => {
   gameStore.game = null;
 });
+
+const isRecordMode = ref(false);
+
+onMounted(() => {
+  if (gameStore.record) {
+    isRecordMode.value = true;
+  }
+});
+
+onUnmounted(() => {
+  gameStore.record = undefined;
+});
+
 </script>
 
 <template>
   <div class="game-base-page">
     <GameScreen />
+    <RecordPlayer v-if="isRecordMode" />
     <div class="w-full">
       <router-view />
     </div>

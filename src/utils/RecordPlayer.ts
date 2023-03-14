@@ -109,10 +109,10 @@ class RecordPlayer {
   public play() {
     if (!this.record) return;
     const act = () => {
-      this.next();
       this.timer = setTimeout(() => {
         act();
       }, Math.floor(1000 / this.speed));
+      this.next();
     };
     this._init(this.record.initData);
     this.timer = setTimeout(() => {
@@ -131,7 +131,7 @@ class RecordPlayer {
     const step = this._next(this.cur, this.record);
     ++this.step;
     this.emit('next', this.cur.v, step, this.step);
-    if (this.cur.v >= this.record.steps.length) this.stop();
+    if (this.cur.v >= this.record.steps.length) this.pause();
     return this;
   }
 

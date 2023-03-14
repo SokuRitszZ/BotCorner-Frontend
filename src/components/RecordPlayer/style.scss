@@ -1,0 +1,13 @@
+.record-player {
+  @apply w-full;
+  
+  .controllers {
+    @apply select-none;
+    @apply w-fit;
+    @apply px-4 py-2 m-auto mt-3;
+    @apply rounded-full;
+    @apply flex justify-center items-center gap-3;
+
+    @apply bg-gray-400;
+  }
+}

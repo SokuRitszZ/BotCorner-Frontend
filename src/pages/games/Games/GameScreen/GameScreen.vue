@@ -3,7 +3,7 @@ import useBindEvent from '@/hooks/useBindEvent';
 import useCacheStore from '@/store/cacheStore';
 import useGameStore from '@/store/gameStore';
 import useMatchStore from '@/store/matchStore';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const domParent = ref<HTMLDivElement>();
@@ -47,6 +47,16 @@ useBindEvent('allow to control', () => {
 
 useBindEvent('start game', () => {
   window._alert('warning', '游戏开始');
+});
+
+onMounted(async () => {
+  const record = gameStore.record;
+  if (record) {
+    prepare({
+      mode: 'record',
+      initData: record.initData,
+    });
+  }
 });
 </script>
 

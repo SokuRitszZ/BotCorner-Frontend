@@ -93,40 +93,24 @@ const edit = () => {
   $input.value.value = _positionCurrent.value.toString();
   $input.value!.focus();
 };
-
-const okEdit = () => {
-  shouldEdit.value = false;
-  if (!$input.value) return;
-  const value = Number($input.value.value);
-  if (isNaN(value)) return;
-  _positionCurrent.value = Math.min(value, props.max);
-  emit('change', _positionCurrent.value, oldV.value);
-};
 </script>
 
 <template>
   <div
     :class="props.class"
-    class="select-none w-fit m-auto rounded-full relative flex justify-between items-center px-2 gap-1"
+    class="--soku-progress"
   >
     <div @click="edit" class="w-fit flex">
       {{ strPositionCurrent }}
     </div>
-    <input
-      v-if="shouldEdit"
-      @keyup.enter="okEdit"
-      @blur="okEdit"
-      ref="$input"
-      class="w-24 bg-purple-400 rounded-sm px-3 text-sm absolute left-0 top-full translate-y-1"
-    />
     <div ref="$progress" class="w-fit flex items-center mx-3">
-      <div ref="$line" class="bg-purple-900 h-1 rounded-full" />
+      <div ref="$line" class="line h-1 rounded-full" />
       <div
         @mousedown="handleMousedown"
         @mouseup="handleMouseup"
         id="button"
         ref="$button"
-        class="cursor-pointer w-[14px] h-[14px] bg-purple-700 rounded-full absolute"
+        class="button cursor-pointer w-[14px] h-[14px] rounded-full absolute"
       />
     </div>
     <div class="w-fit flex">
@@ -136,6 +120,7 @@ const okEdit = () => {
 </template>
 
 <style scoped lang="scss">
+@import url('./style.scss');
 #button {
   --moved: 0px;
   transform: translateX(calc(var(--moved) - 7px));
