@@ -80,7 +80,7 @@ watch(pageCur, (newV) => {
       <div v-if="records.length > 0" class="record-grid">
         <SokuSkeleton v-for="record in records" :key="record.id" :is-loading="false">
           <button class="record-card">
-            <h1 class="font-bold text-3xl text-center">{{ cacheStore.getGame(record.gameId) }}</h1>
+            <h1 class="font-bold text-3xl text-center">{{ cacheStore.getGame(record.gameId).name }}</h1>
             <div class="avatars">
               <SokuImgSkeleton
                 class="avatar"

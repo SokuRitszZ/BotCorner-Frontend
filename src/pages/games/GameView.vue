@@ -80,7 +80,7 @@ onMounted(async () => {
     .on({
       action: 'make match',
       callback: (data: any) => {
-        gameStore.users = data.userData;
+        // gameStore.users = data.userData;
       },
     })
     .on({
