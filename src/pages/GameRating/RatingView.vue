@@ -16,19 +16,28 @@ const ratings = ref<IRating[]>([]);
 const gameCur = ref();
 
 watch(gameCur, async (newV) => {
-  ratings.value = (await cacheStore.getRatings(newV));
+  ratings.value = await cacheStore.getRatings(newV);
 });
-
 </script>
 
 <template>
-   <div class="game-rating w-full h-full">
+  <div class="game-rating w-full h-full">
     <div class="-container">
       <form>
-        <input class="search" type="text" placeholder="搜寻用户（id / 模糊名字）">
+        <input
+          class="search"
+          type="text"
+          placeholder="搜寻用户（id / 模糊名字）"
+        />
         <div class="options">
           <div v-for="game in games" :key="game.id">
-            <input v-model="gameCur" :id="game.title" :value="game.id" name="game" type="radio">
+            <input
+              v-model="gameCur"
+              :id="game.title"
+              :value="game.id"
+              name="game"
+              type="radio"
+            />
             <label :for="game.title">{{ game.name }}</label>
           </div>
         </div>
@@ -52,9 +61,9 @@ watch(gameCur, async (newV) => {
           <span class="text-4xl">{{ ratings[2].score }}</span>
         </div>
       </div>
-      <div class="list">
+      <div class="list relative">
         <div class="user" v-for="(r, idx) in ratings.slice(3)" :key="r.id">
-          <span class="rating">#{{ leftpad(2, idx+4) }}</span>
+          <span class="rating">#{{ leftpad(2, idx + 4) }}</span>
           <SokuImgSkeleton class="avatar" :url="r.avatar" />
           <div class="name-and-rating">
             <div class="name">{{ r.username }}</div>
@@ -64,13 +73,11 @@ watch(gameCur, async (newV) => {
       </div>
     </div>
     <div v-else class="-container">
-      <h1 class="text-7xl font-thin text-center">
-        请选择游戏
-      </h1>
+      <h1 class="text-7xl font-thin text-center">请选择游戏</h1>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import url("./style.scss");
+@import url('./style.scss');
 </style>
