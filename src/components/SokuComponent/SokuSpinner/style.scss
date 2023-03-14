@@ -1,0 +1,16 @@
+.--soku-spinner {
+  animation: 3s infinite spinner;
+  @apply h-1;
+}
+
+@keyframes spinner {
+  from {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

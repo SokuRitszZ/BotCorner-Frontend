@@ -1,0 +1,21 @@
+.matching-view {
+  @apply w-full h-full;
+  @apply flex flex-col items-center;
+
+  .avatar {
+    @apply w-[100px] h-[100px];
+    @apply mt-10;
+    @apply rounded-full;
+    @apply overflow-hidden;
+  }
+
+  .username {
+    @apply text-3xl;
+  }
+
+  .btn {
+    @apply w-full;
+    @apply bg-gray-300 hover:bg-gray-400 active:bg-gray-500;
+    @apply rounded-md;
+  }
+}

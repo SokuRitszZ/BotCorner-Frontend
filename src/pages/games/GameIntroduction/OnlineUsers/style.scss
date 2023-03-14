@@ -1,0 +1,22 @@
+.online-users {
+  @apply h-[400px];
+  @apply bg-gray-100;
+  @apply rounded-md;
+  @apply shadow-lg;
+  @apply overflow-scroll;
+  @apply p-3;
+
+  .title {
+    @apply text-xl;
+  }
+
+  .users-container {
+    @apply flex gap-2 flex-wrap;
+    .avatar {
+      @apply w-[100px] h-[100px];
+      @apply rounded-md;
+      @apply overflow-hidden;
+      @apply shadow-md;
+    }
+  }
+}

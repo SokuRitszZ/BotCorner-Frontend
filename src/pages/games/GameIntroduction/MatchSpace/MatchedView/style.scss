@@ -1,0 +1,26 @@
+.matched-view {
+  .user {
+    @apply flex items-center gap-2;
+    @apply mt-3 p-2;
+    @apply bg-gray-300;
+    @apply rounded-lg;
+    @apply w-full;
+
+    &.active {
+      @apply bg-green-400;
+    }
+
+    .avatar {
+      @apply w-[50px] h-[50px];
+      @apply rounded-full;
+      @apply overflow-hidden;
+    }
+  }
+
+  .btn {
+    @apply w-full;
+    @apply bg-gray-300 hover:bg-gray-400;
+    @apply rounded-md;
+    @apply mt-4;
+  }
+}

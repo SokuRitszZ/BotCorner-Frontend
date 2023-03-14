@@ -1,0 +1,45 @@
+.game-intro {
+  @apply px-10;
+  .-container {
+    @apply w-full max-w-[1000px] h-fit;
+    @apply mx-auto pb-5;
+    @apply shadow-md;
+
+    .background {
+      @apply w-full h-[200px];
+      @apply px-8 pb-6;
+      @apply flex flex-col justify-end;
+      @apply bg-gradient-to-t from-gray-400 to-white;
+    }
+
+    .show-board {
+      @apply px-8 pt-10;
+      .title {
+        @apply text-4xl font-bold;
+      }
+      main {
+        @apply text-xl font-thin;
+        @apply pl-3 pt-2 pb-7;
+
+        a {
+          @apply bg-gray-200;
+        }
+      }
+    }
+
+    .online-state {
+      @apply flex flex-col lg:flex-row gap-2;
+
+      .match-space {
+        @apply w-full h-[400px] lg:w-[300px];
+        @apply rounded-md;
+      }
+
+      .online-user {
+        @apply h-[400px];
+        @apply flex-grow;
+        @apply rounded-md;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.match-space {
+  @apply w-full h-[400px] lg:w-[300px];
+  @apply flex-shrink-0;
+  @apply shadow-lg;
+  @apply rounded-md;
+  @apply bg-gray-100;
+  @apply px-4 pt-2;
+}
