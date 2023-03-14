@@ -7,6 +7,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuPager from '@/components/SokuComponent/SokuPager/SokuPager.vue';
 import { getRecordCountApi, getRecordListApi } from '@/api/record';
+import RecordCard from '../RecordCard/RecordCard.vue';
 
 type IRecord = {
   id: number;
@@ -78,25 +79,7 @@ watch(pageCur, (newV) => {
     <main class="-container mt-5">
       <SokuPager v-model="pageCur" class="mx-auto mb-5" :max="countPage" />
       <div v-if="records.length > 0" class="record-grid">
-        <SokuSkeleton v-for="record in records" :key="record.id" :is-loading="false">
-          <button class="record-card">
-            <h1 class="font-bold text-3xl text-center">{{ cacheStore.getGame(record.gameId).name }}</h1>
-            <div class="avatars">
-              <SokuImgSkeleton
-                class="avatar"
-                :url="record.users[0].avatar"
-              />
-              {{ record.result }}
-              <SokuImgSkeleton
-                class="avatar"
-                :url="record.users[1].avatar"
-              />
-            </div>
-            <div class="time">
-              {{ dayjs(record.time).format('YYYY-MM-DD hh:mm:ss') }}
-            </div>
-          </button>
-        </SokuSkeleton>
+        <RecordCard v-for="record in records" :key="record.id" :record="record"  />
       </div>
       <div v-else class="text-7xl text-center font-thin">
         请选择游戏

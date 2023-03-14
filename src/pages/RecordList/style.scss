@@ -39,35 +39,5 @@
     @apply grid grid-cols-1 gap-3;
     @apply lg:grid lg:grid-cols-2 lg:gap-3;
     @apply xl:grid xl:grid-cols-3 xl:gap-3;
-
-    .--soku-skeleton {
-      @apply w-full h-[200px];
-      @apply overflow-hidden;
-      @apply rounded-md;
-      @apply cursor-pointer hover:shadow-md;
-
-      .record-card {
-        @apply w-full h-full;
-        @apply bg-gray-200;
-
-        .avatars {
-          @apply flex items-center justify-between;
-          @apply w-[200px];
-          @apply bg-gray-300;
-          @apply mx-auto p-1;
-          @apply rounded-full;
-
-          .avatar {
-            @apply w-[40px] h-[40px];
-            @apply rounded-full;
-            @apply overflow-hidden;
-          }
-        }
-        .time {
-          @apply w-fit;
-          @apply mx-auto mt-4;
-        }
-      }
-    }
   }
 }
