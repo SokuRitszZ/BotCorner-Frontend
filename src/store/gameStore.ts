@@ -1,57 +1,45 @@
 import Game from '@/script/game/Game';
 import { GameBuilder } from '@/script/game/GameBuilder';
 import { defineStore } from 'pinia';
-import { IUser } from './userStore';
+import { ref } from 'vue';
 
-type IGameStore = {
-  game: Game | null;
-  events: { tag: string; callback: (data: any) => void }[];
-  users: IUser[];
-};
+const useGameStore = defineStore('GameStore', () => {
+  const game = ref<Game | null>(null);
+  const events = ref<{
+    [key: string]: Function[];
+  }>({});
 
-const initState: IGameStore = {
-  game: null,
-  events: [],
-  users: [
-    {
-      id: 0,
-      username: 'unknown',
-      avatar: 'https://sdfsdf.dev/100x100.png',
-    },
-    {
-      id: 0,
-      username: 'unknown',
-      avatar: 'https://sdfsdf.dev/100x100.png',
-    },
-  ],
-};
+  function createGame(
+    nameGame: string,
+    domParent: HTMLDivElement,
+    domCanvas: HTMLCanvasElement
+  ) {
+    game.value = GameBuilder(nameGame)(domParent, domCanvas);
+    Object.keys(events.value).forEach((k) => {
+      const fns = events.value[k];
+      fns.forEach((fn) => game.value!.on(k, fn));
+    });
+  }
 
-const useGameStore = defineStore('GameStore', {
-  state: (): IGameStore => ({ ...initState }),
-  actions: {
-    createGame(
-      game: string,
-      $parent: HTMLDivElement,
-      $canvas: HTMLCanvasElement
-    ) {
-      this.game = GameBuilder(game)($parent, $canvas);
-      this.events.forEach((event) => {
-        if (!this.game) return;
-        this.game.on(event.tag, event.callback);
-      });
-      return this;
-    },
-    clearEmit() {
-      this.events = [];
-    },
-    on(tag: string, callback: (data: any) => void) {
-      this.events.push({ tag, callback });
-      if (this.game !== null) {
-        this.game.on(tag, callback);
-      }
-      return this;
-    },
-  },
+  function clearEvents() {
+    events.value = {};
+  }
+
+  function on(tag: string, fn: Function) {
+    if (game.value) {
+      game.value.on(tag, fn);
+    }
+    const fns = events.value[tag] || [];
+    fns.push(fn);
+    events.value[tag] = fns;
+  }
+
+  return {
+    game,
+    createGame,
+    clearEvents,
+    on,
+  };
 });
 
 export default useGameStore;

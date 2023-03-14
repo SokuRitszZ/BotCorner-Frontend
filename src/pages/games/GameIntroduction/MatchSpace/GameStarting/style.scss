@@ -1,3 +1,11 @@
 .game-starting {
   @apply w-full h-full;
+  @apply pb-10;
+  @apply flex flex-col justify-center items-center gap-5;
+
+  .spinner {
+    @apply w-full h-[10px];
+    @apply bg-black;
+    @apply shadow-xl;
+  }
 }

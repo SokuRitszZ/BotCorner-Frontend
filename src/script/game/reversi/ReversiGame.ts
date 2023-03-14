@@ -79,7 +79,7 @@ class ReversiGame extends Game {
       .map(() => new Array<number>(this.cols).fill(0))
       .map((x) => {
         return x.map(() => {
-          return parseInt(mask[k++]);
+          return +mask[k++];
         });
       });
 

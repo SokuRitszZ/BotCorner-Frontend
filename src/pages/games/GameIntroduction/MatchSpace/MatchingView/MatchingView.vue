@@ -1,20 +1,40 @@
 <script setup lang="ts">
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuSpinner from '@/components/SokuComponent/SokuSpinner/SokuSpinner.vue';
+import useBindEvent from '@/hooks/useBindEvent';
 import useMatchStore from '@/store/matchStore';
 import useUserStore from '@/store/userStore';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const userStore = useUserStore();
 const matchStore = useMatchStore();
 
 function cancelMatch() {
   matchStore.status = 'to-match';
+  matchStore.server!.sendMessage('exit match', {
+    id: matchStore.getIndex(userStore.id),
+  });
 }
 
-onMounted(async () => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
+const timerMatch = ref<any>();
+
+onMounted(() => {
+  // 用于确认后端收到开始匹配的信息
+  timerMatch.value = setTimeout(() => {
+    matchStore.status = 'to-match';
+  }, 5000);
+});
+
+useBindEvent('start match', () => {
+  clearTimeout(timerMatch.value);
+});
+
+useBindEvent('make match', (data: any) => {
+  matchStore.usersMatch = data.userData;
   matchStore.status = 'matched';
+  matchStore.okPrepare = Array.from({ length: data.userData.length }).map(
+    () => false
+  );
 });
 </script>
 <template>

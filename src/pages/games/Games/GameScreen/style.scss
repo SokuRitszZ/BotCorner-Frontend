@@ -1,0 +1,11 @@
+.game-screen {
+  @apply w-full;
+  .parent {
+    aspect-ratio: 3 / 2;
+    @apply bg-black;
+
+    .canvas {
+      @apply mx-auto
+    }
+  }
+}

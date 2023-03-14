@@ -1,68 +1,87 @@
-type IActionMessage = {
-  action: string;
-  data: any;
-};
-
-type ICallback = {
-  action: string | string[];
-  callback: (data: any) => void;
-};
-
 class GameWebSocket {
-  private server: WebSocket;
-  private callbackMap: { [key: string]: Function[] };
+  private server?: WebSocket;
+  private events: { [key: string]: Function[] } = {};
 
-  constructor(url: string) {
+  constructor() {}
+
+  public connect(url: string) {
     this.server = new WebSocket(url);
-    this.callbackMap = {};
 
-    this.server.onopen = () => window._alert('success', 'WebSocket连接成功');
-    this.server.onclose = () => window._alert('primary', 'WebSocket已关闭');
+    this.server.onopen = () => {
+      window._alert('success', 'WebSocket连接成功');
+      this.emit('open');
+    }
+    this.server.onclose = () => {
+      window._alert('primary', 'WebSocket已关闭')
+      this.emit('close');
+    };
     this.server.onerror = (error) =>
       window._alert('danger', `WebSocket出错：${error}`);
-    this.server.onmessage = (message) => this.emit(JSON.parse(message.data));
+    this.server.onmessage = (message) => {
+      const msg = JSON.parse(message.data);
+      this.emit(msg.action, msg.data);
+    };
   }
 
-  /**
-   * 订阅者
-   * @param {ICallback} callback
-   * @returns
-   */
-  public on(callback: ICallback) {
-    const action = callback.action;
-    if (action instanceof Array) {
-      action.forEach((action) =>
-        this.on({
-          action,
-          callback: callback.callback,
-        })
-      );
+  public getStatus() {
+    return this.server && this.server.readyState;
+  }
+
+  public on(action: string | string[], fn: Function | Function[]) {
+    if (Array.isArray(action)) {
+      action.forEach((action) => this.on(action, fn));
     } else {
-      if (!this.callbackMap[action]) this.callbackMap[action] = [];
-      this.callbackMap[callback.action as string].push(callback.callback);
+      if (!this.events[action]) this.events[action] = [];
+      if (Array.isArray(fn)) {
+        this.events[action].push(...fn);
+      } else {
+        this.events[action].push(fn);
+      }
     }
     return this;
   }
 
-  /**
-   * 发布者 (本来是设置成private，但有可能信息不通过ws传过来，需要手动发布信息，因此设置成public)
-   * @param {IActionMessage} message
-   */
-  public emit(message: IActionMessage) {
-    const action = message.action;
-    if (this.callbackMap[action]) {
-      this.callbackMap[action].forEach((fn) => fn(message.data));
+  public off(action: string | string[], _fn?: Function | Function[]) {
+    if (Array.isArray(action)) {
+      action.forEach((action) => this.off(action));
     } else {
-      // window._alert("danger", `执行回调失败：不存在${message.action}`);
+      let fns = this.events[action] || [];
+      if (_fn) {
+        if (Array.isArray(_fn)) {
+          fns = fns.filter((fn) => !_fn.includes(fn));
+        } else {
+          fns = fns.filter((fn) => fn !== _fn);
+        }
+      } else fns = [];
+      this.events[action] = fns;
     }
   }
 
-  public sendMessage(message: IActionMessage) {
-    this.server.send(JSON.stringify(message));
+  public emit(action: string, ...payload: any) {
+    if (this.events[action]) {
+      this.events[action].forEach((fn) => fn(...payload));
+    }
+  }
+
+  public sendMessage(action: string, payload: any) {
+    try {
+      this.server!.send(
+        JSON.stringify({
+          action,
+          data: payload,
+        })
+      );
+    } catch (e) {
+      window._alert('danger', '预期外的错误，请报Bug：1102');
+    }
   }
 
   public close() {
-    this.server.close();
+    try {
+      this.server!.close();
+    } catch (e) {
+      window._alert('danger', '预期外的错误，请报Bug：1103');
+    }
   }
 }
 

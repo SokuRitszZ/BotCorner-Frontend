@@ -20,12 +20,19 @@ onMounted(async () => {
 
 const matchStore = useMatchStore();
 
-function startGame() {
+async function startGame() {
   matchStore.status = 'game-starting';
+  matchStore.server!.sendMessage('start single game', {
+    botIds: matchStore.idsBot.map((x) => x || 0),
+  });
 }
 
 function startMatch() {
   matchStore.status = 'matching';
+  matchStore.server!.sendMessage('start match', {
+    botId: matchStore.idBotSelected || 0,
+  });
+  // 在 matching 页面必须写一个确认机制
 }
 </script>
 <template>
