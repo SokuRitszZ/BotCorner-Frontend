@@ -52,9 +52,9 @@ const useUserStore = defineStore('UserStore', {
       this.token = token;
     },
     async register(payload: {
-      username: string,
-      password: string,
-      confirmed_password: string
+      username: string;
+      password: string;
+      confirmed_password: string;
     }) {
       return registerApi(payload)
         .then(() => {
@@ -70,7 +70,7 @@ const useUserStore = defineStore('UserStore', {
      * @param username
      * @param password
      */
-    async getTokenByApi(payload: {username: string, password: string}) {
+    async getTokenByApi(payload: { username: string; password: string }) {
       this.status = 'logging in';
 
       type InfoType = {
@@ -96,18 +96,16 @@ const useUserStore = defineStore('UserStore', {
 
       this.status = 'logging in';
 
-      return getInfoApi()
-        .then((info: any) => {
-          window._alert('success', '登录成功 欢迎回来', 2000);
-          this.$patch({ ...info });
-          this.status = 'logged in';
-          Object.values(this.callbacks).forEach((fn) => fn());
-        })
-        .catch(() => {
-          window._alert('danger', '登录失败：Token无效', 2000);
-          this.status = 'not logged in';
-          localStorage.removeItem('token');
-        });
+      try {
+        const info: any = await getInfoApi();
+        this.$patch({ ...info });
+        this.status = 'logged in';
+        Object.values(this.callbacks).forEach((fn) => fn());
+      } catch (e) {
+        this.status = 'not logged in';
+        localStorage.removeItem('token');
+        throw e;
+      }
     },
     /**
      * 退出登录

@@ -1,7 +1,20 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import RouteSidebar from './components/RouteSidebar.vue';
 import Alert from './components/SokuComponent/SokuAlert.vue';
+import useGameStore from './store/gameStore';
+import useUserStore from './store/userStore';
 
+const userStore = useUserStore();
+
+onMounted(async () => {
+  try {
+    await userStore.getInfo();
+    await useGameStore();
+  } catch (e) {
+    window._alert('danger', '登录失败，请重试');
+  }
+});
 </script>
 
 <template>

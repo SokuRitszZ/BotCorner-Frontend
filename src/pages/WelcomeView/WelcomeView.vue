@@ -128,7 +128,7 @@ const router = useRouter();
       </div>
       <!-- <SokuImgSkeleton
         class="title-icon"
-        url="https://sdfsdf.dev/100x100.png,123123,321321"
+        url="http://localhost:3000/100x100.png,123123,321321"
       /> -->
       <div class="title">
         <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
