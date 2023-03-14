@@ -2,6 +2,7 @@
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useCacheStore, { IGame } from '@/store/cacheStore';
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
@@ -48,6 +49,8 @@ onUnmounted(() => {
   clearTimeout(timerSliding.value);
   clearTimeout(timerNext.value);
 });
+
+const router = useRouter();
 </script>
 
 <template>
@@ -69,7 +72,7 @@ onUnmounted(() => {
         <h2 class="title">可玩游戏</h2>
         <div ref="domItemList" class="item-list">
           <div class="w-[200px] h-[210px] p-5" v-for="it in games" :key="it.id">
-            <button class="item">
+            <button @click="router.push(`/game/intro/${it.id}`)" class="item">
               <img
                 class="rounded-sm"
                 src="http://localhost:3000/100x100.png"

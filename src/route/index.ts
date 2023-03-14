@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
         name: 'profile-prize',
         component: () => import('@/pages/ForwardPreview.vue'),
       },
-    ]
+    ],
   },
   {
     path: '/user/profile/edit',
@@ -54,44 +54,15 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/GameRating/RatingView.vue'),
   },
   {
+    path: '/game/intro/:id',
+    name: 'game-intro',
+    component: () =>
+      import('@/pages/games/GameIntroduction/GameIntroduction.vue'),
+  },
+  {
     path: '/bots',
     name: 'botsmanage',
     component: () => import('@/pages/GameRating/RatingView.vue'),
-  },
-  {
-    path: '/game',
-    name: 'game',
-    component: () => import('@/pages/games/GameView.vue'),
-    meta: {
-      auth: true,
-    },
-    children: [
-      {
-        path: 'snake',
-        name: 'snake',
-        component: () => import('@/pages/games/SnakeGame.vue'),
-      },
-      {
-        path: 'reversi',
-        name: 'reversi',
-        component: () => import('@/pages/games/ReversiGame.vue'),
-      },
-      {
-        path: 'backgammon',
-        name: 'backgammon',
-        component: () => import('@/pages/games/BackgammonGame.vue'),
-      },
-      {
-        path: 'gomoku',
-        name: 'gomoku',
-        component: () => import('@/pages/games/GomokuGame.vue'),
-      },
-      {
-        path: 'hex',
-        name: 'hex',
-        component: () => import('@/pages/games/HexGame.vue'),
-      },
-    ],
   },
   {
     path: '/lab',
