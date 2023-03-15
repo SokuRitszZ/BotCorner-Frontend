@@ -72,6 +72,10 @@ async function submitLogin(e: Event) {
 }
 
 const router = useRouter();
+
+function seeAnnounce() {
+  window._alert('primary', '敬请期待');
+}
 </script>
 
 <template>
@@ -124,7 +128,7 @@ const router = useRouter();
       <div class="welcome-board">
         <div class="title-icon">
           <template v-if="!isLogin"> 😊 </template>
-          <template v-else> 🍾 </template>
+          <template v-else> 👋 </template>
         </div>
         <div class="title">
           <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
@@ -153,16 +157,13 @@ const router = useRouter();
           <header class="title">公告栏</header>
           <main class="main">
             <SokuSkeleton :is-loading="testLoading">
-              <div class="one-announce">
+              <button @click="seeAnnounce" class="one-announce">
                 <h1 class="title">版本 1.0.0 更新公告</h1>
                 <div class="time">
                   {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
                 </div>
-              </div>
+              </button>
             </SokuSkeleton>
-            <SokuSkeleton :is-loading="true"></SokuSkeleton>
-            <SokuSkeleton :is-loading="true"></SokuSkeleton>
-            <SokuSkeleton :is-loading="true"></SokuSkeleton>
           </main>
         </div>
       </main>

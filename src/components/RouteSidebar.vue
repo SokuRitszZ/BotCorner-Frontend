@@ -67,8 +67,8 @@ function logout() {
     <template v-slot:footer>
       <div v-if="userStore.status === 'logged in'" class="w-full h-full flex justify-center items-center relative">
         <button @click="toggleFocus" class="flex items-center gap-2 p-1 rounded-full hover:bg-gray-200 w-[200px] transition">
-          <SokuImgSkeleton :url="userStore.avatar" class="w-[50px] h-[50px] rounded-full overflow-hidden" />
-          <div class="flex flex-col justify-between max-w-[130px]">
+          <SokuImgSkeleton :url="userStore.avatar" class="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0" />
+          <div class="flex flex-col justify-between max-w-[130px] flex-grow-0">
             <span class="font-bold text-xl overflow-hidden overflow-ellipsis">{{ userStore.username }}</span>
             <span class="font-thin text-gray-400 text-left">#{{ leftpad(8, userStore.id) }}</span>
           </div>

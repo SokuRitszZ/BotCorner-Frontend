@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useCacheStore, { IGame } from '@/store/cacheStore';
+import emoji from '@/utils/emoji';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -8,7 +9,7 @@ const games = ref<IGame[]>([]);
 const cacheStore = useCacheStore();
 
 onMounted(async () => {
-  games.value = [...await cacheStore.getGames];
+  games.value = [...(await cacheStore.getGames)];
   startSliding();
 });
 
@@ -73,12 +74,8 @@ const router = useRouter();
         <div ref="domItemList" class="item-list">
           <div class="w-[200px] h-[210px] p-5" v-for="it in games" :key="it.id">
             <button @click="router.push(`/game/intro/${it.id}`)" class="item">
-              <img
-                class="rounded-sm"
-                src="http://localhost:3000/100x100.png"
-                alt=""
-              />
-              <span class="text-xl mt-1">
+              <span class="text-7xl">{{ emoji[it.id - 1] }}</span>
+              <span class="text-xl mt-1 font-thin">
                 {{ it.name }}
               </span>
             </button>

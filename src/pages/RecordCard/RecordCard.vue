@@ -8,6 +8,7 @@ import { getRecordJsonApi } from '@/api/record';
 import useGameStore from '@/store/gameStore';
 import { useRouter } from 'vue-router';
 import useMatchStore from '@/store/matchStore';
+import emoji from '@/utils/emoji';
 
 type IRecord = {
   id: number;
@@ -41,7 +42,8 @@ async function play() {
   <SokuSkeleton :is-loading="false">
     <button @click="play" class="record-card">
       <h1 class="font-bold text-3xl text-center">
-        {{ cacheStore.getGame(props.record.gameId).name }}
+        {{ emoji[props.record.gameId - 1]
+        }}{{ cacheStore.getGame(props.record.gameId).name }}
       </h1>
       <div class="avatars">
         <SokuImgSkeleton class="avatar" :url="props.record.users[0].avatar" />
