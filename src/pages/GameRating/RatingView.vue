@@ -3,6 +3,7 @@ import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkel
 import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
 import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 const cacheStore = useCacheStore();
 
@@ -18,6 +19,12 @@ const gameCur = ref();
 watch(gameCur, async (newV) => {
   ratings.value = await cacheStore.getRatings(newV);
 });
+
+const router = useRouter();
+
+function visit(id: number) {
+  router.push(`/user/other/${id}`);
+}
 </script>
 
 <template>
@@ -45,31 +52,48 @@ watch(gameCur, async (newV) => {
     </div>
     <div v-if="ratings.length > 0" class="-container rating-list">
       <div class="top-3">
-        <div v-if="ratings.length > 1" class="medal runner-up">
+        <button
+          @click="visit(ratings[1].id)"
+          v-if="ratings.length > 1"
+          class="medal runner-up"
+        >
           <SokuImgSkeleton class="avatar" :url="ratings[1].avatar" />
           <span>{{ ratings[1].username }}</span>
           <span class="text-4xl">{{ ratings[1].score }}</span>
-        </div>
-        <div v-if="ratings.length > 0" class="medal champion">
+        </button>
+        <button
+          @click="visit(ratings[0].id)"
+          v-if="ratings.length > 0"
+          class="medal champion"
+        >
           <SokuImgSkeleton class="avatar" :url="ratings[0].avatar" />
           <span>{{ ratings[0].username }}</span>
           <span class="text-4xl">{{ ratings[0].score }}</span>
-        </div>
-        <div v-if="ratings.length > 2" class="medal third-place">
+        </button>
+        <button
+          @click="visit(ratings[2].id)"
+          v-if="ratings.length > 2"
+          class="medal third-place"
+        >
           <SokuImgSkeleton class="avatar" :url="ratings[2].avatar" />
           <span>{{ ratings[2].username }}</span>
           <span class="text-4xl">{{ ratings[2].score }}</span>
-        </div>
+        </button>
       </div>
       <div class="list relative">
-        <div class="user" v-for="(r, idx) in ratings.slice(3)" :key="r.id">
+        <button
+          @click="visit(r.id)"
+          class="user"
+          v-for="(r, idx) in ratings.slice(3)"
+          :key="r.id"
+        >
           <span class="rating">#{{ leftpad(2, idx + 4) }}</span>
           <SokuImgSkeleton class="avatar" :url="r.avatar" />
           <div class="name-and-rating">
             <div class="name">{{ r.username }}</div>
             <div class="rating">{{ r.score }}</div>
           </div>
-        </div>
+        </button>
       </div>
     </div>
     <div v-else class="-container">

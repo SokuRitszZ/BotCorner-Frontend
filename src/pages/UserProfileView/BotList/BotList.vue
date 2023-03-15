@@ -37,9 +37,6 @@ const toggle = (id: number, visible: boolean) => {
   changeVisible(id, visible);
 };
 
-/**
- * 防抖防止大量流量
- */
 const changeVisible = debounce((id: number, visible: boolean) => {
   return changeVisibleApi(id, visible);
 }, 1000);
@@ -63,57 +60,58 @@ function addBot(bot: IBot) {
 async function deleteBot(id: number) {
   try {
     await deleteBotApi(id);
-    bots.value = bots.value.filter(b => b.id !== id);
+    bots.value = bots.value.filter((b) => b.id !== id);
     cacheStore.bots = bots.value;
     window._alert('success', '删除成功');
-  }
-  catch(e) {
+  } catch (e) {
     window._alert('danger', e as any);
   }
 }
 </script>
 
 <template>
-  <AddBotModal @add-bot="addBot" ref="modalAddBot" />
-  <BotDetailModal :bot="botSelected" ref="modalModifyBot" />
-  <div class="bot-list">
-    <button @click="toAddBot" class="bot">
-      <Icon class="w-fit text-gray-400 mx-auto" type="plus" :size="60" />
-    </button>
-    <button
-      @click="toModifyBot(bot)"
-      class="bot"
-      v-for="bot in bots"
-      :key="bot.id"
-    >
-      <h1 class="title">
-        {{ bot.title }}
-      </h1>
-      <div class="game-and-lang">
-        <div class="game">{{ cacheStore.getGame(bot.gameId).name }}</div>
-        <div class="lang">{{ cacheStore.getLang(bot.langId) }}</div>
-      </div>
-      <div class="time">
-        {{ dayjs(bot.modifyTime).format('YYYY-MM-DD hh:mm:ss') }}
-      </div>
-      <div class="options">
-        <HoldOnDeleteBtn @click="deleteBot(bot.id)" />
-        <Icon
-          class="w-fit"
-          v-if="bot.visible"
-          @click.stop="toggle(bot.id, false)"
-          type="eye"
-          :size="24"
-        />
-        <Icon
-          class="w-fit"
-          v-else
-          @click.stop="toggle(bot.id, true)"
-          type="eye-slash"
-          :size="24"
-        />
-      </div>
-    </button>
+  <div class="w-full">
+    <AddBotModal @add-bot="addBot" ref="modalAddBot" />
+    <BotDetailModal :bot="botSelected" ref="modalModifyBot" />
+    <div class="bot-list">
+      <button @click="toAddBot" class="bot">
+        <Icon class="w-fit text-gray-400 mx-auto" type="plus" :size="60" />
+      </button>
+      <button
+        @click="toModifyBot(bot)"
+        class="bot"
+        v-for="bot in bots"
+        :key="bot.id"
+      >
+        <h1 class="title">
+          {{ bot.title }}
+        </h1>
+        <div class="game-and-lang">
+          <div class="game">{{ cacheStore.getGame(bot.gameId).name }}</div>
+          <div class="lang">{{ cacheStore.getLang(bot.langId) }}</div>
+        </div>
+        <div class="time">
+          {{ dayjs(bot.modifyTime).format('YYYY-MM-DD hh:mm:ss') }}
+        </div>
+        <div class="options">
+          <HoldOnDeleteBtn @click="deleteBot(bot.id)" />
+          <Icon
+            class="w-fit"
+            v-if="bot.visible"
+            @click.stop="toggle(bot.id, false)"
+            type="eye"
+            :size="24"
+          />
+          <Icon
+            class="w-fit"
+            v-else
+            @click.stop="toggle(bot.id, true)"
+            type="eye-slash"
+            :size="24"
+          />
+        </div>
+      </button>
+    </div>
   </div>
 </template>
 

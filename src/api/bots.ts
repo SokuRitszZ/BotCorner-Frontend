@@ -55,3 +55,13 @@ export function changeVisibleApi(id: number, visible: boolean) {
     visible,
   });
 }
+
+export function getOthersBotsApi(id: number) {
+  return api({
+    url: '/bot/other/',
+    method: 'GET',
+    params: {
+      id,
+    },
+  });
+}

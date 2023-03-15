@@ -39,6 +39,29 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/UserEditView/UserEditView.vue'),
   },
   {
+    path: '/user/other/:id',
+    name: 'profile-other',
+    component: () =>
+      import('@/pages/OtherUserProfileView/OtherUserProfileView.vue'),
+    children: [
+      {
+        path: 'bots',
+        name: 'profile-other-bots',
+        component: () => import('@/pages/OtherUserProfileView/BotList/BotList.vue'),
+      },
+      {
+        path: 'comments',
+        name: 'profile-other-comments',
+        component: () => import('@/pages/ForwardPreview.vue'),
+      },
+      {
+        path: 'prize',
+        name: 'profile-other-prize',
+        component: () => import('@/pages/ForwardPreview.vue'),
+      },
+    ],
+  },
+  {
     path: '/game/lobby',
     name: 'game-lobby',
     component: () => import('@/pages/GameLobby/GameLobby.vue'),

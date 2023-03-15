@@ -3,7 +3,7 @@ import { updateAvatarApi, updateProfileApi } from '@/api/account';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import useUserStore from '@/store/userStore';
 import useTitle from '@/utils/useTitle';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 
 useTitle('修改资料 --BotCorner博弈小站');
 
@@ -14,14 +14,18 @@ async function saveEdition() {
     if ((username = username.trim()) !== userStore.username) payload.username = username;
     if ((password = password.trim())) payload.password = password;
     if ((signature = signature.trim()) !== userStore.signature) payload.signature = signature;
-    await updateProfileApi(payload) as any;
-    userStore.$patch({
-      username,
-      signature,
-    });
+    if (Object.keys(payload).length) {
+      await updateProfileApi(payload) as any;
+      userStore.$patch({
+        username,
+        signature,
+      });
+    }
     if (file.value) {
       const res2 = await updateAvatarApi(file.value) as any;
-      userStore.avatar = res2.newUrl;
+      userStore.avatar = '';
+      await nextTick();
+      userStore.avatar = res2.url;
     }
     window._alert('success', '更新成功');
   } catch (e) {

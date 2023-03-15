@@ -1,0 +1,37 @@
+.bot-list {
+  @apply w-full;
+  @apply grid grid-cols-2 gap-3;
+  @apply lg:grid-cols-3;
+
+  .bot {
+    @apply select-none;
+    @apply w-full h-[150px];
+    @apply bg-gray-200;
+    @apply rounded-md;
+    @apply p-3;
+    @apply hover:bg-gray-200 active:bg-gray-300;
+    
+    .title {
+      @apply text-xl font-bold break-all text-center
+    }
+
+    .game-and-lang {
+      @apply flex justify-between;
+      @apply mt-3;
+    }
+
+    .game,
+    .lang {
+      @apply font-thin;
+    }
+
+    .time {
+      @apply text-center;
+      @apply mt-4;
+    }
+
+    .options {
+      @apply flex justify-between items-center;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import SokuSkeleton from './SokuSkeleton.vue';
 
 type PropsType = {
@@ -10,6 +10,11 @@ const props = defineProps<PropsType>();
 
 const isLoading = ref(true);
 const domImg = ref<HTMLImageElement>();
+
+watch(() => props.url, () => {
+  isLoading.value = true;
+});
+
 onMounted(() => {
   domImg.value!.addEventListener('load', () => {
     isLoading.value = false;

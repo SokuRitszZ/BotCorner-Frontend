@@ -8,6 +8,16 @@ export function getInfoApi() {
   return api.get('/account/getInfo');
 }
 
+export function getInfoByIdApi(id: number) {
+  return api({
+    method: 'GET',
+    url: '/account/info',
+    params: {
+      id,
+    },
+  });
+}
+
 export function registerApi(payload: {
   username: string;
   password: string;
