@@ -39,13 +39,15 @@ const emit = defineEmits(['addBot']);
 async function submit() {
   try {
     statusSubmit.value = 'submitting';
-    const result = await addBotApi({
+    let newPayload: any;
+    const result = await addBotApi(newPayload = {
       ...payload.value,
       gameId: payload.value.idGameSelected,
       langId: payload.value.idLangSelected,
-    })
-    const newBot = { ...payload.value, ...result };
+    });
+    const newBot = { ...newPayload, ...result };
     window._alert('success', `添加${payload.value.title}成功`);
+    modal.value.hide();
     emit('addBot', newBot);
   } 
   catch (e) {

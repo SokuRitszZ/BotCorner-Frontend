@@ -45,6 +45,7 @@ async function changeCode() {
     });
     props.bot!.code = code;
     props.bot!.modifyTime = (info as any).modifyTime;
+    modal.value.hide();
     window._alert('success', '修改成功');
   } catch (error) {
     window._alert('danger', `修改失败：${error}`);

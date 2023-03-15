@@ -5,10 +5,11 @@ import Icon from '@/components/BootstrapIcon.vue';
 import useUserStore from '@/store/userStore';
 
 import useCacheStore, { IBot } from '@/store/cacheStore';
-import { changeVisibleApi } from '@/api/bots';
+import { changeVisibleApi, deleteBotApi } from '@/api/bots';
 import dayjs from 'dayjs';
 import AddBotModal from './AddBotModal/AddBotModal.vue';
 import BotDetailModal from './BotDetailModal/BotDetailModal.vue';
+import HoldOnDeleteBtn from '@/components/SokuComponent/HoldOnDeleteBtn.vue';
 
 const userStore = useUserStore();
 const cacheStore = useCacheStore();
@@ -54,10 +55,26 @@ function toModifyBot(bot: IBot) {
   botSelected.value = bot;
   modalModifyBot.value!.show();
 }
+
+function addBot(bot: IBot) {
+  cacheStore.bots.unshift(bot);
+}
+
+async function deleteBot(id: number) {
+  try {
+    await deleteBotApi(id);
+    bots.value = bots.value.filter(b => b.id !== id);
+    cacheStore.bots = bots.value;
+    window._alert('success', '删除成功');
+  }
+  catch(e) {
+    window._alert('danger', e as any);
+  }
+}
 </script>
 
 <template>
-  <AddBotModal ref="modalAddBot" />
+  <AddBotModal @add-bot="addBot" ref="modalAddBot" />
   <BotDetailModal :bot="botSelected" ref="modalModifyBot" />
   <div class="bot-list">
     <button @click="toAddBot" class="bot">
@@ -73,19 +90,14 @@ function toModifyBot(bot: IBot) {
         {{ bot.title }}
       </h1>
       <div class="game-and-lang">
-        <div class="game">{{ cacheStore.getGame(bot.gameId).title }}</div>
+        <div class="game">{{ cacheStore.getGame(bot.gameId).name }}</div>
         <div class="lang">{{ cacheStore.getLang(bot.langId) }}</div>
       </div>
       <div class="time">
         {{ dayjs(bot.modifyTime).format('YYYY-MM-DD hh:mm:ss') }}
       </div>
       <div class="options">
-        <Icon
-          class="w-fit text-red-700"
-          @click.stop="toggle(bot.id, false)"
-          type="dash"
-          :size="24"
-        />
+        <HoldOnDeleteBtn @click="deleteBot(bot.id)" />
         <Icon
           class="w-fit"
           v-if="bot.visible"
