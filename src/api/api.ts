@@ -35,7 +35,7 @@ api.interceptors.response.use(
     if (data.result === 'fail') return Promise.reject(data.message);
     return data.data;
   },
-  () => Promise.reject('未登录 没有权限')
+  (error) => Promise.reject(error)
 );
 
 export default api;

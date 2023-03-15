@@ -43,7 +43,7 @@ onMounted(() => {
           />
           <div class="sign">
             <div class="name">{{ userStore.username }}</div>
-            <div class="signature">{{ '这个人很懒，什么都没留下。' }}</div>
+            <div class="signature">{{ userStore.signature || '这个人很懒，什么都没留下。' }}</div>
           </div>
         </div>
       </div>

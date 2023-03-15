@@ -21,3 +21,11 @@ export function updateAvatarApi(blob: Blob) {
   formData.append('cropped_image', blob);
   return api.post('/account/avatar', formData);
 }
+
+export function updateProfileApi(payload: {
+  username?: string;
+  password?: string;
+  signature?: string;
+}) {
+  return api.post('/account/update', payload);
+}

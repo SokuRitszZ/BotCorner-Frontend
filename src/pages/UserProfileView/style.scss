@@ -44,6 +44,10 @@
             @apply text-3xl font-bold;
             text-shadow: 0 0 10px white;
           }
+
+          .signature {
+            @apply font-thin text-xl;
+          }
         }
       }
     }

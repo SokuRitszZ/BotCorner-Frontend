@@ -6,6 +6,7 @@ export type IUser = {
   id: number;
   username: string;
   avatar: string;
+  signature: string;
 };
 
 export type IAuthUser = IUser & {
@@ -21,6 +22,7 @@ const initState: IUserStore = {
   id: 0,
   username: '',
   avatar: '',
+  signature: '',
   token: '',
   status: 'not logged in',
   callbacks: {},
