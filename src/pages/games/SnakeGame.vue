@@ -1,189 +1,104 @@
+<script setup lang="ts">
+import DirectionController from '@/components/DirectionController.vue';
+import useGameStore from '@/store/gameStore';
+import useUserStore from '@/store/userStore';
+import { onMounted, ref } from 'vue';
+import useBindEvent from '@/hooks/useBindEvent';
+import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
+import useMatchStore from '@/store/matchStore';
+
+const userStore = useUserStore();
+const gameStore = useGameStore();
+
+function disabledController(id: number) {
+  return (
+    !!idsBot.value[id] ||
+    okStep.value[id] ||
+    matchStore.usersMatch[id].id !== userStore.id
+  );
+}
+
+function control(id: number, d: number) {
+  matchStore.server!.sendMessage('set step', {
+    id,
+    d,
+  });
+}
+
+const okStep = ref<[boolean, boolean]>([false, false]);
+
+useBindEvent('set step', (data: any) => {
+  const id = data.id;
+  okStep.value[id] = true;
+});
+
+const idsBot = ref<[number, number]>([NaN, NaN]);
+
+useBindEvent(['start single game', 'start multi game'], (data: any) => {
+  idsBot.value = data.botIds.map((x?: number) => x || 0);
+});
+
+useBindEvent(['allow to control', 'set step truly'], () => {
+  okStep.value = [false, false];
+});
+
+useBindEvent('tell result', () => {
+  idsBot.value = [NaN, NaN];
+});
+
+onMounted(async () => {
+  gameStore.clearEvents();
+
+  gameStore.on('prepare', () => {
+    okStep.value = [true, true];
+  });
+
+  gameStore.on('stop', () => {
+    okStep.value = [true, true];
+  });
+});
+
+onMounted(() => {
+  if (gameStore.record) {
+    okStep.value = [true, true];
+  }
+});
+
+const matchStore = useMatchStore();
+</script>
 <template>
-  <div class="h-fit w-full">
-    <div class="w-full flex justify-between items-center">
-      <img
-        class="h-24 rounded-full border-red-600"
-        :class="isMe(0) && 'border-8'"
-        :src="gameStore.users[0].avatar"
-        alt="avatar"
+  <div class="h-fit w-full flex justify-around items-center mt-2">
+    <div v-for="i in 2" :key="i" class="flex flex-col items-center gap-2">
+      <SokuImgSkeleton
+        class="avatar"
+        :url="matchStore.usersMatch[i - 1].avatar"
       />
+      <span class="text-xl font-thin">{{
+        matchStore.usersMatch[i - 1].username
+      }}</span>
       <DirectionController
-        :all-active="ok[0]"
-        :disabled="disabledController(0)"
-        @control="(d) => control(0, d)"
-        class="w-32 h-32"
-        active-class="bg-red-700 text-white"
-        button-class="border-red-600 border-[1px] hover:bg-red-600 hover:text-white transition drop-shadow-xl"
+        class="w-20 h-20"
+        :active-class="
+          ['text-white', (i === 1 && 'bg-red-700') || 'bg-blue-700'].join(' ')
+        "
+        :button-class="
+          [
+            (i === 1 && 'border-red-700') || 'border-blue-700',
+            'border-[1px]',
+          ].join(' ')
+        "
+        :disabled="disabledController(i - 1)"
+        :all-active="okStep[i - 1]"
+        @control="(d) => control(i - 1, d)"
       />
-    </div>
-    <div
-      class="my-2 max-h-[150px] overflow-scroll flex flex-nowrap justify-start gap-1"
-    >
-      <TransitionGroup>
-        <Icon
-          :size="24"
-          :key="chose[0].length - index"
-          :class="index === 0 && 'text-red-700'"
-          :type="getType(dir)"
-          v-for="(dir, index) in chose[0]"
-        />
-      </TransitionGroup>
-    </div>
-  </div>
-  <div class="h-fit w-full mt-10">
-    <div class="w-full flex justify-between items-center">
-      <img
-        class="h-24 rounded-full border-blue-600"
-        :class="isMe(1) && 'border-8'"
-        :src="gameStore.users[1].avatar"
-        alt="avatar"
-      />
-      <DirectionController
-        :all-active="ok[1]"
-        :disabled="disabledController(1)"
-        @control="(d) => control(1, d)"
-        class="w-32 h-32"
-        active-class="bg-blue-700 text-white"
-        button-class="border-blue-600 border-[1px] hover:bg-blue-600 hover:text-white transition drop-shadow-xl"
-      />
-    </div>
-    <div
-      class="my-2 max-h-[150px] overflow-scroll text-xl flex flex-nowrap gap-1 justify-start"
-    >
-      <TransitionGroup>
-        <Icon
-          :size="24"
-          :key="chose[1].length - index"
-          :class="index === 0 && 'text-blue-700'"
-          :type="getType(dir)"
-          v-for="(dir, index) in chose[1]"
-        />
-      </TransitionGroup>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import DirectionController from '@/components/DirectionController.vue';
-import Icon from '@/components/BootstrapIcon.vue';
-import useGameStore from '@/store/gameStore';
-import useUserStore from '@/store/userStore';
-import GameWebSocket from '@/utils/GameWebSocket';
-import { onMounted, ref } from 'vue';
-
-type PropsType = {
-  promise_server: Promise<GameWebSocket>;
-};
-const userStore = useUserStore();
-const gameStore = useGameStore();
-const props = defineProps<PropsType>();
-const botIds = ref<number[]>([1, 1]);
-const ok = ref<boolean[]>([false, false]);
-const server = ref<GameWebSocket>();
-const chose = ref<number[][]>([[], []]);
-
-onMounted(() => {});
-
-const isMe = (id: number) => {
-  return id === gameStore.users.findIndex((user) => user.id === userStore.id);
-};
-
-const disabledController = (id: number) =>
-  botIds.value[id] !== 0 ||
-  ok.value[id] ||
-  gameStore.users[id].id !== userStore.id;
-
-const getType = (d: number) => {
-  switch (d) {
-    case 0:
-      return 'up';
-    case 1:
-      return 'right';
-    case 2:
-      return 'down';
-    case 3:
-      return 'left';
-    default:
-      return 'primary';
-  }
-};
-
-const control = (id: number, d: number) => {
-  if (!server.value) return;
-  server.value?.sendMessage({
-    action: 'set step',
-    data: { id, d },
-  });
-};
-
-onMounted(async () => {
-  server.value = await props.promise_server;
-  server.value
-    .on({
-      action: 'set step',
-      callback: (data) => {
-        const id = data.id;
-        ok.value[id] = true;
-      },
-    })
-    .on({
-      action: ['start single game', 'start multi game'],
-      callback: (data) => {
-        botIds.value = data.botIds;
-      },
-    })
-    .on({
-      action: 'allow to control',
-      callback: () => {
-        ok.value = [false, false];
-      },
-    })
-    .on({
-      action: 'set step truly',
-      callback: () => {
-        ok.value = ok.value.map(() => false);
-      },
-    })
-    .on({
-      action: 'tell result',
-      callback: () => {
-        botIds.value = [1, 1];
-      },
-    })
-    .on({
-      action: 'upend',
-      callback: () => {
-        [0, 1].forEach((x) => chose.value[x].shift());
-      },
-    });
-  gameStore
-    .on('set step', (data: any) => {
-      const { id, d } = data;
-      chose.value[id].unshift(d);
-    })
-    .on('prepare', () => {
-      ok.value = [true, true];
-      chose.value = [[], []];
-    });
-});
-</script>
 <style scoped lang="scss">
-.v-move {
-  transition: 0.5s;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: 0.5s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  @apply scale-0;
-}
-
-.v-enter-to,
-.v-leave-from {
-  @apply scale-100;
+.avatar {
+  --size: 100px;
+  width: var(--size);
+  height: var(--size);
 }
 </style>

@@ -3,18 +3,18 @@
     <button
       :disabled="props.disabled"
       @click="() => (current = 0)"
-      :class="props.buttonClass + ' ' + (isActive(0) ? activeClass : '')"
       class="bg-white row-span-1 col-span-1 row-start-1 col-start-2"
+      :class="[props.buttonClass, isActive(0) ? props.activeClass : '']"
     >
-      上
+      &uparrow;
     </button>
     <button
       :disabled="props.disabled"
       @click="() => (current = 3)"
-      :class="props.buttonClass + ' ' + (isActive(3) ? activeClass : '')"
       class="bg-white row-span-1 col-span-1 row-start-2 col-start-1"
+      :class="[props.buttonClass, isActive(3) ? props.activeClass : '']"
     >
-      左
+      &leftarrow;
     </button>
     <button
       @click="emit('control', current)"
@@ -26,18 +26,18 @@
     <button
       :disabled="props.disabled"
       @click="() => (current = 1)"
-      :class="props.buttonClass + ' ' + (isActive(1) ? activeClass : '')"
       class="bg-white row-span-1 col-span-1 row-start-2 col-start-3"
+      :class="[props.buttonClass, isActive(1) ? props.activeClass : '']"
     >
-      右
+      &rightarrow;
     </button>
     <button
       :disabled="props.disabled"
       @click="() => (current = 2)"
-      :class="props.buttonClass + ' ' + (isActive(2) ? activeClass : '')"
       class="bg-white row-span-1 col-span-1 row-start-3 col-start-2"
+      :class="[props.buttonClass, isActive(2) ? props.activeClass : '']"
     >
-      下
+      &downarrow;
     </button>
   </div>
 </template>
