@@ -94,7 +94,7 @@ const useUserStore = defineStore('UserStore', {
      * 获取信息
      */
     async getInfo() {
-      if (!this.getToken) return Promise.reject('没有Token');
+      if (!this.getToken) return;
 
       this.status = 'logging in';
 
