@@ -63,33 +63,6 @@ onMounted(async () => {
     >
       {{ flag[turn] }}
     </div>
-    <!-- <div class="w-full flex justify-between items-center">
-      <img
-        class="h-24 rounded-full border-[#ccc]"
-        :class="isMe(0) && 'border-8'"
-        :src="gameStore.users[0].avatar"
-        alt="avatar"
-      />
-      <div class="text-5xl text-[#ccc] font-bold">白方</div>
-    </div>
-  </div>
-  <div class="h-fit w-full mt-5">
-    <div class="w-full flex justify-between items-center">
-      <img
-        class="h-24 rounded-full border-[#800]"
-        :class="isMe(1) && 'border-8'"
-        :src="gameStore.users[1].avatar"
-        alt="avatar"
-      />
-      <div class="text-5xl text-[#800] font-bold">红方</div>
-    </div>
-  </div>
-  <div class="mt-5 w-full flex justify-between items-center">
-    <div class="font-bold text-5xl h-fit">TURN:</div>
-    <div v-if="turn === 0" class="text-5xl text-[#ccc] font-bold">白方</div>
-    <div v-else-if="turn === 1" class="text-5xl text-[#800] font-bold">
-      红方
-    </div> -->
   </div>
 </template>
 
