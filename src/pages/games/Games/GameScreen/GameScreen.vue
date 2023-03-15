@@ -58,6 +58,20 @@ onMounted(async () => {
     });
   }
 });
+
+useBindEvent('get current', async (data: any) => {
+  if (!data) {
+    window._alert('danger', '比赛已结束');
+    return ;
+  }
+  await prepare({
+    mode: 'watch',
+    initData: data.initData,
+  });
+  data.steps.forEach((step: string) => {
+    gameStore.game!.parseAndAct(step);
+  });
+});
 </script>
 
 <template>

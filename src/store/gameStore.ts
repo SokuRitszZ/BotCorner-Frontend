@@ -37,7 +37,10 @@ const useGameStore = defineStore('GameStore', () => {
 
   const record = ref<IRecord>();
 
+  const uuidWatch = ref<string>();
+
   return {
+    uuidWatch,
     record,
     game,
     createGame,

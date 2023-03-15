@@ -2,6 +2,7 @@ import { getBotsApi } from '@/api/bots';
 import { getGamesApi, getLangsApi } from '@/api/cache';
 import { getMyRatingApi, getRatingsApi } from '@/api/ratings';
 import { defineStore } from 'pinia';
+import { IUser } from './userStore';
 
 export type ILang = {
   id: number;
@@ -27,12 +28,6 @@ export type IBot = {
   langId: number;
   visible: boolean;
   code?: string;
-};
-
-export type IUser = {
-  id: number;
-  username: string;
-  avatar: string;
 };
 
 export type IRating = {

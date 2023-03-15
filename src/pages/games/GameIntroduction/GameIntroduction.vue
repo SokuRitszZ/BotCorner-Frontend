@@ -38,6 +38,19 @@ onUnmounted(() => {
   }
 });
 
+onMounted(() => {
+  if (gameStore.uuidWatch) {
+    connect();
+    setTimeout(() => {
+      matchStore.server.sendMessage('to watch', { uuid: gameStore.uuidWatch });
+    }, 100);
+  }
+});
+
+onUnmounted(() => {
+  gameStore.uuidWatch = undefined;
+})
+
 const userStore = useUserStore();
 
 async function connect() {
