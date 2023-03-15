@@ -23,8 +23,12 @@ onMounted(async () => {
   <Alert />
   <div class="flex">
     <RouteSidebar />
-    <div class="main-view">
-      <router-view />
+    <div class="main-view relative">
+      <router-view v-slot="{ Component }">
+        <transition>
+          <component :is="Component"></component>
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -35,6 +39,44 @@ onMounted(async () => {
   min-width: 680px;
   height: 100vh;
   overflow: scroll;
-  @apply py-10;
+
+  & > div {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.v-enter-active {
+  animation: 1s enter;
+}
+
+.v-leave-active {
+  animation: 1s leave;
+}
+@keyframes enter {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes leave {
+  0% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  50%,
+  to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
 }
 </style>

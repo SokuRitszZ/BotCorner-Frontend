@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SokuModal from '@/components/SokuComponent/SokuModal/SokuModal.vue';
-import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useUserStore from '@/store/userStore';
 import useTitle from '@/utils/useTitle';
@@ -76,93 +75,98 @@ const router = useRouter();
 </script>
 
 <template>
-  <SokuModal ref="modalRegister" title="注册BotCorner账号" class="w-[300px]">
-    <form @submit="submitRegister" class="form-register">
-      <label for="username">用户名</label>
-      <input v-model="payloadRegister.username" name="username" type="text" />
-      <label for="password">密码</label>
-      <input
-        v-model="payloadRegister.password"
-        name="password"
-        type="password"
-      />
-      <label for="confirmedPassword">确认密码</label>
-      <input
-        v-model="payloadRegister.confirmed_password"
-        name="confirmedPassword"
-        type="password"
-      />
-      <button :disabled="isRegistering" class="submit-btn">
-        {{ !isRegistering ? '提交' : '提交中' }}
-      </button>
-    </form>
-  </SokuModal>
-  <SokuModal ref="modalLogin" title="登录BotCorner" class="w-[300px]">
-    <form @submit="submitLogin" class="form-login">
-      <label for="username">用户名</label>
-      <input v-model="payloadLogin.username" name="username" type="text" />
-      <label for="password">密码</label>
-      <input v-model="payloadLogin.password" name="password" type="password" />
-      <button :disabled="isLoging" class="submit-btn">
-        {{ !isLoging ? '提交' : '提交中' }}
-      </button>
-    </form>
-  </SokuModal>
-  <div class="welcome-view w-full h-full">
-    <header class="announce">
-      <div class="title">公告</div>
-      <div class="detail">
-        <div class="-container">
-          {{ faker.lorem.sentence(50) }}
+  <div class="w-full pt-10">
+    <SokuModal ref="modalRegister" title="注册BotCorner账号" class="w-[300px]">
+      <form @submit="submitRegister" class="form-register">
+        <label for="username">用户名</label>
+        <input v-model="payloadRegister.username" name="username" type="text" />
+        <label for="password">密码</label>
+        <input
+          v-model="payloadRegister.password"
+          name="password"
+          type="password"
+        />
+        <label for="confirmedPassword">确认密码</label>
+        <input
+          v-model="payloadRegister.confirmed_password"
+          name="confirmedPassword"
+          type="password"
+        />
+        <button :disabled="isRegistering" class="submit-btn">
+          {{ !isRegistering ? '提交' : '提交中' }}
+        </button>
+      </form>
+    </SokuModal>
+    <SokuModal ref="modalLogin" title="登录BotCorner" class="w-[300px]">
+      <form @submit="submitLogin" class="form-login">
+        <label for="username">用户名</label>
+        <input v-model="payloadLogin.username" name="username" type="text" />
+        <label for="password">密码</label>
+        <input
+          v-model="payloadLogin.password"
+          name="password"
+          type="password"
+        />
+        <button :disabled="isLoging" class="submit-btn">
+          {{ !isLoging ? '提交' : '提交中' }}
+        </button>
+      </form>
+    </SokuModal>
+    <div class="welcome-view w-full h-full">
+      <header class="announce">
+        <div class="title">公告</div>
+        <div class="detail">
+          <div class="-container">
+            {{ faker.lorem.sentence(50) }}
+          </div>
+        </div>
+      </header>
+      <div class="welcome-board">
+        <div class="title-icon">
+          <template v-if="!isLogin"> 😊 </template>
+          <template v-else> 🍾 </template>
+        </div>
+        <div class="title">
+          <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
+          <template v-else> 你好，{{ name }}! </template>
+        </div>
+        <div class="options">
+          <template v-if="!isLogin">
+            <button @click="toRegister" class="option">前往注册</button>
+            <button @click="toLogin" class="option">现在登录</button>
+          </template>
+          <template v-else>
+            <button @click="() => router.push('/game/lobby')" class="option">
+              游戏大厅
+            </button>
+            <button
+              @click="() => router.push('/user/profile/bots')"
+              class="option"
+            >
+              代码管理
+            </button>
+          </template>
         </div>
       </div>
-    </header>
-    <div class="welcome-board">
-      <div class="title-icon">
-        <template v-if="!isLogin">
-          😊
-        </template>
-        <template v-else>
-          🍾
-        </template>
-      </div>
-      <!-- <SokuImgSkeleton
-        class="title-icon"
-        url="http://localhost:3000/100x100.png,123123,321321"
-      /> -->
-      <div class="title">
-        <template v-if="!isLogin"> 欢迎来到BotCorner！ </template>
-        <template v-else> 你好，{{ name }}! </template>
-      </div>
-      <div class="options">
-        <template v-if="!isLogin">
-          <button @click="toRegister" class="option">前往注册</button>
-          <button @click="toLogin" class="option">现在登录</button>
-        </template>
-        <template v-else>
-          <button @click="() => router.push('/game/lobby')" class="option">游戏大厅</button>
-          <button @click="() => router.push('/user/profile/bots')" class="option">代码管理</button>
-        </template>
-      </div>
-    </div>
-    <main class="main">
-      <div class="new-record-list">
-        <header class="title">公告栏</header>
-        <main class="main">
-          <SokuSkeleton :is-loading="testLoading">
-            <div class="one-announce">
-              <h1 class="title">版本 1.0.0 更新公告</h1>
-              <div class="time">
-                {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
+      <main class="main">
+        <div class="new-record-list">
+          <header class="title">公告栏</header>
+          <main class="main">
+            <SokuSkeleton :is-loading="testLoading">
+              <div class="one-announce">
+                <h1 class="title">版本 1.0.0 更新公告</h1>
+                <div class="time">
+                  {{ dayjs().format('YYYY-MM-DD hh:mm:ss') }}
+                </div>
               </div>
-            </div>
-          </SokuSkeleton>
-          <SokuSkeleton :is-loading="true"></SokuSkeleton>
-          <SokuSkeleton :is-loading="true"></SokuSkeleton>
-          <SokuSkeleton :is-loading="true"></SokuSkeleton>
-        </main>
-      </div>
-    </main>
+            </SokuSkeleton>
+            <SokuSkeleton :is-loading="true"></SokuSkeleton>
+            <SokuSkeleton :is-loading="true"></SokuSkeleton>
+            <SokuSkeleton :is-loading="true"></SokuSkeleton>
+          </main>
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 

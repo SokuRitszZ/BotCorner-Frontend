@@ -8,7 +8,7 @@ useTitle('游戏大厅 --BotCorner博弈小站');
 </script>
 
 <template>
-  <div class="game-lobby w-full h-full">
+  <div class="game-lobby w-full h-full pt-10">
     <div class="-container">
       <GameList />
       <GamePlaying />

@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
-import dayjs from 'dayjs';
-import useCacheStore, { IGame, IUser } from '@/store/cacheStore';
+import useCacheStore, { IGame } from '@/store/cacheStore';
 import useTitle from '@/utils/useTitle';
 import { computed, onMounted, ref, watch } from 'vue';
-import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuPager from '@/components/SokuComponent/SokuPager/SokuPager.vue';
 import { getRecordCountApi, getRecordListApi } from '@/api/record';
 import RecordCard from '../RecordCard/RecordCard.vue';
+import { IUser } from '@/store/userStore';
 
 type IRecord = {
   id: number;

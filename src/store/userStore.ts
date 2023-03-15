@@ -1,6 +1,7 @@
 import { getInfoApi, getTokenApi, registerApi } from '@/api/account';
 import { defineStore } from 'pinia';
 import useCacheStore from './cacheStore';
+import router from './../route/index';
 
 export type IUser = {
   id: number;
@@ -118,6 +119,7 @@ const useUserStore = defineStore('UserStore', {
       useCacheStore().emptyMyRating();
       localStorage.removeItem('token');
       window._alert('success', '成功退出登录', 1000);
+      router.push('/');
     },
     async updateAvatar(url: string) {
       this.avatar = '';
