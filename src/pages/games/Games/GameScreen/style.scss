@@ -1,7 +1,8 @@
 .game-screen {
   @apply w-full;
   .parent {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 2 / 1;
+    @apply flex justify-center items-center;
     @apply bg-black;
 
     .canvas {

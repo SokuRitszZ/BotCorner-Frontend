@@ -28,10 +28,17 @@ onUnmounted(() => {
   gameStore.record = undefined;
 });
 
+function back() {
+  gameStore.game = null;
+}
+
 </script>
 
 <template>
   <div class="game-base-page">
+    <div class="flex justify-end">
+      <button @click="back" class="bg-gray-200 active:300 px-2 font-thin rounded-sm mb-2">返回</button>
+    </div>
     <GameScreen />
     <RecordPlayer v-if="isRecordMode" />
     <div class="w-full">

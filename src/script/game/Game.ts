@@ -105,6 +105,7 @@ abstract class Game {
     this.engine = window.requestAnimationFrame(engine);
 
     this.onStart();
+    this.emit('start');
     return this;
   }
 

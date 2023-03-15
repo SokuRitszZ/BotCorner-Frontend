@@ -30,7 +30,6 @@ onMounted(async () => {
     title: 'not-found',
     id: -1,
   };
-  connect();
 });
 
 onUnmounted(() => {
@@ -105,9 +104,9 @@ useBindEvent('close', () => {
           <button
             @click="connect"
             v-if="!isConnected && !isRetrying"
-            class="text-xl bg-gray-200 rounded-md ml-2 px-2 font-thin"
+            class="text-lg bg-gray-200 rounded-md ml-2 px-2 font-thin "
           >
-            尝试重连
+            连接
           </button>
         </h1>
         <hr />
