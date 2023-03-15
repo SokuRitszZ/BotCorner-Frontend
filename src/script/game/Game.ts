@@ -115,6 +115,7 @@ abstract class Game {
     window.cancelAnimationFrame(this.engine);
 
     this.onStop();
+    this.emit('stop');
     return this;
   }
 

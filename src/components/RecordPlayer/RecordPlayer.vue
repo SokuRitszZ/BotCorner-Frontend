@@ -81,6 +81,7 @@ onMounted(() => {
 
 onUnmounted(async () => {
   recordPlayer.value?.stop().clearEmit();
+  recordPlayer.value = undefined;
 });
 
 const speed = ref<number>(1);

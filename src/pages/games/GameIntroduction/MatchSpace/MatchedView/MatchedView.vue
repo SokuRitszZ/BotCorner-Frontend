@@ -36,6 +36,10 @@ function ok(index: number) {
 useBindEvent('toggle match', (data: any) => {
   matchStore.okPrepare[data.id] = data.isOk;
 });
+
+useBindEvent(['start single game', 'start multi game'], () => {
+  matchStore.status = 'to-match';
+});
 </script>
 
 <template>
