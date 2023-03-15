@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
+import useBindEvent from '@/hooks/useBindEvent';
+import { IUser } from '@/store/userStore';
+import { ref } from 'vue';
+
+const users = ref<IUser[]>();
+
+useBindEvent('init', (data: any) => {
+  users.value = data.users;
+});
+
+useBindEvent('join', (data: any) => {
+  users.value?.push(data);
+});
+
+useBindEvent('leave', (data: any) => {
+  users.value = users.value?.filter(u => u.id !== data.id);
+});
 </script>
 
 <template>
@@ -7,12 +24,10 @@ import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkel
     <h2 class="title">在线用户</h2>
     <div class="users-container">
       <SokuImgSkeleton
-        v-for="i in 10"
-        :key="i"
+        v-for="u in users"
+        :key="u.id"
         class="avatar"
-        :url="`http://localhost:3000/100x100.png,${
-          (Math.random() * 10 ** 6) >>> 0
-        },${(Math.random() * 10 ** 6) >>> 0}`"
+        :url="u.avatar"
       />
     </div>
   </div>
