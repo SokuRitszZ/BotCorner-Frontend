@@ -128,6 +128,9 @@ class RecordPlayer {
    */
   public next() {
     if (!this.record) return;
+    if (this.cur.v >= this.record.steps.length) {
+      return this.pause();
+    }
     const step = this._next(this.cur, this.record);
     ++this.step;
     this.emit('next', this.cur.v, step, this.step);
