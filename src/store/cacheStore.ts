@@ -100,6 +100,7 @@ const useCacheStore = defineStore('CacheStore', {
         await Promise.all([this.getGames, this.getLangs]);
         const info = await getBotsApi();
         const bots: IBot[] = (info as any).bots;
+        this.bots = bots;
         return bots;
       }
       catch(e) {
