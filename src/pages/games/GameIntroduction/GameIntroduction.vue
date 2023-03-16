@@ -6,6 +6,7 @@ import useCacheStore, { IGame } from '@/store/cacheStore';
 import useGameStore from '@/store/gameStore';
 import useMatchStore from '@/store/matchStore';
 import useUserStore from '@/store/userStore';
+import useTitle from '@/utils/useTitle';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import BasePage from '../Games/BasePage/GameBasePage.vue';
@@ -32,6 +33,9 @@ onMounted(async () => {
     title: 'not-found',
     id: -1,
   };
+  if (game.value.id !==  -1) {
+    useTitle(`${game.value.name} --BotCorner博弈小站`);
+  }
 });
 
 onUnmounted(() => {

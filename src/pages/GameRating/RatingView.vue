@@ -2,8 +2,11 @@
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import useCacheStore, { IGame, IRating } from '@/store/cacheStore';
 import leftpad from '@/utils/leftpad';
+import useTitle from '@/utils/useTitle';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+
+useTitle('天梯排名 --BotCorner博弈小站')
 
 const cacheStore = useCacheStore();
 

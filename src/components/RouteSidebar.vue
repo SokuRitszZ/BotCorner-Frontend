@@ -29,10 +29,6 @@ const optionsInSidebar = computed(() => [
     ],
   },
   {
-    title: '反馈',
-    items: [{ title: '报Bug', to: '/feedback/bug' }],
-  },
-  {
     title: '个性化',
     items: [
       {
@@ -40,6 +36,10 @@ const optionsInSidebar = computed(() => [
         to: '/settings/favour',
       },
     ],
+  },
+  {
+    title: '反馈',
+    items: [{ title: '报Bug', to: '/feedback/bug' }],
   },
 ]);
 

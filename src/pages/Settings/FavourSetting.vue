@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import useThemeStore from '@/store/themeStore';
+import useTitle from '@/utils/useTitle';
 
 const themeStore = useThemeStore();
+
+useTitle('偏好设置 --BotCorner博弈小站');
 </script>
 
 <template>

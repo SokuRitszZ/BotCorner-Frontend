@@ -36,6 +36,7 @@ onMounted(async () => {
       throw Error();
     }
     info.value = result;
+    useTitle(`${info.value.username}的主页 --BotCorner博弈小站`)
   } catch (e) {
     window._alert('danger', '获取失败，可能不存在此用户');
     info.value = {
