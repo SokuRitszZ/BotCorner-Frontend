@@ -122,6 +122,9 @@ const isDAY = computed(() => {
 </template>
 
 <style scoped lang="scss">
+* {
+  color: var(--font-c);
+}
 .drop-up {
   box-shadow: var(--shadow);
   background-color: var(--bg-c);

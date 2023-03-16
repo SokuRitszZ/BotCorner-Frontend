@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RecordPlayer from '@/components/RecordPlayer/RecordPlayer.vue';
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import useBindEvent from '@/hooks/useBindEvent';
 import useGameStore from '@/store/gameStore';
 import { onMounted, onUnmounted, ref } from 'vue';
@@ -37,7 +38,7 @@ function back() {
 <template>
   <div class="game-base-page">
     <div class="flex justify-end">
-      <button @click="back" class="bg-gray-200 active:300 px-2 font-thin rounded-sm mb-2">返回</button>
+      <SokuButton @click="back" class="back-btn px-2 font-thin rounded-sm mb-2">返回</SokuButton>
     </div>
     <GameScreen />
     <RecordPlayer v-if="isRecordMode" />

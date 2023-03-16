@@ -8,6 +8,6 @@
     @apply rounded-full;
     @apply flex justify-center items-center gap-3;
 
-    @apply bg-gray-400;
+    background-color: var(--bg-xl-c);
   }
 }

@@ -1,9 +1,25 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import RouteSidebar from './components/RouteSidebar.vue';
 import Alert from './components/SokuComponent/SokuAlert.vue';
+import useGameRoute from './hooks/useGameRoute';
 import useThemeStore from './store/themeStore';
+import useUserStore from './store/userStore';
+
+const userStore = useUserStore();
+const router = useRouter();
 
 useThemeStore();
+
+onMounted(async () => {
+  try {
+    await userStore.getInfo();
+    await useGameRoute(router);
+  } catch (e) {
+    window._alert('danger', '登录失败，请重试');
+  }
+});
 </script>
 
 <template>

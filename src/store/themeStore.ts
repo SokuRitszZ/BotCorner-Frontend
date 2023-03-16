@@ -20,20 +20,23 @@ const useThemeStore = defineStore('ThemeStore', () => {
     changeTheme(newV, oldV);
   });
 
+  const timerChanging = ref<any>();
+
   async function changeTheme(theme: string, old?: string) {
-    document.body.classList.add('--change-theme-transition');
-    await nextTick();
     if (old) document.body.classList.remove(old);
+    document.body.classList.add('--change-theme-transition');
     document.body.classList.add(theme);
-    setTimeout(() => {
+    timerChanging.value = setTimeout(() => {
       document.body.classList.remove('--change-theme-transition');
-    }, 1500);
+      timerChanging.value = null;
+    }, 1000);
   }
 
   return {
     themesAvailable,
     themeCurrent,
     changeTheme,
+    timerChanging,
   }
 });
 
