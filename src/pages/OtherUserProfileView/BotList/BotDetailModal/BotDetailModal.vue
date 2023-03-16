@@ -5,6 +5,7 @@ import leftpad from '@/utils/leftpad';
 import { ref } from 'vue';
 import toWord from '@/utils/toWord';
 import { getCodeApi } from '@/api/bots';
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 
 const cacheStore = useCacheStore();
 
@@ -121,9 +122,9 @@ defineExpose({
         />
       </div>
       <div class="flex justify-between items-center gap-2 w-full">
-        <button :disabled="isGettingCode" @click="getCode" class="submit-btn">
+        <SokuButton :disabled="isGettingCode" @click="getCode" class="submit-btn">
           获取代码
-        </button>
+        </SokuButton>
       </div>
     </div>
   </SokuModal>

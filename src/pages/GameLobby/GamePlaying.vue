@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getCurrentApi } from '@/api/record';
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import useCacheStore, { IBot } from '@/store/cacheStore';
 import { IUser } from '@/store/userStore';
 import { throttle } from 'lodash';
@@ -36,9 +37,9 @@ const refresh = throttle(_refresh, 1000);
       <span>
         正在进行
       </span>
-      <button @click="refresh" class="text-sm bg-gray-300 px-2 rounded-sm">
+      <SokuButton @click="refresh" class="text-sm bg-gray-300 px-2 rounded-sm">
         刷新
-      </button>
+      </SokuButton>
     </h2>
     <template v-if="records.length > 0">
       <main class="game-grid">

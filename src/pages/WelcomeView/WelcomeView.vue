@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import SokuModal from '@/components/SokuComponent/SokuModal/SokuModal.vue';
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useUserStore from '@/store/userStore';
@@ -136,19 +137,19 @@ function seeAnnounce() {
         </div>
         <div class="options">
           <template v-if="!isLogin">
-            <button @click="toRegister" class="option">前往注册</button>
-            <button @click="toLogin" class="option">现在登录</button>
+            <SokuButton @click="toRegister" class="option">前往注册</SokuButton>
+            <SokuButton @click="toLogin" class="option">现在登录</SokuButton>
           </template>
           <template v-else>
-            <button @click="() => router.push('/game/lobby')" class="option">
+            <SokuButton @click="() => router.push('/game/lobby')" class="option">
               游戏大厅
-            </button>
-            <button
+            </SokuButton>
+            <SokuButton
               @click="() => router.push('/user/profile/bots')"
               class="option"
             >
               代码管理
-            </button>
+            </SokuButton>
           </template>
         </div>
       </div>

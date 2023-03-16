@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import useCacheStore, { IBot } from '@/store/cacheStore';
+import useCacheStore from '@/store/cacheStore';
 import useMatchStore from '@/store/matchStore';
-import leftpad from '@/utils/leftpad';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-// const bots = ref<IEntry<number>[]>([{ key: '亲自出马', value: 0 }]);
 const bots = ref<{
   id: number;
   title: string;

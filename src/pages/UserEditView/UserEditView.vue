@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { updateAvatarApi, updateProfileApi } from '@/api/account';
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import useUserStore from '@/store/userStore';
 import useTitle from '@/utils/useTitle';
@@ -89,9 +90,9 @@ const isSame = computed(() => {
         <label for="password">密码</label>
         <input id="password" type="password" v-model="settingsNew.password" />
       </form>
-      <button :disabled="isSame" @click="saveEdition" class="submit-btn">
+      <SokuButton :disabled="isSame" @click="saveEdition" class="submit-btn">
         保存
-      </button>
+      </SokuButton>
     </div>
   </div>
 </template>

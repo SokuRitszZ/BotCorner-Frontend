@@ -1,0 +1,28 @@
+.--soku-btn {
+  @apply px-2;
+  @apply rounded-md;
+  @apply relative;
+  @apply overflow-hidden;
+
+  background-color: var(--soku-btn-c);
+
+  &:hover {
+    &::after {
+      content: '';
+      background-color: #0001;
+      @apply w-full h-full;
+      @apply absolute top-0 left-0;
+      @apply pointer-events-none;
+    }
+  }
+
+  &:active {
+    &::after {
+      content: '';
+      background-color: #0002;
+      @apply w-full h-full;
+      @apply absolute top-0 left-0;
+      @apply pointer-events-none;
+    }
+  }
+}
