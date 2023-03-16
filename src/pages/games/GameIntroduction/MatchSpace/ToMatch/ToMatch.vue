@@ -1,21 +1,35 @@
 <script setup lang="ts">
-import { IEntry } from '@/components/SokuComponent/SokuSelect.vue';
-import useCacheStore from '@/store/cacheStore';
+import useCacheStore, { IBot } from '@/store/cacheStore';
 import useMatchStore from '@/store/matchStore';
+import leftpad from '@/utils/leftpad';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-const bots = ref<IEntry<number>[]>([{ key: '亲自出马', value: 0 }]);
+// const bots = ref<IEntry<number>[]>([{ key: '亲自出马', value: 0 }]);
+const bots = ref<{
+  id: number;
+  title: string;
+}[]>([{
+  id: 0,
+  title: '亲自出马',
+}]);
 const cacheStore = useCacheStore();
 const route = useRoute();
 
+const idGame = +route.meta.id!;
+
 onMounted(async () => {
-  const botsGot = await cacheStore.getBots;
-  bots.value.push(
-    ...botsGot
-      .filter((bot) => bot.gameId === +route.params.id)
-      .map((bot) => ({ key: bot.title + '#' + bot.id, value: bot.id }))
-  );
+  try {
+    let botsGot: any[] = await cacheStore.getBots;
+    botsGot = botsGot.filter(b => b.gameId === idGame).map(b => ({
+      id: b.id,
+      title: b.title,
+    }));
+    bots.value.push(...botsGot);
+  }
+  catch(e) {
+    window._alert('danger', e as string);
+  }
 });
 
 const matchStore = useMatchStore();
@@ -71,8 +85,8 @@ function startMatch() {
         name="idSelected"
         id="idSelected"
       >
-        <option v-for="bot in bots" :key="bot.key" :value="bot.value">
-          {{ bot.key }}
+        <option class="font-thin" v-for="bot in bots" :key="bot.id" :value="bot.id">
+          {{ bot.title }} #{{ bot.id }}
         </option>
       </select>
       <button @click="startMatch" class="btn">开始匹配</button>

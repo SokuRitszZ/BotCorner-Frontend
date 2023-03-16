@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getRecentRecordsApi } from "@/api/record";
-import useCacheStore, { IUser } from "@/store/cacheStore";
+import useCacheStore from "@/store/cacheStore";
+import { IUser } from "@/store/userStore";
 import { onMounted, ref } from "vue";
 import RecordCard from "../RecordCard/RecordCard.vue";
 

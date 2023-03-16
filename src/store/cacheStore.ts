@@ -95,22 +95,16 @@ const useCacheStore = defineStore('CacheStore', {
         return this.promises['games'] as Promise<IGame[]>;
       }
     },
-    getBots(): Promise<IBot[]> {
-      return Promise.all([this.getGames, this.getLangs]).then(() => {
-        if (!this.bots.length && !this.promises['bots']) {
-          return (this.promises['bots'] = getBotsApi()
-            .then((info) => (info as any).bots)
-            .then((bots) => {
-              this.bots.push(...bots);
-              return this.bots;
-            })).catch((error) => {
-            this.promises['bots'] = null;
-            window._alert('danger', `获取Bot列表失败：${error}`);
-          });
-        } else {
-          return this.promises['bots'] as Promise<IBot[]>;
-        }
-      });
+    async getBots(): Promise<IBot[]> {
+      try {
+        await Promise.all([this.getGames, this.getLangs]);
+        const info = await getBotsApi();
+        const bots: IBot[] = (info as any).bots;
+        return bots;
+      }
+      catch(e) {
+        return [];
+      }
     },
     getMyRating() {
       return (gameId: number) => {
@@ -126,10 +120,12 @@ const useCacheStore = defineStore('CacheStore', {
     },
     getRatings() {
       return async (gameId: number) => {
-        return (await getRatingsApi({
-          gameId,
-          count: 17,
-        }) as any).ratings;
+        return (
+          (await getRatingsApi({
+            gameId,
+            count: 17,
+          })) as any
+        ).ratings;
       };
     },
     getLang() {
@@ -137,8 +133,7 @@ const useCacheStore = defineStore('CacheStore', {
         this.langs.find((lang) => lang.id === langId)!.lang;
     },
     getGame() {
-      return (gameId: number) =>
-        this.games.find((game) => game.id === gameId)!;
+      return (gameId: number) => this.games.find((game) => game.id === gameId)!;
     },
     getGameId() {
       return (title: string) =>

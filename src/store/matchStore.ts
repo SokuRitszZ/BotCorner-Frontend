@@ -36,12 +36,14 @@ const useMatchStore = defineStore('MatchStore', () => {
       username: 'Miss Paula Klein',
       avatar:
         'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/602.jpg',
+      signature: '',
     },
     {
       id: 1,
       username: 'Glen Hintz',
       avatar:
         'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/924.jpg',
+      signature: '',
     },
   ]);
 

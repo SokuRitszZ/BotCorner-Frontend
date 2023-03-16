@@ -16,6 +16,7 @@ useBindEvent('start single game', () => {
     id: userStore.id,
     username: userStore.username,
     avatar: userStore.avatar,
+    signature: '',
   }));
 });
 </script>

@@ -26,19 +26,23 @@ const info = ref<IUser>({
   id: 0,
   username: '获取中',
   signature: '获取中',
-  avatar: '',
+  avatar: 'https://sdfsdf.dev/100x100.png',
 });
 
 onMounted(async () => {
   try {
-    info.value = ((await getInfoByIdApi(id)) as any).result;
+    const result = ((await getInfoByIdApi(id)) as any).result;
+    if (!result) {
+      throw Error();
+    }
+    info.value = result;
   } catch (e) {
     window._alert('danger', '获取失败，可能不存在此用户');
     info.value = {
       id: 0,
       username: '未知',
       signature: '啊吧啊吧······',
-      avatar: '',
+      avatar: 'https://sdfsdf.dev/100x100.png',
     };
   }
 });
