@@ -26,7 +26,9 @@ onMounted(async () => {
     <div class="main-view relative">
       <router-view v-slot="{ Component }">
         <transition>
-          <component :is="Component"></component>
+          <keep-alive :include="['RecordList', 'RatingView']">
+            <component :is="Component"></component>
+          </keep-alive>
         </transition>
       </router-view>
     </div>
