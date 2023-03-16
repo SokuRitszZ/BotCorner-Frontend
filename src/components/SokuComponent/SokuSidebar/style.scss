@@ -4,18 +4,17 @@
   @apply bg-white;
   @apply shadow-2xl;
   @apply select-none;
+  @apply flex flex-col justify-between;
 
   .header {
     @apply w-full h-[150px];
-  }
-
-  .div_line {
-    @apply m-auto my-1;
-    @apply w-[200px] h-1 scale-y-50;
-    @apply bg-gray-200;
+    @apply border-b-2 border-gray-100;
+    @apply flex-shrink-0;
   }
 
   .main {
+    @apply flex-grow;
+    @apply overflow-scroll;
     .list {
       @apply transition;
       .title {
@@ -54,8 +53,8 @@
   }
 
   .footer {
-    @apply absolute bottom-0 left-0;
     @apply w-full h-[100px];
     @apply border-t-2 border-gray-100;
+    @apply flex-shrink-0;
   }
 }

@@ -7,8 +7,6 @@
       <slot name="header"></slot>
     </header>
 
-    <div class="div_line"></div>
-
     <main class="main">
       <slot name="main"></slot>
     </main>
