@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref } from 'vue';
 import SokuWindow from './SokuComponent/SokuWindow.vue';
-import SokuButton from './SokuComponent/SokuButton.vue';
 import dayjs from 'dayjs';
 
 const $window = ref();
