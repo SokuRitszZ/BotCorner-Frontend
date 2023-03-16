@@ -1,0 +1,17 @@
+.game-playing {
+  box-shadow: var(--shadow);
+  background-color: var(--bg-c);
+
+  @apply mt-7;
+  @apply w-full h-fit;
+  @apply rounded-xl;
+  @apply overflow-hidden;
+
+  .game-grid {
+    @apply p-4 grid grid-cols-2 xl:grid-cols-3 gap-3;
+  }
+
+  .refresh-btn {
+    color: var(--font-c);
+  }
+}

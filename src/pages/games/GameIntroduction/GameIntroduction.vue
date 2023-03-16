@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import SokuSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuSkeleton.vue';
 import useBindEvent from '@/hooks/useBindEvent';
 import useCacheStore, { IGame } from '@/store/cacheStore';
@@ -114,16 +115,16 @@ useBindEvent('close', () => {
             >[语雀]开放文档</a
           >
         </main>
-        <h1 class="title">
+        <h1 class="title flex items-center gap-2">
           在线状况
           <span v-if="!isConnected" class="text-xl text-red-800">未连接</span>
-          <button
+          <SokuButton
             @click="connect"
             v-if="!isConnected && !isRetrying"
-            class="text-lg bg-gray-200 rounded-md ml-2 px-2 font-thin"
+            class="text-lg rounded-sm px-2 font-thin"
           >
             连接
-          </button>
+          </SokuButton>
         </h1>
         <hr />
         <main class="online-state">

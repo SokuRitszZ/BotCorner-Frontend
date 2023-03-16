@@ -56,11 +56,12 @@ async function toWatch() {
   @apply rounded-md;
   @apply overflow-hidden;
   .card {
+    background-color: var(--bg-lg-c);
+
     @apply w-full h-full;
-    @apply bg-gray-200;
     .avatars {
+      background-color: var(--bg-c);
       @apply flex justify-between items-center;
-      @apply bg-gray-300;
       @apply w-[200px];
       @apply p-1 mx-auto;
       @apply rounded-full;

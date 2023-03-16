@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import useCacheStore from '@/store/cacheStore';
 import useMatchStore from '@/store/matchStore';
 import { onMounted, ref } from 'vue';
@@ -59,21 +60,21 @@ function startMatch() {
         type="number"
         :placeholder="`${idx + 1}号BotID（0代表手动）`"
       />
-      <button
+      <SokuButton
         v-if="matchStore.idsBot.length > 1"
         @click="matchStore.minusIdBot"
         class="btn"
       >
         -
-      </button>
-      <button
+      </SokuButton>
+      <SokuButton
         v-if="matchStore.idsBot.length < 4"
         @click="matchStore.addIdBot"
         class="btn"
       >
         +
-      </button>
-      <button @click="startGame" class="btn">开始游戏</button>
+      </SokuButton>
+      <SokuButton @click="startGame" class="btn">开始游戏</SokuButton>
     </main>
     <h1 class="text-3xl font-thin mt-4">多人模式</h1>
     <hr />
@@ -87,7 +88,7 @@ function startMatch() {
           {{ bot.title }} #{{ bot.id }}
         </option>
       </select>
-      <button @click="startMatch" class="btn">开始匹配</button>
+      <SokuButton @click="startMatch" class="btn">开始匹配</SokuButton>
     </main>
   </div>
 </template>

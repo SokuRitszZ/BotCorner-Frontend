@@ -2,11 +2,12 @@
   @apply px-10 pt-10;
 
   .-container {
+    background-color: var(--bg-c);
+    box-shadow: var(--shadow);
+
     @apply w-full max-w-[1000px] h-fit;
     @apply rounded-sm overflow-hidden;
-    @apply shadow-lg;
     @apply mx-auto;
-    @apply bg-gray-100;
     @apply px-8 py-10;
 
     form {
@@ -68,7 +69,12 @@
       @apply lg:grid lg:grid-cols-2 lg:gap-2;
 
       .user {
-        @apply bg-gray-200;
+        background-color: var(--bg-lg-c);
+
+        &:hover {
+          box-shadow: var(--shadow);
+        }
+        
         @apply p-3;
         @apply flex items-center gap-3;
 

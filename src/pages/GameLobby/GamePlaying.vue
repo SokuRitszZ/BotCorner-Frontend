@@ -37,7 +37,7 @@ const refresh = throttle(_refresh, 1000);
       <span>
         正在进行
       </span>
-      <SokuButton @click="refresh" class="text-sm px-2 rounded-sm">
+      <SokuButton @click="refresh" class="refresh-btn text-sm px-2 rounded-sm">
         刷新
       </SokuButton>
     </h2>
@@ -47,7 +47,11 @@ const refresh = throttle(_refresh, 1000);
       </main>
     </template>
     <template v-else>
-      <div class="w-full h-full text-5xl font-thin p-4 text-center">目前没有比赛</div>
+      <div class="w-full h-full text-5xl font-thin p-4 text-chienter">目前没有比赛</div>
     </template>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import url('./playing.scss');
+</style>

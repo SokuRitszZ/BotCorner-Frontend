@@ -2,11 +2,12 @@
   @apply px-10 pt-10;
 
   .-container {
+    background-color: var(--bg-c);
+    box-shadow: var(--shadow);
+
     @apply w-full max-w-[1000px] h-fit;
     @apply rounded-sm overflow-hidden;
-    @apply shadow-lg;
     @apply mx-auto;
-    @apply bg-gray-100;
     @apply px-10 py-4;
 
     form {

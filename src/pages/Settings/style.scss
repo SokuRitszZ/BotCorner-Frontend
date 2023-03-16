@@ -1,0 +1,18 @@
+.settings-favour {
+  @apply px-10 pt-10;
+  @apply w-full h-full;
+
+  .-container {
+    background-color: var(--bg-c);
+    box-shadow: var(--shadow);
+
+    @apply w-full max-w-[1000px] h-fit;
+    @apply rounded-sm overflow-hidden;
+    @apply mx-auto;
+    @apply px-8 py-10;
+  }
+}
+
+.options {
+  @apply flex items-center gap-3;
+}

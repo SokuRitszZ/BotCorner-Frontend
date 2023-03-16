@@ -1,0 +1,13 @@
+.game-recent {
+  background-color: var(--bg-c);
+  box-shadow: var(--shadow);
+
+  @apply mt-7;
+  @apply w-full h-fit;
+  @apply rounded-md;
+  @apply overflow-hidden;
+
+  .game-grid {
+    @apply p-4 grid grid-cols-2 xl:grid-cols-3 gap-3;
+  }
+}

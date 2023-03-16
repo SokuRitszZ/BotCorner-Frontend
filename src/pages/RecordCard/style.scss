@@ -2,16 +2,21 @@
   @apply w-full h-[200px];
   @apply overflow-hidden;
   @apply rounded-md;
-  @apply cursor-pointer hover:shadow-md;
+  @apply cursor-pointer;
+
+  &:hover {
+    box-shadow: var(--shadow);
+  }
 
   .record-card {
+    background-color: var(--bg-lg-c);
+
     @apply w-full h-full;
-    @apply bg-gray-200;
 
     .avatars {
+      background-color: var(--bg-c);
       @apply flex items-center justify-between;
       @apply w-[200px];
-      @apply bg-gray-300;
       @apply mx-auto p-1;
       @apply rounded-full;
 

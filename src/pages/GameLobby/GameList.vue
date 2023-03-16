@@ -62,13 +62,11 @@ const router = useRouter();
           @click="_prev"
           class="absolute p-2 w-[50px] h-[50px] rounded-full opacity-50 bg-black top-[120px] left-2 z-50"
         >
-          左
         </button>
         <button
           @click="_next"
           class="absolute p-2 w-[50px] h-[50px] rounded-full opacity-50 bg-black top-[120px] right-2 z-50"
         >
-          右
         </button>
         <h2 class="title">可玩游戏</h2>
         <div ref="domItemList" class="item-list">
@@ -98,3 +96,7 @@ const router = useRouter();
     </main>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import url('./list.scss');
+</style>

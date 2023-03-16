@@ -86,9 +86,9 @@ const routes: RouteRecordRaw[] = [
       import('@/pages/games/GameIntroduction/GameIntroduction.vue'),
   },
   {
-    path: '/bots',
-    name: 'botsmanage',
-    component: () => import('@/pages/GameRating/RatingView.vue'),
+    path: '/settings/favour',
+    name: 'settings-favour',
+    component: () => import('@/pages/Settings/FavourSetting.vue'),
   },
   {
     path: '/lab',

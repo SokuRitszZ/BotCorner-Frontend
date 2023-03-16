@@ -32,6 +32,15 @@ const optionsInSidebar = computed(() => [
     title: '反馈',
     items: [{ title: '报Bug', to: '/feedback/bug' }],
   },
+  {
+    title: '个性化',
+    items: [
+      {
+        title: '偏好设置',
+        to: '/settings/favour',
+      },
+    ],
+  },
 ]);
 
 const isFocus = ref(false);
@@ -77,17 +86,18 @@ const isDAY = computed(() => {
       >
         <button
           @click="toggleFocus"
-          class="flex items-center p-1 rounded-full hover:bg-gray-200 w-[200px] transition"
+          class="other-btn flex items-center p-1 rounded-full w-[200px] transition"
         >
           <SokuImgSkeleton
             :url="userStore.avatar"
             class="w-[50px] h-[50px] rounded-full overflow-hidden flex-shrink-0"
           />
           <div class="flex flex-col justify-between w-[120px] flex-grow-0">
-            <span class="font-bold text-xl overflow-hidden overflow-ellipsis px-2">{{
-              userStore.username
-            }}</span>
-            <span class="font-thin text-gray-400 text-left pl-2"
+            <span
+              class="font-bold text-xl overflow-hidden overflow-ellipsis px-2"
+              >{{ userStore.username }}</span
+            >
+            <span class="font-thin text-left pl-2"
               >#{{ leftpad(8, userStore.id) }}</span
             >
           </div>
@@ -96,11 +106,11 @@ const isDAY = computed(() => {
         <transition>
           <div
             v-if="isFocus"
-            class="drop-up absolute w-[250px] h-fit py-2 bg-gray-100 -top-0 -translate-y-full left-3 rounded-xl transition"
+            class="drop-up absolute w-[250px] h-fit py-2 -top-0 -translate-y-full left-3 rounded-xl transition"
           >
             <button
               @click="logout"
-              class="font-thin w-full px-4 hover:bg-gray-200 text-2xl overflow-hidden whitespace-nowrap overflow-ellipsis"
+              class="logout-btn font-thin w-full px-4 text-2xl overflow-hidden whitespace-nowrap overflow-ellipsis"
             >
               登出 {{ userStore.username }}
             </button>
@@ -113,7 +123,16 @@ const isDAY = computed(() => {
 
 <style scoped lang="scss">
 .drop-up {
-  box-shadow: 0 0 10px #ddd;
+  box-shadow: var(--shadow);
+  background-color: var(--bg-c);
+}
+
+.logout-btn:hover {
+  background-color: var(--bg-lg-c);
+}
+
+.other-btn:hover {
+  background-color: var(--bg-lg-c);
 }
 
 .v-enter-active,
@@ -130,13 +149,21 @@ const isDAY = computed(() => {
   transform: translateY(-100%);
   opacity: 1;
 }
-
+.sun,
+.moon {
+  width: 50px;
+  height: 50px;
+  @apply flex justify-center items-center;
+}
 .sun {
+  @apply rounded-full;
   animation: 50s linear sun infinite;
+  text-shadow: 0 0 50px gold;
 }
 
 .moon {
   animation: 4s moon infinite;
+  text-shadow: 0 0 20px yellow;
 }
 
 @keyframes sun {

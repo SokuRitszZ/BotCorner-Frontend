@@ -2,15 +2,15 @@
   @apply px-10;
   @apply w-full;
   .-container {
+    box-shadow: var(--shadow);
     @apply w-full max-w-[1000px] h-fit;
     @apply mx-auto pb-5;
-    @apply shadow-md;
 
     .background {
+      background-image: linear-gradient(to top, var(--bg-xl-c), #0000);
       @apply w-full h-[200px];
       @apply px-8 pb-6;
       @apply flex flex-col justify-end;
-      @apply bg-gradient-to-t from-gray-400 to-white;
     }
 
     .show-board {
@@ -23,7 +23,8 @@
         @apply pl-3 pt-2 pb-7;
 
         a {
-          @apply bg-gray-200;
+          color: var(--font-c);
+          background-color: var(--bg-lg-c);
         }
       }
     }

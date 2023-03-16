@@ -1,0 +1,46 @@
+.game-list {
+  @apply w-full;
+  @apply mt-10;
+
+  .game-list-container {
+    @apply w-full;
+    @apply flex gap-7 items-center;
+
+    .available-list,
+    .recommend {
+      box-shadow: var(--shadow);
+      background-color: var(--bg-c);
+
+      @apply h-[250px];
+      @apply rounded-xl;
+      @apply overflow-hidden;
+    }
+
+    .available-list {
+      @apply flex-grow;
+      @apply col-span-4;
+      @apply overflow-hidden;
+
+      .item-list {
+        @apply w-fit;
+        @apply flex items-center flex-nowrap;
+      }
+    }
+
+    .recommend {
+      @apply flex-grow-0 flex-shrink-0;
+      @apply w-[200px];
+      @apply col-span-1;
+    }
+
+    .item {
+      background-color: var(--bg-c);
+      box-shadow: var(--shadow);
+
+      @apply p-5;
+      @apply w-full h-full;
+      @apply rounded-md;
+      @apply flex flex-col items-center gap-3;
+    }
+  }
+}

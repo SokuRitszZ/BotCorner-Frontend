@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import SokuSpinner from '@/components/SokuComponent/SokuSpinner/SokuSpinner.vue';
 import useBindEvent from '@/hooks/useBindEvent';
@@ -46,13 +47,13 @@ const bot = cacheStore.bots.find((b) => b.id === matchStore.idBotSelected);
 <template>
   <div class="matching-view">
     <SokuImgSkeleton class="avatar" :url="userStore.avatar" />
-    <SokuSpinner class="bg-black w-full mt-1" />
+    <SokuSpinner class="spinner w-full mt-1" />
     <span class="username">{{ userStore.username }}</span>
     <span v-if="!!matchStore.idBotSelected" class="username"
       >[{{ bot!.title }}]</span
     >
     <span class="title mt-4">匹配中...</span>
-    <button @click="cancelMatch" class="btn mt-4">取消匹配</button>
+    <SokuButton @click="cancelMatch" class="btn mt-4">取消匹配</SokuButton>
   </div>
 </template>
 

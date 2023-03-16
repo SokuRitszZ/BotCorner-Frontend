@@ -2,11 +2,12 @@
   @apply px-10;
 
   .-container {
+    background-color: var(--bg-c);
+
     @apply w-full max-w-[1000px] h-fit;
     @apply rounded-sm overflow-hidden;
     @apply shadow-lg;
     @apply mx-auto;
-    @apply bg-gray-100;
 
     .header {
       aspect-ratio: 3 / 1;
@@ -43,7 +44,7 @@
           .name {
             @apply flex items-center;
             @apply text-3xl font-bold;
-            text-shadow: 0 0 10px white;
+            text-shadow: var(--shadow);
           }
 
           .signature {
@@ -62,9 +63,9 @@
     }
 
     .nav-view {
+      background-color: var(--bg-c);
       @apply w-full;
       @apply p-3;
-      @apply bg-white;
     }
   }
 }

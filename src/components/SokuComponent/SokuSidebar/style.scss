@@ -1,14 +1,16 @@
 .--soku-sidebar {
+  background-color: var(--bg-c);
+  color: var(--font-c);
+
   @apply relative z-40;
   @apply w-[250px] h-screen flex-shrink-0;
-  @apply bg-white;
   @apply shadow-2xl;
   @apply select-none;
   @apply flex flex-col justify-between;
 
   .header {
+    border-bottom: 2px solid var(--bg-lg-c);
     @apply w-full h-[150px];
-    @apply border-b-2 border-gray-100;
     @apply flex-shrink-0;
   }
 
@@ -25,19 +27,20 @@
         @apply transition;
 
         &:hover {
-          @apply bg-slate-300;
+          background-color: var(--bg-lg-c);
         }
 
         &:active {
-          @apply bg-slate-400;
+          background-color: var(--bg-lg-c);
         }
       }
     }
   }
 
   .footer {
+    border-top: 2px solid var(--bg-lg-c);
+
     @apply w-full h-[100px];
-    @apply border-t-2 border-gray-100;
     @apply flex-shrink-0;
   }
 }

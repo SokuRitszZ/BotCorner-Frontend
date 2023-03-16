@@ -4,12 +4,16 @@
   @apply lg:grid-cols-3;
 
   .bot {
+    background-color: var(--bg-lg-c);
+
     @apply select-none;
     @apply w-full h-[150px];
-    @apply bg-gray-200;
     @apply rounded-md;
     @apply p-3;
-    @apply hover:bg-gray-200 active:bg-gray-300;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
     
     .title {
       @apply text-xl font-bold break-all text-center

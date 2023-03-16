@@ -1,8 +1,8 @@
 .online-users {
+  background-color: var(--bg-c);
+
   @apply h-[400px];
-  @apply bg-gray-100;
   @apply rounded-md;
-  @apply shadow-lg;
   @apply overflow-scroll;
   @apply p-3;
 

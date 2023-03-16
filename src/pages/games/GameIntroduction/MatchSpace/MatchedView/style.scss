@@ -1,8 +1,8 @@
 .matched-view {
   .user {
+    background-color: var(--bg-lg-c);
     @apply flex items-center gap-2;
     @apply mt-3 p-2;
-    @apply bg-gray-300;
     @apply rounded-lg;
     @apply w-full;
 
@@ -19,7 +19,6 @@
 
   .btn {
     @apply w-full;
-    @apply bg-gray-300 hover:bg-gray-400;
     @apply rounded-md;
     @apply mt-4;
   }

@@ -21,7 +21,7 @@ const testLoading = ref(true);
 onMounted(() => {
   setTimeout(() => {
     testLoading.value = false;
-  }, 3000);
+  }, 2000);
 });
 
 const modalRegister = ref();
@@ -97,9 +97,9 @@ function seeAnnounce() {
           name="confirmedPassword"
           type="password"
         />
-        <button :disabled="isRegistering" class="submit-btn">
+        <SokuButton :disabled="isRegistering" class="submit-btn">
           {{ !isRegistering ? '提交' : '提交中' }}
-        </button>
+        </SokuButton>
       </form>
     </SokuModal>
     <SokuModal ref="modalLogin" title="登录BotCorner" class="w-[300px]">
@@ -112,9 +112,9 @@ function seeAnnounce() {
           name="password"
           type="password"
         />
-        <button :disabled="isLoging" class="submit-btn">
+        <SokuButton :disabled="isLoging" class="submit-btn">
           {{ !isLoging ? '提交' : '提交中' }}
-        </button>
+        </SokuButton>
       </form>
     </SokuModal>
     <div class="welcome-view w-full h-full">
@@ -155,7 +155,7 @@ function seeAnnounce() {
       </div>
       <main class="main">
         <div class="new-record-list">
-          <header class="title">公告栏</header>
+          <header class="title board-header">公告栏</header>
           <main class="main">
             <SokuSkeleton :is-loading="testLoading">
               <button @click="seeAnnounce" class="one-announce">

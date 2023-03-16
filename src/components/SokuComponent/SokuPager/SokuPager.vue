@@ -45,7 +45,7 @@ defineExpose({
     </button>
     <button @click="ptr += 2" class="option" v-show="ptr < props.max - 3">...</button>
     <button @click="ptr = props.max - 1" class="option" v-show="ptr < props.max - 3">{{ props.max }}</button>
-    <button @click="next" class="">&rightarrow;</button>
+    <button @click="next" class="option">&rightarrow;</button>
   </nav>
 </template>
 

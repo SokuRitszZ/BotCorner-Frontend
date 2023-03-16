@@ -19,24 +19,23 @@
     @apply text-center;
     @apply py-1 mt-3;
     @apply rounded-md;
-    @apply bg-gray-100 hover:bg-gray-200 active:bg-gray-300;
   }
 }
-
 
 .welcome-view {
   @apply px-10;
   .announce {
-    @apply bg-white;
+    background-color: var(--bg-c);
+    box-shadow: var(--shadow);
+    
     @apply w-full;
     @apply rounded-full;
-    @apply shadow-xl; 
     @apply text-xl;
     @apply px-5 py-3;
-    @apply flex items-center;
+    @apply flex items-center gap-3;
 
     .title {
-      @apply w-[100px];
+      @apply w-fit;
       @apply shrink-0;
     }
 
@@ -54,14 +53,12 @@
 
       &::before {
         @apply left-0 z-10;
-        @apply bg-gradient-to-r from-white to-[rgba(0,0,0,0)];
       }
 
       &::after {
         @apply right-0 z-10;
-        @apply bg-gradient-to-l from-white to-[rgba(0,0,0,0)];
       }
-      
+
       .-container {
         animation: move-announce infinite linear;
         animation-duration: 40s;
@@ -71,10 +68,11 @@
   }
 
   .welcome-board {
+    background-color: var(--bg-c);
+    box-shadow: var(--shadow);
+
     @apply w-fit min-w-[600px] h-[300px];
-    @apply bg-white;
     @apply rounded-lg;
-    @apply shadow-2xl;
     @apply mt-4 p-9 mx-auto;
 
     .title-icon {
@@ -90,17 +88,16 @@
       @apply mt-4;
       @apply text-4xl text-center;
     }
-    
+
     .options {
       @apply w-fit;
       @apply m-auto mt-5;
       @apply flex gap-2 justify-between items-center;
-      
+
       .option {
         @apply px-3 py-2;
         @apply transition;
         @apply rounded-lg;
-        @apply bg-none;
       }
     }
   }
@@ -111,21 +108,26 @@
     @apply mx-auto;
 
     .new-record-list {
+      background-color: var(--bg-c);
+      box-shadow: var(--shadow);
+
       @apply w-full max-w-[1000px];
-      @apply bg-white;
-      @apply shadow-2xl;
       @apply rounded-xl;
       @apply mx-auto mt-10;
       @apply overflow-hidden;
 
+      .board-header {
+        background-color: var(--bg-lg-c);
+      }
+
       .title {
-        @apply bg-gray-100;
         @apply w-full;
         @apply px-4 py-4;
         @apply text-2xl font-bold;
         @apply flex items-center;
       }
-      
+
+
       .main {
         @apply grid grid-cols-2 gap-3;
         @apply xl:grid-cols-3;
@@ -135,12 +137,13 @@
           @apply w-full h-[200px];
           @apply overflow-hidden;
           @apply rounded-md;
-          @apply cursor-pointer hover:shadow-md;
-          
+          @apply cursor-pointer;
+
           .one-announce {
+            background-color: var(--bg-lg-c);
+
             @apply w-full h-full;
             @apply flex flex-col items-center justify-center;
-            @apply bg-gray-100;
 
             .title {
               @apply w-fit;

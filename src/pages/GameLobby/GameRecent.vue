@@ -38,3 +38,7 @@ onMounted(async () => {
     </main>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import url('./recent.scss');
+</style>

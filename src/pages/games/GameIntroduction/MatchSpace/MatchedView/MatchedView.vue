@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SokuButton from '@/components/SokuComponent/SokuButton/SokuButton.vue';
 import SokuImgSkeleton from '@/components/SokuComponent/SokuSkeleton/SokuImgSkeleton.vue';
 import useBindEvent from '@/hooks/useBindEvent';
 import useMatchStore from '@/store/matchStore';
@@ -55,7 +56,7 @@ useBindEvent(['start single game', 'start multi game'], () => {
       <SokuImgSkeleton class="avatar" :url="user.avatar" />
       <div class="username">{{ user.username }}</div>
     </button>
-    <button @click="exitMatch" class="btn">退出匹配</button>
+    <SokuButton @click="exitMatch" class="btn">退出匹配</SokuButton>
   </div>
 </template>
 
