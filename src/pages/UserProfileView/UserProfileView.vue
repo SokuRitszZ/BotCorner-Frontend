@@ -50,7 +50,7 @@ onMounted(() => {
       <nav class="nav">
         <ul>
           <li v-for="it in itemNav" :key="it.title">
-            <router-link :to="it.url">{{ it.title }}</router-link>
+            <router-link class="router-link" :to="it.url">{{ it.title }}</router-link>
           </li>
         </ul>
       </nav>

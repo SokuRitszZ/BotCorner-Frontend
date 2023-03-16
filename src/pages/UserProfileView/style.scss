@@ -2,7 +2,7 @@
   @apply px-10;
 
   .-container {
-    @apply w-full max-w-[1000px] h-fit; 
+    @apply w-full max-w-[1000px] h-fit;
     @apply rounded-sm overflow-hidden;
     @apply shadow-lg;
     @apply mx-auto;
@@ -35,7 +35,8 @@
         .sign {
           @apply h-[100px];
 
-          .name,.signature {
+          .name,
+          .signature {
             @apply h-1/2;
           }
 
@@ -57,15 +58,6 @@
         @apply flex justify-start items-center gap-3;
         @apply text-xl font-thin;
         @apply pb-3 pl-3;
-        
-        li {
-          a {
-            @apply rounded-md;
-            @apply transition;
-            @apply hover:bg-gray-300;
-            @apply px-4 py-2;
-          }
-        }
       }
     }
 
@@ -78,6 +70,15 @@
 }
 
 .router-link-active {
-  @apply w-full h-full;
-  @apply bg-gray-400;
+  background-color: var(--soku-router-link-active-c);
+}
+
+.router-link {
+  @apply rounded-md;
+  @apply transition;
+  @apply px-4 py-2;
+}
+
+.router-link:hover {
+  background-color: var(--soku-router-link-hover-c);
 }

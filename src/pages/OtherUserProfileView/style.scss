@@ -78,6 +78,5 @@
 }
 
 .router-link-active {
-  @apply w-full h-full;
-  @apply bg-gray-400;
+  background-color: var(--soku-router-link-active-c);
 }

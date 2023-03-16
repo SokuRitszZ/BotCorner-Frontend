@@ -32,23 +32,6 @@
           @apply bg-slate-400;
         }
       }
-
-      .item {
-        @apply flex items-center;
-        @apply w-full h-[50px];
-        @apply pl-11 py-1;
-        @apply text-xl font-thin;
-        @apply transition;
-
-        &:hover {
-          @apply bg-slate-300;
-        }
-
-        &:active,
-        &.router-link-active {
-          @apply bg-slate-400;
-        }
-      }
     }
   }
 
