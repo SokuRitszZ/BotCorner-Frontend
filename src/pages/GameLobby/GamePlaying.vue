@@ -37,7 +37,7 @@ const refresh = throttle(_refresh, 1000);
       <span>
         正在进行
       </span>
-      <SokuButton @click="refresh" class="text-sm bg-gray-300 px-2 rounded-sm">
+      <SokuButton @click="refresh" class="text-sm px-2 rounded-sm">
         刷新
       </SokuButton>
     </h2>

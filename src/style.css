@@ -32,5 +32,7 @@ canvas {
 }
 
 :root {
-  --soku-btn-c: #cfcccc
+  --soku-btn-c: #cfcccc;
+  --soku-router-link-hover-c: rgb(226 232 240);
+  --soku-router-link-active-c: rgb(203 213 225);
 }
