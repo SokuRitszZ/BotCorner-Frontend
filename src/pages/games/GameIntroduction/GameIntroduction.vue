@@ -21,6 +21,7 @@ const game = ref<IGame>({
 });
 const route = useRoute();
 
+// 加载游戏
 onMounted(async () => {
   await cacheStore.getGames;
   const id = +route.meta.id!;
@@ -38,18 +39,20 @@ onUnmounted(() => {
   }
 });
 
-onMounted(() => {
+// 如果有直播
+useBindEvent('open', () => {
   if (gameStore.uuidWatch) {
-    connect();
-    setTimeout(() => {
-      matchStore.server.sendMessage('to watch', { uuid: gameStore.uuidWatch });
-    }, 100);
+    matchStore.server.sendMessage('to watch', { uuid: gameStore.uuidWatch });
   }
+});
+
+onMounted(() => {
+  if (gameStore.uuidWatch) connect();
 });
 
 onUnmounted(() => {
   gameStore.uuidWatch = undefined;
-})
+});
 
 const userStore = useUserStore();
 
@@ -117,7 +120,7 @@ useBindEvent('close', () => {
           <button
             @click="connect"
             v-if="!isConnected && !isRetrying"
-            class="text-lg bg-gray-200 rounded-md ml-2 px-2 font-thin "
+            class="text-lg bg-gray-200 rounded-md ml-2 px-2 font-thin"
           >
             连接
           </button>
