@@ -1,14 +1,21 @@
-import { defineStore } from "pinia";
-import { nextTick, onMounted, ref, watch } from "vue";
+import { defineStore } from 'pinia';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 const useThemeStore = defineStore('ThemeStore', () => {
-  const themesAvailable = [{
-    class: 'default',
-    title: '浅色',
-  }, {
-    class: 'dark',
-    title: '深色',
-  }];
+  const themesAvailable = [
+    {
+      class: 'default',
+      title: '浅色',
+    },
+    {
+      class: 'dark',
+      title: '深色',
+    },
+    {
+      class: 'spotify',
+      title: 'Spotify',
+    },
+  ];
   const themeCurrent = ref<string>(localStorage.getItem('theme') || 'default');
 
   onMounted(() => {
@@ -37,7 +44,7 @@ const useThemeStore = defineStore('ThemeStore', () => {
     themeCurrent,
     changeTheme,
     timerChanging,
-  }
+  };
 });
 
 export default useThemeStore;

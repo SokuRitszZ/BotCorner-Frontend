@@ -7,7 +7,7 @@
     @apply mx-auto pb-5;
 
     .background {
-      background-image: linear-gradient(to top, var(--bg-xl-c), #0000);
+      background-image: linear-gradient(to top, var(--bg-gradient-from), #0000);
       @apply w-full h-[200px];
       @apply px-8 pb-6;
       @apply flex flex-col justify-end;

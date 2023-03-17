@@ -36,28 +36,42 @@ canvas {
 }
 
 .default {
-  --soku-btn-c: #eee;
+  --soku-btn-c: #ccc;
   --soku-router-link-hover-c: rgb(226 232 240);
   --soku-router-link-active-c: rgb(203 213 225);
   --bg-c: rgb(250 250 250);
   --bg-lg-c: rgb(235 235 235);
   --bg-xl-c: rgb(220 220 220);
+  --bg-gradient-from: rgb(220 220 220);
   --shadow: 0 3px 10px #ccc;
   --font-c: #333;
 }
 
 .dark {
-  --soku-btn-c: rgb(54 54 54);
+  --soku-btn-c: rgb(40 40 40);
   --soku-router-link-hover-c: rgb(10 10 10);
   --soku-router-link-active-c: rgb(0 0 0);
   --bg-c: rgb(64 64 64);
   --bg-lg-c: rgb(54 54 54);
   --bg-xl-c: rgb(30 30 30);
+  --bg-gradient-from: rgb(30 30 30);
   --shadow: 0 3px 10px rgb(20 20 20);
   --font-c: #ddd;
 }
 
-input, select {
+.spotify {
+  --soku-btn-c: rgb(30 215 96 / .7);
+  --soku-router-link-hover-c: rgb(30 215 96 / .4);
+  --soku-router-link-active-c: rgb(30 215 96);
+  --bg-c: rgb(40 40 40);
+  --bg-lg-c: rgb(30 30 30);
+  --bg-xl-c: rgb(20 20 20);
+  --bg-gradient-from: rgb(30 215 96 / .7);
+  --shadow: 0 3px 10px rgb(0 0 0 / .3);
+  --font-c: #fff;
+}
+
+input, select, textarea {
   color: var(--font-c);
   background-color: var(--bg-lg-c);
 }
